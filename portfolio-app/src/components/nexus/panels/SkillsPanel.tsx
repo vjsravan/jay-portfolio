@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { skills } from '../../../data/resume';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const CATEGORIES = [
   { key: 'ai',        label: 'AI / LLM',        color: '#ff006e', items: skills.ai },
@@ -22,8 +23,10 @@ const tag = {
   show:   { opacity: 1, y: 0,  scale: 1,   transition: { duration: 0.25 } },
 };
 
-const SkillsPanel: React.FC = () => (
-  <div className="w-full h-full flex flex-col px-8 py-6 overflow-hidden">
+const SkillsPanel: React.FC = () => {
+  const isMobile = useIsMobile();
+  return (
+  <div className="w-full h-full flex flex-col overflow-y-auto nx-scroll" style={{ padding: isMobile ? '1rem' : '1.5rem 2rem' }}>
     {/* Header */}
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -41,8 +44,7 @@ const SkillsPanel: React.FC = () => (
     </motion.div>
 
     {/* Grid of categories */}
-    <div className="flex-1 overflow-y-auto nx-scroll">
-      <div className="grid grid-cols-2 gap-4 pb-4">
+    <div className={`grid gap-4 pb-4 ${isMobile ? 'grid-cols-1' : 'grid-cols-2'}`}>
         {CATEGORIES.map((cat, ci) => (
           <motion.div
             key={cat.key}
@@ -101,9 +103,9 @@ const SkillsPanel: React.FC = () => (
           </motion.div>
         ))}
       </div>
-    </div>
   </div>
-);
+  );
+};
 
 export default SkillsPanel;
 

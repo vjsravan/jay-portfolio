@@ -13,7 +13,23 @@
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     background-image: radial-gradient(ellipse at top, #0f172a 0%, #020617 100%);
+    /* Prevent horizontal overflow on mobile */
+    overflow-x: hidden;
+    /* iOS safe area support */
+    padding-bottom: env(safe-area-inset-bottom);
   }
+
+  /* Prevent iOS from zooming in on input focus (requires font-size >= 16px on inputs) */
+  input, textarea, select {
+    font-size: max(16px, 1em) !important;
+  }
+
+  /* Better touch targets */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: #0f172a; }
   ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 9999px; }

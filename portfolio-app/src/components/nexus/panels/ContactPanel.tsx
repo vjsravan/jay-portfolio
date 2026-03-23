@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, MapPin, Copy, Check, ExternalLink, Send, Loader2, AlertCircle } from 'lucide-react';
 import { personalInfo, certifications } from '../../../data/resume';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const WEB3FORMS_KEY = 'baa4fcc7-882d-4ce3-8867-f5665333f1ee';
 
@@ -69,6 +70,7 @@ const ContactPanel: React.FC = () => {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const isMobile = useIsMobile();
 
   const set = (field: keyof FormState) => (v: string) =>
     setForm(f => ({ ...f, [field]: v }));
@@ -118,11 +120,17 @@ const ContactPanel: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center px-8 py-6 overflow-hidden">
-      <div className="flex gap-8 max-w-5xl w-full items-start">
+    <div className="w-full h-full overflow-y-auto nx-scroll" style={{ padding: isMobile ? '1rem' : '1.5rem 2rem' }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: isMobile ? '1.25rem' : '2rem',
+        maxWidth: 900,
+        margin: '0 auto',
+      }}>
 
         {/* ── LEFT — Contact info ── */}
-        <div className="flex flex-col gap-4 flex-shrink-0" style={{ width: 280 }}>
+        <div className="flex flex-col gap-4" style={{ width: isMobile ? '100%' : 280, flexShrink: 0 }}>
 
           {/* Status badge */}
           <motion.div
@@ -297,7 +305,7 @@ const ContactPanel: React.FC = () => {
                 className="space-y-4"
               >
                 {/* Row: Name + Email */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className={`grid gap-3 ${isMobile ? 'grid-cols-1' : 'grid-cols-2'}`}>
                   <InputField
                     label="FULL NAME"
                     value={form.name}

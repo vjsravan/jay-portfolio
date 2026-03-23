@@ -9,6 +9,7 @@ import ProjectsPanel from './panels/ProjectsPanel';
 import AILabPanel from './panels/AILabPanel';
 import ContactPanel from './panels/ContactPanel';
 import NexusOnboarding, { type BriefSection } from './NexusOnboarding';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const NAV = [
   { id: 'hero',       label: 'PROFILE',    Icon: User,       color: '#00d4ff' },
@@ -35,6 +36,7 @@ const NexusInterface: React.FC = () => {
   const [tooltip, setTooltip]             = useState<string | null>(null);
   const [clock, setClock]                 = useState('');
   const [briefHighlight, setBriefHighlight] = useState<BriefSection>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const tick = () => setClock(new Date().toLocaleTimeString('en-US', { hour12: false }));
@@ -66,8 +68,9 @@ const NexusInterface: React.FC = () => {
 
       {/* ═══ TOP HEADER BAR ═══ */}
       <div
-        className="absolute top-0 left-16 right-0 h-11 flex items-center justify-between px-5 z-30"
+        className="absolute top-0 right-0 h-11 flex items-center justify-between px-4 z-30"
         style={{
+          left: isMobile ? 0 : 64,
           background: 'rgba(0,0,0,0.85)',
           borderBottom: '1px solid rgba(0,212,255,0.12)',
           backdropFilter: 'blur(20px)',
@@ -84,15 +87,19 @@ const NexusInterface: React.FC = () => {
           <span className="font-mono text-[11px]" style={{ color: 'rgba(0,212,255,0.5)' }}>
             NEXUS PROTOCOL
           </span>
-          <span style={{ color: 'rgba(0,212,255,0.2)' }}>·</span>
-          <span className="font-mono text-[11px]" style={{ color: 'rgba(0,212,255,0.35)' }}>
-            PROFILE ACCESS:{' '}
-            <span className="nx-flicker" style={{ color: '#00d4ff' }}>JAY SRAVAN VADLAMUDI</span>
-          </span>
+          {!isMobile && (
+            <>
+              <span style={{ color: 'rgba(0,212,255,0.2)' }}>·</span>
+              <span className="font-mono text-[11px]" style={{ color: 'rgba(0,212,255,0.35)' }}>
+                PROFILE ACCESS:{' '}
+                <span className="nx-flicker" style={{ color: '#00d4ff' }}>JAY SRAVAN VADLAMUDI</span>
+              </span>
+            </>
+          )}
         </div>
 
         {/* Right: section + clock */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <motion.span
             key={active}
             initial={{ opacity: 0, y: -6 }}
@@ -106,13 +113,16 @@ const NexusInterface: React.FC = () => {
           >
             {activeNav.label}
           </motion.span>
-          <span className="font-mono text-[11px]" style={{ color: 'rgba(0,212,255,0.28)' }}>
-            SYS · {clock}
-          </span>
+          {!isMobile && (
+            <span className="font-mono text-[11px]" style={{ color: 'rgba(0,212,255,0.28)' }}>
+              SYS · {clock}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* ═══ LEFT SIDEBAR ═══ */}
+      {/* ═══ LEFT SIDEBAR — desktop only ═══ */}
+      {!isMobile && (
       <div
         className="absolute left-0 top-0 bottom-0 z-30 flex flex-col items-center py-5 gap-1"
         style={{
@@ -218,11 +228,17 @@ const NexusInterface: React.FC = () => {
           </span>
         </div>
       </div>
+      )} {/* end !isMobile sidebar */}
 
       {/* ═══ MAIN CONTENT AREA ═══ */}
       <div
         className="absolute z-20 overflow-hidden"
-        style={{ left: 64, top: 44, bottom: 28, right: 0 }}
+        style={{
+          left: isMobile ? 0 : 64,
+          top: 44,
+          bottom: isMobile ? 60 : 28,
+          right: 0,
+        }}
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -237,7 +253,8 @@ const NexusInterface: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      {/* ═══ BOTTOM STATUS BAR ═══ */}
+      {/* ═══ BOTTOM STATUS BAR — desktop only ═══ */}
+      {!isMobile && (
       <div
         className="absolute bottom-0 left-16 right-0 h-7 flex items-center overflow-hidden z-30"
         style={{
@@ -273,12 +290,50 @@ const NexusInterface: React.FC = () => {
           </span>
         </div>
       </div>
+      )} {/* end !isMobile ticker */}
 
-      {/* ── Guided onboarding briefing ── */}
-      <NexusOnboarding
-        onSectionHighlight={(s) => setBriefHighlight(s)}
-        onNavigate={(s) => { if (s) setActive(s as SectionId); }}
-      />
+      {/* ═══ BOTTOM NAV — mobile only ═══ */}
+      {isMobile && (
+        <div
+          className="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-around px-1"
+          style={{
+            height: 60,
+            background: 'rgba(0,0,0,0.92)',
+            borderTop: '1px solid rgba(0,212,255,0.12)',
+            backdropFilter: 'blur(24px)',
+          }}
+        >
+          {NAV.map(({ id, label, Icon, color }) => {
+            const isActive = active === id;
+            return (
+              <motion.button
+                key={id}
+                onClick={() => setActive(id)}
+                whileTap={{ scale: 0.88 }}
+                className="flex flex-col items-center justify-center gap-1 rounded-xl"
+                style={{
+                  width: 52, height: 52,
+                  background: isActive ? `${color}18` : 'transparent',
+                  border: `1px solid ${isActive ? `${color}45` : 'transparent'}`,
+                  color: isActive ? color : 'rgba(255,255,255,0.3)',
+                  boxShadow: isActive ? `0 0 14px ${color}28` : 'none',
+                }}
+              >
+                <Icon size={18} />
+                <span className="font-mono leading-none" style={{ fontSize: 7, letterSpacing: '0.06em' }}>{label}</span>
+              </motion.button>
+            );
+          })}
+        </div>
+      )} {/* end isMobile bottom nav */}
+
+      {/* ── Guided onboarding briefing — desktop only ── */}
+      {!isMobile && (
+        <NexusOnboarding
+          onSectionHighlight={(s) => setBriefHighlight(s)}
+          onNavigate={(s) => { if (s) setActive(s as SectionId); }}
+        />
+      )}
     </div>
   );
 };

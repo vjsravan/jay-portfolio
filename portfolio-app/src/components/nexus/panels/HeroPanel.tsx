@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { personalInfo, metrics } from '../../../data/resume';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 // ── Count-up hook ──────────────────────────────────────────────
 function useCountUp(target: number, duration = 1300) {
@@ -160,9 +161,8 @@ const OrbitingBadge: React.FC<{
 // ── Main Hero Panel ───────────────────────────────────────────
 const HeroPanel: React.FC = () => {
   const [typed, setTyped]       = useState('');
-  // Lazy-mount: defer star & orbit rendering by one animation frame
-  // so the initial React paint completes before CSS animations begin
   const [ready, setReady]       = useState(false);
+  const isMobile                = useIsMobile();
   const fullTitle = `${personalInfo.title}  ·  ${personalInfo.subtitle}`;
 
   useEffect(() => {
@@ -225,8 +225,8 @@ const HeroPanel: React.FC = () => {
         </div>
       )}
 
-      {/* ══ LAYER 1 — Solar system (centered on left side) ═══════ */}
-      {ready && (
+      {/* ══ LAYER 1 — Solar system (desktop only) ═══════ */}
+      {ready && !isMobile && (
       <div
         style={{
           position: 'absolute',
@@ -289,19 +289,122 @@ const HeroPanel: React.FC = () => {
       </div>
       )}
 
-      {/* ══ LAYER 2 — Content (right side, side-by-side) ═════════ */}
-      <div
-        style={{
-          position: 'absolute',
-          right: 0, top: '50%',
-          transform: 'translateY(-50%)',
-          width: '48%',
-          padding: '2rem 3rem 2rem 1rem',
-          zIndex: 10,
-          display: 'flex', flexDirection: 'column', gap: '1rem',
-          background: 'linear-gradient(to left, rgba(0,0,0,0.92) 45%, rgba(0,0,0,0.68) 72%, transparent 100%)',
-        }}
-      >
+      {/* ══ LAYER 2 — Content ═════════ */}
+      {isMobile ? (
+        /* ── MOBILE: centered full-width stack ── */
+        <div
+          style={{
+            position: 'absolute', inset: 0,
+            display: 'flex', flexDirection: 'column', alignItems: 'center',
+            justifyContent: 'center', gap: '0.6rem',
+            padding: '1rem 1.25rem',
+            zIndex: 10,
+            overflowY: 'auto',
+            background: 'rgba(0,0,0,0.72)',
+          }}
+        >
+          {/* Mini JSV core */}
+          <motion.div initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
+            {[0, 1].map(n => (
+              <motion.div key={n} style={{
+                position: 'absolute', borderRadius: '50%',
+                top: '50%', left: '50%',
+                border: '1px solid rgba(0,212,255,0.5)',
+              }}
+                animate={{ width: [50, 50 + n * 28], height: [50, 50 + n * 28], opacity: [0.6, 0], x: '-50%', y: '-50%' }}
+                transition={{ duration: 2.6, repeat: Infinity, delay: n * 0.65, ease: 'easeOut' }}
+              />
+            ))}
+            <div className="nx-flicker" style={{
+              width: 60, height: 60, borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'JetBrains Mono, monospace', fontWeight: 900, fontSize: '0.8rem',
+              color: '#00d4ff', position: 'relative',
+              background: 'radial-gradient(circle, rgba(0,212,255,0.32) 0%, rgba(0,0,0,0.72) 100%)',
+              border: '2px solid rgba(0,212,255,0.8)',
+              textShadow: '0 0 14px #00d4ff',
+              boxShadow: '0 0 28px rgba(0,212,255,0.5), inset 0 0 18px rgba(0,212,255,0.1)',
+            }}>
+              JSV
+            </div>
+          </motion.div>
+
+          {/* Name */}
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}
+            style={{ textAlign: 'center', lineHeight: 1.05 }}>
+            <div className="font-black nx-flicker" style={{ fontSize: '2.1rem', color: '#00d4ff', textShadow: '0 0 20px rgba(0,212,255,0.6)', fontFamily: 'Inter, sans-serif' }}>
+              JAY SRAVAN
+            </div>
+            <div className="font-black" style={{ fontSize: '2.1rem', color: 'rgba(255,255,255,0.94)', fontFamily: 'Inter, sans-serif' }}>
+              VADLAMUDI
+            </div>
+          </motion.div>
+
+          {/* Typewriter */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
+            className="font-mono text-[11px] text-center" style={{ color: 'rgba(0,212,255,0.72)', letterSpacing: '0.06em', minHeight: '1.4em' }}>
+            {typed}
+            <span className="inline-block w-0.5 h-3.5 ml-0.5 align-middle"
+              style={{ background: '#00d4ff', animation: 'nx-flicker 1s step-end infinite' }} />
+          </motion.div>
+
+          {/* Location */}
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}
+            className="font-mono text-[10px] text-center" style={{ color: 'rgba(255,255,255,0.26)', letterSpacing: '0.08em' }}>
+            ◈ {personalInfo.location} · Remote / Hybrid
+          </motion.p>
+
+          {/* Divider */}
+          <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.5, duration: 0.5 }}
+            style={{ height: 1, width: '80%', background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.5), transparent)' }} />
+
+          {/* Metrics 2×2 grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem', width: '100%', maxWidth: 320 }}>
+            {metrics.map((m, i) => (
+              <MetricCard key={m.label} value={m.value} suffix={m.suffix} label={m.label}
+                color={METRIC_COLORS[m.color] ?? '#00d4ff'} delay={0.6 + i * 0.08} />
+            ))}
+          </div>
+
+          {/* CTA buttons */}
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%', maxWidth: 320 }}>
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('nexus-navigate', { detail: 'contact' }))}
+              className="font-mono text-xs py-2.5 rounded-lg active:scale-95"
+              style={{ background: 'rgba(255,0,110,0.12)', border: '1px solid rgba(255,0,110,0.55)', color: '#ff006e', letterSpacing: '0.1em' }}>
+              ► INITIATE CONTACT
+            </button>
+            <a href="https://www.linkedin.com/in/jaysravan-fullstack/" target="_blank" rel="noopener noreferrer"
+              className="font-mono text-xs py-2.5 rounded-lg text-center active:scale-95"
+              style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.35)', color: '#00d4ff', letterSpacing: '0.1em' }}>
+              ◈ LINKEDIN PROFILE
+            </a>
+          </motion.div>
+
+          {/* Open-to-work */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
+            className="flex items-center gap-2 font-mono text-[9px] text-center" style={{ color: '#00ff88' }}>
+            <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.8 }}
+              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+              style={{ background: '#00ff88', boxShadow: '0 0 6px #00ff88' }} />
+            OPEN TO OPPORTUNITIES · Senior Engineering · AI
+          </motion.div>
+        </div>
+      ) : (
+        /* ── DESKTOP: original right-side layout ── */
+        <div
+          style={{
+            position: 'absolute',
+            right: 0, top: '50%',
+            transform: 'translateY(-50%)',
+            width: '48%',
+            padding: '2rem 3rem 2rem 1rem',
+            zIndex: 10,
+            display: 'flex', flexDirection: 'column', gap: '1rem',
+            background: 'linear-gradient(to left, rgba(0,0,0,0.92) 45%, rgba(0,0,0,0.68) 72%, transparent 100%)',
+          }}
+        >
         {/* Name — chromatic aberration effect */}
         <motion.div initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
           <div className="relative" style={{ lineHeight: 1.05 }}>
@@ -367,6 +470,7 @@ const HeroPanel: React.FC = () => {
           OPEN TO OPPORTUNITIES · Senior Engineering · AI Projects
         </motion.div>
       </div>
+      )} {/* end mobile ? ... : desktop */}
     </div>
   );
 };

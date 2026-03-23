@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { skills } from '../../../data/resume';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 // Manually position nodes for the SVG neural graph
 const NODES = [
@@ -33,8 +34,10 @@ const HIGHLIGHTS = [
   { icon: '🔍', title: 'AI Code Refactoring', desc: 'GitHub Copilot for test generation & intelligent refactoring.' },
 ];
 
-const AILabPanel: React.FC = () => (
-  <div className="w-full h-full flex flex-col px-8 py-6 overflow-hidden">
+const AILabPanel: React.FC = () => {
+  const isMobile = useIsMobile();
+  return (
+  <div className="w-full h-full flex flex-col overflow-y-auto nx-scroll" style={{ padding: isMobile ? '1rem' : '1.5rem 2rem' }}>
     {/* Header */}
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -57,8 +60,9 @@ const AILabPanel: React.FC = () => (
     </motion.div>
 
     <div className="flex gap-5 flex-1 overflow-hidden">
-      {/* SVG Neural Graph */}
-      <motion.div
+      {/* SVG Neural Graph — desktop only */}
+      {!isMobile && (
+        <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
@@ -143,8 +147,9 @@ const AILabPanel: React.FC = () => (
           ))}
         </svg>
       </motion.div>
+      )} {/* end !isMobile SVG graph */}
 
-      {/* Right: Experiments log */}
+      {/* Experiments log */}
       <div className="flex-1 flex flex-col gap-3 overflow-y-auto nx-scroll">
         <div className="font-mono text-[10px] tracking-widest" style={{ color: 'rgba(255,0,110,0.5)' }}>
           EXPERIMENT LOG
@@ -189,7 +194,8 @@ const AILabPanel: React.FC = () => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 export default AILabPanel;
 

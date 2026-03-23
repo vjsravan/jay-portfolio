@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../../../data/resume';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const ProjectsPanel: React.FC = () => {
   const [hovered, setHovered] = useState<number | null>(null);
+  const isMobile = useIsMobile();
+  const isTablet = useIsMobile(1024);
 
   return (
-    <div className="w-full h-full flex flex-col px-8 py-6 overflow-hidden">
+    <div className="w-full h-full flex flex-col overflow-y-auto nx-scroll" style={{ padding: isMobile ? '1rem' : '1.5rem 2rem' }}>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -24,8 +27,7 @@ const ProjectsPanel: React.FC = () => {
       </motion.div>
 
       {/* Project grid */}
-      <div className="flex-1 overflow-y-auto nx-scroll">
-        <div className="grid grid-cols-3 gap-3 pb-4">
+      <div className={`grid gap-3 pb-4 ${isMobile ? 'grid-cols-1' : isTablet ? 'grid-cols-2' : 'grid-cols-3'}`}>
           {projects.map((proj, i) => {
             const isHovered = hovered === proj.id;
             return (
@@ -133,7 +135,6 @@ const ProjectsPanel: React.FC = () => {
               </motion.div>
             );
           })}
-        </div>
       </div>
     </div>
   );

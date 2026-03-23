@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { experiences } from '../../../data/resume';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 // Timings mirror the ECG animation (5 000 ms loop, no repeatDelay)
 // Draw-head hits each company at ~0 / 33 / 67 / 99 % of the 5 s cycle
@@ -9,6 +10,7 @@ const HIT_TIMES = [0, 1_650, 3_350, 4_950];
 
 const ExperiencePanel: React.FC = () => {
   const [selected, setSelected] = useState(experiences[0].id);
+  const isMobile = useIsMobile();
 
   // curr = node currently lit · prev = node that just faded (for the dim trail)
   const [hbState, setHbState] = useState<{ curr: number | null; prev: number | null }>({
@@ -33,7 +35,7 @@ const ExperiencePanel: React.FC = () => {
   }, []);;
 
   return (
-    <div className="w-full h-full flex flex-col px-8 py-6 overflow-hidden">
+    <div className="w-full h-full flex flex-col overflow-y-auto nx-scroll" style={{ padding: isMobile ? '1rem' : '1.5rem 2rem' }}>
 
       {/* Section header */}
       <motion.div
@@ -55,10 +57,9 @@ const ExperiencePanel: React.FC = () => {
       </motion.div>
 
       {/* Horizontal timeline selector */}
-      <div className="relative mb-6">
-
-        {/* ECG heartbeat — continuous draw-on loop, colour shifts with each company */}
-        {(() => {
+      <div className="relative mb-4" style={{ marginBottom: isMobile ? '0.75rem' : '1.5rem' }}>
+        {/* ECG — desktop only (SVG is too wide for mobile) */}
+        {!isMobile && (() => {
           const ecgColor = hbState.curr !== null
             ? experiences[hbState.curr].color
             : '#bd00ff';
@@ -125,7 +126,13 @@ const ExperiencePanel: React.FC = () => {
           );
         })()}
 
-        <div className="flex justify-between relative z-10">
+        <div className="relative z-10" style={{
+          display: 'flex',
+          justifyContent: isMobile ? 'flex-start' : 'space-between',
+          gap: isMobile ? '1rem' : 0,
+          overflowX: isMobile ? 'auto' : 'visible',
+          paddingBottom: isMobile ? '0.25rem' : 0,
+        }}>
           {experiences.map((ex, idx) => {
             const isActive  = ex.id === selected;
             const isBeating = hbState.curr === idx;
@@ -256,9 +263,9 @@ const ExperiencePanel: React.FC = () => {
           </div>
 
           {/* Content grid */}
-          <div className="flex gap-4 flex-1 overflow-hidden">
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '1rem', flex: 1, overflow: isMobile ? 'visible' : 'hidden' }}>
             {/* Metrics */}
-            <div className="flex flex-col gap-2 w-48 flex-shrink-0">
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', flexWrap: isMobile ? 'wrap' : 'nowrap', gap: '0.5rem', width: isMobile ? '100%' : 192, flexShrink: 0 }}>
               <div className="font-mono text-[10px] tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
                 IMPACT METRICS
               </div>
