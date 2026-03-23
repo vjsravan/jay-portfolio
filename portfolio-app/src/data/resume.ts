@@ -4,8 +4,8 @@ export const personalInfo = {
   subtitle: "AI & ML Engineering | Angular · React · Spring Boot",
   email: "jay.sravan.dev@gmail.com",
   location: "United States",
-  yearsOfExperience: 8,
-  summary: `Full-Stack Java Developer with 8+ years of experience building enterprise-grade,
+  yearsOfExperience: 6,
+  summary: `Full-Stack Java Developer with 6+ years of experience building enterprise-grade,
 cloud-native applications across logistics, automotive finance, biopharmaceuticals, and fintech.
 Expert in Java (Spring Boot), Angular, React, and microservices architecture. Hands-on AI/ML
 experience with TensorFlow predictive modeling, MLflow/MLops pipelines, and LLM integrations.
@@ -209,7 +209,7 @@ export const certifications = [
 ];
 
 export const metrics = [
-  { value: 8, suffix: "+", label: "Years Experience", color: "cyan" },
+  { value: 6, suffix: "+", label: "Years Experience", color: "cyan" },
   { value: 4, suffix: "", label: "Enterprise Domains", color: "purple" },
   { value: 3, suffix: "", label: "AI/ML Tools in Prod", color: "green" },
   { value: 50, suffix: "%", label: "CI/CD Time Reduction", color: "orange" },
@@ -297,7 +297,7 @@ ABOUT JAY:
 - Full name: Jay Sravan Vadlamudi
 - Title: Java Full Stack Developer | AI & ML Engineering
 - Email: jay.sravan.dev@gmail.com
-- 8+ years of enterprise Java Full Stack experience
+- 6+ years of enterprise Java Full Stack experience
 - Education: Master's in Computer and Information Science, Western Illinois University (2021)
 - AWS Certified Developer – Associate
 - Career goal: Java Full Stack → AI/ML Engineering Lead
