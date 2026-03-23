@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Bump this key whenever you make significant guide changes to re-show for returning visitors
-const STORAGE_KEY = 'nexus-guide-v4';
+const STORAGE_KEY = 'nexus-guide-v5';
 
 export type BriefSection = 'hero' | 'experience' | 'skills' | 'projects' | 'ailab' | 'contact' | null;
 
@@ -18,42 +18,42 @@ const STEPS: StepDef[] = [
     id: 0, icon: '⬡', section: null, arrowDir: 'none',
     label: 'NEXUS PROTOCOL · PROFILE BRIEF',
     title: 'Welcome, Visitor.',
-    body: "You're accessing the intelligence system of Jay Sravan Vadlamudi — Sr. Software Engineer & Applied AI Engineer. Let me walk you through this portfolio in 5 quick steps.",
+    body: "You're accessing the intelligence system of Jay Sravan Vadlamudi — Java Full Stack Developer & AI/ML Engineering enthusiast. Let me walk you through this portfolio in 5 quick steps.",
     color: '#00d4ff',
   },
   {
     id: 1, icon: '🌐', section: 'hero', arrowDir: 'down',
     label: 'PROFILE · STEP 1 of 5',
     title: 'The Tech Universe',
-    body: "The solar system visualises Jay's core tech universe — key technologies orbiting the JSV core. 9+ years across logistics, automotive finance, healthcare & banking.",
+    body: "The solar system visualises Jay's core tech universe — Angular, React, TensorFlow, MLflow and more orbiting the JSV core. 6+ years across logistics, automotive finance, biopharma & fintech.",
     color: '#00d4ff',
   },
   {
     id: 2, icon: '📋', section: 'experience', arrowDir: 'left',
     label: 'EXPERIENCE · STEP 2 of 5',
     title: '4 Companies. Real Impact.',
-    body: 'UPS (customs microservices), Mercedes-Benz Financial (platform modernization), United Healthcare (HIPAA APIs), Wells Fargo (digital banking dashboard).',
+    body: 'UPS (Spring Boot + React microservices), Mercedes-Benz Financial (Vue.js + MLops), Bristol Myers Squibb (Spring Cloud + Apache Camel), Indiabulls Finance (Angular + TensorFlow).',
     color: '#bd00ff',
   },
   {
     id: 3, icon: '⚡', section: 'skills', arrowDir: 'left',
     label: 'SKILLS · STEP 3 of 5',
-    title: 'Full-Stack · Cloud · AI.',
-    body: 'Java 21, Spring WebFlux, React, Angular, AWS, Docker, Kafka, ArgoCD — actively expanding into AI: LLMs, RAG, prompt engineering, agent workflows.',
+    title: 'Full-Stack · Cloud · AI/ML.',
+    body: 'Java 21, Spring Boot, Angular, React, Vue.js, TypeScript, Python — plus real AI/ML: TensorFlow, MLflow, MLops, OpenAI API, RAG, and GitHub Copilot at enterprise scale.',
     color: '#00ff88',
   },
   {
     id: 4, icon: '🤖', section: 'ailab', arrowDir: 'left',
     label: 'AI LAB · STEP 4 of 5',
-    title: 'AI in Production',
-    body: 'Real LLM integrations: log summarization via OpenAI + RAG, agent workflows for regulatory explanation, GitHub Copilot at enterprise scale.',
+    title: 'AI/ML in Production',
+    body: 'TensorFlow loan-default predictor, MLflow/MLops pipelines at UPS & Mercedes-Benz, LLM log summarisation with OpenAI + RAG, and GitHub Copilot for enterprise-scale code refactoring.',
     color: '#ff006e',
   },
   {
     id: 5, icon: '📡', section: 'contact', arrowDir: 'left',
     label: 'CONTACT · STEP 5 of 5',
     title: 'Open to Opportunities',
-    body: "Senior Engineering and AI roles — remote or hybrid. The Contact section sends a message directly to Jay's Gmail inbox. No email client needed.",
+    body: "Targeting Java Full Stack and AI Engineering roles — remote or hybrid. The Contact panel sends a message directly to Jay's inbox. No email client needed.",
     color: '#4499ff',
   },
 ];
