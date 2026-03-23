@@ -31,11 +31,15 @@ jobs:
           cache-dependency-path: portfolio-app/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
         working-directory: portfolio-app
 
-      - name: Build
-        run: npm run build
+      - name: Type check
+        run: npx tsc -b
+        working-directory: portfolio-app
+
+      - name: Vite build
+        run: npx vite build
         working-directory: portfolio-app
         env:
           VITE_BASE_PATH: /jay-portfolio/
