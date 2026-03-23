@@ -58,7 +58,7 @@ const NexusInterface: React.FC = () => {
   const activeNav = NAV.find(n => n.id === active)!;
   const Panel = PANELS[active];
 
-  const TICKER_ITEMS = 'JAVA 21 · SPRING BOOT WEBFLUX · ANGULAR 17 · REACT · AWS · OPENSHIFT · APACHE CAMEL · KAFKA · POSTGRESQL · DOCKER · ARGOCD · HELM · GRAPHQL · GITHUB COPILOT · OPENAI API · RAG · LLM PROMPT ENGINEERING · OAUTH 2.0 · JWT · HASHICORP VAULT ·';
+  const TICKER_ITEMS = 'JAVA 21 · SPRING BOOT · ANGULAR · REACT · VUE.JS · TYPESCRIPT · PYTHON · TENSORFLOW · MLFLOW · MLOPS · APACHE KAFKA · RABBITMQ · POSTGRESQL · ORACLE · REDIS · DOCKER · KUBERNETES · AWS · OPENSHIFT · SPRING CLOUD · APACHE CAMEL · OAUTH 2.0 · JWT · GRAPHQL · GITHUB COPILOT · OPENAI API · RAG · LLM PROMPT ENGINEERING ·';
 
   return (
     <div className="fixed inset-0 overflow-hidden" style={{ background: '#000000' }}>
@@ -277,7 +277,8 @@ const NexusInterface: React.FC = () => {
         <div className="flex items-center gap-3 px-4 flex-shrink-0 border-l" style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
           {[
             { label: 'AWS CERTIFIED', color: '#f59e0b' },
-            { label: '9+ YRS', color: '#00d4ff' },
+            { label: '8+ YRS', color: '#00d4ff' },
+            { label: 'TENSORFLOW · MLOPS', color: '#bd00ff' },
             { label: 'OPEN TO WORK', color: '#00ff88' },
           ].map(({ label, color }) => (
             <div key={label} className="flex items-center gap-1">

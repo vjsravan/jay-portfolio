@@ -5,33 +5,34 @@ import { useIsMobile } from '../../../hooks/useIsMobile';
 
 // Manually position nodes for the SVG neural graph
 const NODES = [
-  { id: 'copilot',    label: 'GitHub Copilot',      x: 380, y: 100, color: '#ff006e', r: 28 },
-  { id: 'gpt',        label: 'ChatGPT GPT-4/5',     x: 220, y: 170, color: '#bd00ff', r: 26 },
-  { id: 'openai',     label: 'OpenAI API',           x: 540, y: 170, color: '#ff006e', r: 24 },
-  { id: 'rag',        label: 'RAG Concepts',         x: 130, y: 290, color: '#bd00ff', r: 22 },
-  { id: 'embeddings', label: 'Vector Embeddings',    x: 290, y: 290, color: '#00d4ff', r: 20 },
-  { id: 'prompt',     label: 'LLM Prompting',        x: 460, y: 290, color: '#bd00ff', r: 20 },
-  { id: 'agents',     label: 'Agent Workflows',      x: 620, y: 290, color: '#ff006e', r: 22 },
-  { id: 'log',        label: 'AI Log Analysis',      x: 200, y: 390, color: '#00ff88', r: 20 },
-  { id: 'aidev',      label: 'AI-assisted Dev',      x: 380, y: 400, color: '#00d4ff', r: 22 },
-  { id: 'onboard',    label: 'AI Onboarding',        x: 560, y: 390, color: '#00ff88', r: 18 },
+  { id: 'tensorflow', label: 'TensorFlow',       x: 380, y: 100, color: '#f59e0b', r: 28 },
+  { id: 'mlflow',     label: 'MLflow',            x: 200, y: 170, color: '#00d4ff', r: 26 },
+  { id: 'mlops',      label: 'MLops Pipelines',   x: 560, y: 170, color: '#00ff88', r: 24 },
+  { id: 'python',     label: 'Python / Scikit',   x: 110, y: 290, color: '#f59e0b', r: 22 },
+  { id: 'spark',      label: 'Apache Spark',      x: 280, y: 290, color: '#ff6b00', r: 20 },
+  { id: 'llm',        label: 'LLM / OpenAI API',  x: 460, y: 290, color: '#ff006e', r: 20 },
+  { id: 'rag',        label: 'RAG Concepts',      x: 640, y: 290, color: '#bd00ff', r: 22 },
+  { id: 'copilot',    label: 'GitHub Copilot',    x: 190, y: 390, color: '#ff006e', r: 20 },
+  { id: 'embeddings', label: 'Vector Embeddings', x: 380, y: 400, color: '#00d4ff', r: 22 },
+  { id: 'agents',     label: 'Agent Workflows',   x: 570, y: 390, color: '#bd00ff', r: 18 },
 ];
 
 const EDGES = [
-  ['copilot', 'gpt'],       ['copilot', 'openai'],
-  ['gpt', 'rag'],           ['gpt', 'embeddings'],  ['gpt', 'prompt'],
-  ['openai', 'agents'],     ['openai', 'prompt'],
-  ['rag', 'embeddings'],    ['rag', 'log'],
-  ['embeddings', 'aidev'],  ['prompt', 'aidev'],
-  ['agents', 'onboard'],    ['agents', 'aidev'],
-  ['log', 'aidev'],         ['aidev', 'onboard'],
+  ['tensorflow', 'mlflow'],   ['tensorflow', 'mlops'],
+  ['tensorflow', 'python'],   ['tensorflow', 'spark'],
+  ['mlflow', 'python'],       ['mlflow', 'mlops'],
+  ['mlflow', 'copilot'],      ['mlops', 'llm'],
+  ['mlops', 'rag'],           ['python', 'spark'],
+  ['python', 'copilot'],      ['llm', 'rag'],
+  ['llm', 'embeddings'],      ['rag', 'agents'],
+  ['embeddings', 'agents'],   ['copilot', 'embeddings'],
 ];
 
 const HIGHLIGHTS = [
-  { icon: '🤖', title: 'LLM Log Summarizer', desc: 'OpenAI API + RAG for customs error analysis. 60% faster RCA.' },
-  { icon: '⚡', title: 'AI-Agent Workflows', desc: 'Automated regulatory rule explanation & developer onboarding.' },
-  { icon: '📝', title: 'Prompt Engineering', desc: 'Structured templates for system architecture documentation.' },
-  { icon: '🔍', title: 'AI Code Refactoring', desc: 'GitHub Copilot for test generation & intelligent refactoring.' },
+  { icon: '🧠', title: 'TensorFlow Loan Default Predictor', desc: 'Production TensorFlow model for loan default risk and customer behaviour. Feature-engineered on mortgage data with Apache Spark + HDFS.' },
+  { icon: '⚙️', title: 'MLflow / MLops Pipelines', desc: 'MLflow model tracking and MLops deployment pipelines integrated into enterprise Java apps at UPS and Mercedes-Benz.' },
+  { icon: '🤖', title: 'LLM Log Summarisation', desc: 'OpenAI API + RAG prototype transforming customs error logs into actionable RCA insights. ~60% faster MTTR in tests.' },
+  { icon: '🚀', title: 'GitHub Copilot at Enterprise Scale', desc: 'GitHub Copilot for AI-assisted code refactoring, test generation, and architecture documentation at UPS.' },
 ];
 
 const AILabPanel: React.FC = () => {

@@ -99,26 +99,27 @@ const ORBIT_RINGS: OrbitRing[] = [
       { icon: '⚛️', label: 'React',      color: '#00d4ff' },
       { icon: '🅰',  label: 'Angular',    color: '#ff006e' },
       { icon: 'TS',  label: 'TypeScript', color: '#4499ff', isText: true },
+      { icon: '💚',  label: 'Vue.js',     color: '#00ff88' },
     ],
   },
   {
     radius: 258, duration: 24, ringColor: 'rgba(0,212,255,0.19)', dashed: false,
     symbols: [
-      { icon: '☁️', label: 'AWS',    color: '#f59e0b' },
-      { icon: '🐳', label: 'Docker', color: '#00d4ff' },
-      { icon: '🐙', label: 'GitHub', color: '#e2e8f0' },
-      { icon: '🐪', label: 'Camel',  color: '#ff8c00' },   // ← Apache Camel
-      { icon: '⚡', label: 'Kafka',  color: '#ff6b00' },
+      { icon: '🧠', label: 'TensorFlow', color: '#f59e0b' },
+      { icon: '📊', label: 'MLflow',     color: '#00d4ff' },
+      { icon: '☁️', label: 'AWS',        color: '#f59e0b' },
+      { icon: '🐳', label: 'Docker',     color: '#00d4ff' },
+      { icon: '⚡', label: 'Kafka',      color: '#ff6b00' },
     ],
   },
   {
     radius: 344, duration: 35, ringColor: 'rgba(255,0,110,0.16)', dashed: true,
     symbols: [
-      { icon: '🤖', label: 'AI/LLM',    color: '#ff006e' },
-      { icon: '🔶', label: 'OpenShift', color: '#bd00ff' },
-      { icon: '🐘', label: 'Postgres',  color: '#4499ff' },
-      { icon: '🍀', label: 'MongoDB',   color: '#00ff88' },
-      { icon: '🐍', label: 'Python',    color: '#ffd700' },
+      { icon: '🤖', label: 'MLops',      color: '#ff006e' },
+      { icon: '🔶', label: 'OpenShift',  color: '#bd00ff' },
+      { icon: '🐘', label: 'PostgreSQL', color: '#4499ff' },
+      { icon: '🐪', label: 'Camel',      color: '#ff8c00' },
+      { icon: '🐍', label: 'Python',     color: '#ffd700' },
     ],
   },
 ];
@@ -388,7 +389,7 @@ const HeroPanel: React.FC = () => {
             <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.8 }}
               className="w-1.5 h-1.5 rounded-full flex-shrink-0"
               style={{ background: '#00ff88', boxShadow: '0 0 6px #00ff88' }} />
-            OPEN TO OPPORTUNITIES · Senior Engineering · AI
+            OPEN TO OPPORTUNITIES · Java Full Stack · AI Engineering
           </motion.div>
         </div>
       ) : (
@@ -467,7 +468,7 @@ const HeroPanel: React.FC = () => {
             className="w-1.5 h-1.5 rounded-full"
             style={{ background: '#00ff88', boxShadow: '0 0 6px #00ff88' }}
           />
-          OPEN TO OPPORTUNITIES · Senior Engineering · AI Projects
+          OPEN TO OPPORTUNITIES · Java Full Stack · AI Engineering
         </motion.div>
       </div>
       )} {/* end mobile ? ... : desktop */}
