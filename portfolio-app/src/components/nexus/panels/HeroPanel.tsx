@@ -376,10 +376,10 @@ const HeroPanel: React.FC = () => {
               style={{ background: 'rgba(255,0,110,0.12)', border: '1px solid rgba(255,0,110,0.55)', color: '#ff006e', letterSpacing: '0.1em' }}>
               ► INITIATE CONTACT
             </button>
-            <a href="https://www.linkedin.com/in/jaysravan-fullstack/" target="_blank" rel="noopener noreferrer"
+            <a href="https://github.com/vjsravan" target="_blank" rel="noopener noreferrer"
               className="font-mono text-xs py-2.5 rounded-lg text-center active:scale-95"
               style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.35)', color: '#00d4ff', letterSpacing: '0.1em' }}>
-              ◈ LINKEDIN PROFILE
+              ◈ GITHUB PROFILE
             </a>
           </motion.div>
 
@@ -453,10 +453,10 @@ const HeroPanel: React.FC = () => {
             style={{ background: 'rgba(255,0,110,0.12)', border: '1px solid rgba(255,0,110,0.55)', color: '#ff006e', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(255,0,110,0.15)' }}>
             ► INITIATE CONTACT
           </button>
-          <a href="https://www.linkedin.com/in/jaysravan-fullstack/" target="_blank" rel="noopener noreferrer"
+          <a href="https://github.com/vjsravan" target="_blank" rel="noopener noreferrer"
             className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95"
             style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.35)', color: '#00d4ff', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(0,212,255,0.1)' }}>
-            ◈ LINKEDIN PROFILE
+            ◈ GITHUB PROFILE
           </a>
         </motion.div>
 

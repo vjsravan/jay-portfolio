@@ -18,7 +18,7 @@ interface FormState {
 const EMPTY_FORM: FormState = { name: '', email: '', phone: '', message: '' };
 
 const SOCIALS = [
-  { icon: '🐙', label: 'GitHub',   href: 'https://github.com/vjsravan',                        color: '#ffffff' },
+  { icon: '🐙', label: 'GitHub',   href: 'https://github.com/vjsravan',                         color: '#ffffff' },
   { icon: '✉️', label: 'Email',    href: `mailto:${personalInfo.email}`,        color: '#ff006e' },
 ];
 

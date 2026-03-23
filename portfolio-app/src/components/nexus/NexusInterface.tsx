@@ -277,7 +277,7 @@ const NexusInterface: React.FC = () => {
         <div className="flex items-center gap-3 px-4 flex-shrink-0 border-l" style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
           {[
             { label: 'AWS CERTIFIED', color: '#f59e0b' },
-            { label: '8+ YRS', color: '#00d4ff' },
+            { label: '6+ YRS', color: '#00d4ff' },
             { label: 'TENSORFLOW · MLOPS', color: '#bd00ff' },
             { label: 'OPEN TO WORK', color: '#00ff88' },
           ].map(({ label, color }) => (
