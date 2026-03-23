@@ -27,11 +27,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: portfolio-app/package-lock.json
+
+      # Strip any company-scoped auth tokens that may have leaked via
+      # package-lock.json or a global .npmrc on the developer's machine
+      - name: Force public npm registry (clear company auth)
+        run: |
+          npm config set registry https://registry.npmjs.org/
+          npm config delete //registry.npmjs.org/:_authToken || true
+          npm config delete _authToken || true
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --registry https://registry.npmjs.org/
         working-directory: portfolio-app
 
       - name: Type check
