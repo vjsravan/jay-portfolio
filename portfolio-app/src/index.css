@@ -1,0 +1,447 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #020617;
+    color: #f1f5f9;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(ellipse at top, #0f172a 0%, #020617 100%);
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0f172a; }
+  ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 9999px; }
+  ::selection { background: rgba(6, 182, 212, 0.3); color: white; }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+  }
+  .glass-card-hover {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+  }
+  .glass-card-hover:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+  }
+  .gradient-text {
+    background: linear-gradient(to right, #06b6d4, #38bdf8, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-green {
+    background: linear-gradient(to right, #10b981, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-warm {
+    background: linear-gradient(to right, #f59e0b, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .btn-primary {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(to right, #06b6d4, #8b5cf6);
+    color: white;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    transform: scale(1.05);
+  }
+  .btn-primary:active { transform: scale(0.95); }
+  .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(6, 182, 212, 0.5);
+    color: #06b6d4;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    background: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+  .btn-secondary:hover {
+    background: rgba(6, 182, 212, 0.1);
+    border-color: #06b6d4;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+  }
+  .section-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    background: linear-gradient(to right, #06b6d4, #38bdf8, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .terminal-text {
+    font-family: 'JetBrains Mono', monospace;
+    color: #10b981;
+  }
+  .nav-link {
+    color: #94a3b8;
+    transition: color 0.2s ease;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .nav-link:hover { color: #06b6d4; }
+}
+
+@layer utilities {
+  .text-glow-cyan { text-shadow: 0 0 20px rgba(6, 182, 212, 0.5); }
+  .text-glow-purple { text-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
+  .animate-gradient { background-size: 200% 200%; animation: gradient 8s ease infinite; }
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.cursor-blink {
+  display: inline-block; width: 2px; height: 1.2em;
+  background-color: #06b6d4; margin-left: 2px;
+  animation: blink 1s step-end infinite; vertical-align: text-bottom;
+}
+
+#particles-canvas {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+
+.glow-border { box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.3), 0 0 20px rgba(6, 182, 212, 0.1); }
+
+.timeline-line {
+  width: 2px;
+  background: linear-gradient(to bottom, #06b6d4, #8b5cf6, #10b981);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(2deg); }
+  66% { transform: translateY(5px) rotate(-1deg); }
+}
+.float-animation { animation: float 8s ease-in-out infinite; }
+
+@keyframes gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes gradient-slide {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* Shimmer on glass cards */
+@keyframes shimmer {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+
+/* Number reveal */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Reveal underline */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+  transition: width 0.3s ease;
+}
+.hover-underline:hover::after { width: 100%; }
+
+/* Animated border gradient */
+@keyframes border-spin {
+  from { --angle: 0deg; }
+  to   { --angle: 360deg; }
+}
+
+/* Glass shimmer effect on section cards */
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 40%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: none;
+}
+.glass-card:hover::after {
+  animation: shimmer 0.7s ease forwards;
+}
+
+/* ══════════════════════════════════════════════════════════
+   NEXUS OS — Window content overrides
+   Section components were designed for full-page views.
+   These rules adapt them for compact OS windows.
+   ══════════════════════════════════════════════════════════ */
+.os-window-content > section,
+.os-window-content section {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+.os-window-content .section-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem) !important;
+  margin-bottom: 0.5rem !important;
+}
+/* Thin OS-style scrollbars inside windows */
+.os-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(6,182,212,0.25) transparent;
+}
+.os-scrollbar::-webkit-scrollbar { width: 4px; }
+.os-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.os-scrollbar::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.25); border-radius: 9999px; }
+
+/* Dock glass effect — used in Dock.tsx */
+.dock-glass {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Menu bar glass */
+.menubar-glass {
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* OS Window glass */
+.os-window-glass {
+  background: rgba(10, 18, 36, 0.92);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+/* NEXUS OS boot text glow */
+@keyframes nexus-glow {
+  0%, 100% { text-shadow: 0 0 10px #06b6d4, 0 0 20px #06b6d4; }
+  50%       { text-shadow: 0 0 20px #8b5cf6, 0 0 40px #8b5cf6; }
+}
+.nexus-title-glow { animation: nexus-glow 2.5s ease-in-out infinite; }
+
+/* Scanline overlay for CRT boot feel */
+.boot-scanlines::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.08) 3px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* VS Code editor ambient grid drift */
+@keyframes gridDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 48px 24px; }
+}
+
+/* Code line reveal animation */
+@keyframes codeReveal {
+  from { opacity: 0; transform: translateX(-3px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* VS Code scrollbar override for editor area */
+.vscode-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.vscode-scroll::-webkit-scrollbar-track { background: transparent; }
+.vscode-scroll::-webkit-scrollbar-thumb { background: #424242; border-radius: 0; }
+.vscode-scroll::-webkit-scrollbar-thumb:hover { background: #686868; }
+
+/* ============================================================
+   NEXUS PROTOCOL — Global Tokens & Keyframes
+   ============================================================ */
+:root {
+  --nx-cyan:    #00d4ff;
+  --nx-violet:  #bd00ff;
+  --nx-magenta: #ff006e;
+  --nx-green:   #00ff88;
+  --nx-orange:  #ff6b00;
+  --nx-gold:    #ffd700;
+  --nx-dark:    #000000;
+}
+
+/* Hide default cursor for nexus mode */
+body.nexus-mode { cursor: none !important; }
+body.nexus-mode * { cursor: none !important; }
+
+/* Orbital ring rotation */
+@keyframes nx-orbit {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes nx-orbit-reverse {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+/* Pulse glow for borders / buttons */
+@keyframes nx-pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px var(--nx-cyan),  0 0 24px rgba(0,212,255,0.3); }
+  50%       { box-shadow: 0 0 20px var(--nx-cyan), 0 0 60px rgba(0,212,255,0.5), 0 0 100px rgba(0,212,255,0.2); }
+}
+@keyframes nx-pulse-glow-magenta {
+  0%, 100% { box-shadow: 0 0 8px var(--nx-magenta),  0 0 24px rgba(255,0,110,0.3); }
+  50%       { box-shadow: 0 0 20px var(--nx-magenta), 0 0 60px rgba(255,0,110,0.5); }
+}
+
+/* Vertical scan sweep */
+@keyframes nx-scan {
+  0%   { top: -4px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Holographic flicker */
+@keyframes nx-flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96%            { opacity: 0.7; }
+  97%            { opacity: 1; }
+  98%            { opacity: 0.5; }
+  99%            { opacity: 0.9; }
+}
+
+/* Scanline overlay pattern */
+@keyframes nx-scanlines-move {
+  from { background-position: 0 0; }
+  to   { background-position: 0 8px; }
+}
+
+/* Text reveal from mask */
+@keyframes nx-reveal {
+  from { opacity: 0; transform: translateY(12px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* Marquee / scroll for status bar */
+@keyframes nx-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Reticle outer ring spin */
+@keyframes nx-reticle-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Node breath pulse */
+@keyframes nx-node-breathe {
+  0%, 100% { r: 10; }
+  50%       { r: 13; }
+}
+
+/* Star twinkle — uses --so custom property for per-star opacity */
+@keyframes nx-star-twinkle {
+  0%, 100% { opacity: var(--so, 0.4); transform: scale(1);    }
+  50%       { opacity: 0.03;           transform: scale(0.45); }
+}
+
+/* SVG dash flow for neural graph */
+@keyframes nx-dash-flow {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Counter glow pop */
+@keyframes nx-count-pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ---- Utility Classes ---- */
+.nx-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,212,255,0.018) 3px,
+    rgba(0,212,255,0.018) 4px
+  );
+  animation: nx-scanlines-move 0.5s linear infinite;
+}
+
+.nx-glass {
+  background: rgba(0, 212, 255, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.18);
+  backdrop-filter: blur(20px);
+}
+
+.nx-glass-violet {
+  background: rgba(189, 0, 255, 0.04);
+  border: 1px solid rgba(189, 0, 255, 0.18);
+  backdrop-filter: blur(20px);
+}
+
+.nx-glow-text-cyan {
+  text-shadow: 0 0 10px #00d4ff, 0 0 30px rgba(0,212,255,0.6);
+}
+.nx-glow-text-violet {
+  text-shadow: 0 0 10px #bd00ff, 0 0 30px rgba(189,0,255,0.6);
+}
+.nx-glow-text-magenta {
+  text-shadow: 0 0 10px #ff006e, 0 0 30px rgba(255,0,110,0.6);
+}
+.nx-glow-text-green {
+  text-shadow: 0 0 10px #00ff88, 0 0 30px rgba(0,255,136,0.6);
+}
+
+.nx-flicker { animation: nx-flicker 6s ease-in-out infinite; }
+.nx-pulse-glow { animation: nx-pulse-glow 2.5s ease-in-out infinite; }
+.nx-pulse-glow-magenta { animation: nx-pulse-glow-magenta 2.5s ease-in-out infinite; }
+
+/* Nexus panel scrollbar */
+.nx-scroll::-webkit-scrollbar { width: 4px; }
+.nx-scroll::-webkit-scrollbar-track { background: transparent; }
+.nx-scroll::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 9999px; }
+.nx-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.6); }
+

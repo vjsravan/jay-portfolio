@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+.vite/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Dev server output capture (local dev artifacts)
+portfolio-app/dev_err.txt
+portfolio-app/dev_out.txt
+portfolio-app/vite_out.txt
+portfolio-app/vite_stderr.txt
+portfolio-app/vite_stdout.txt
+portfolio-app/server.log
+
