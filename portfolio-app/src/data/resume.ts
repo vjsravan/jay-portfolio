@@ -129,74 +129,6 @@ export const experiences = [
       "Predictive analytics ML models deployed via MLops and Docker in financial services",
     ],
   },
-  {
-    id: 3,
-    company: "Bristol Myers Squibb",
-    role: "Java Developer",
-    domain: "Biopharmaceuticals & Life Sciences",
-    location: "New Jersey",
-    period: "Apr 2021 – Feb 2022",
-    current: false,
-    color: "#10b981",
-    logo: "🧬",
-    tech: [
-      "Java", "Spring Boot", "Spring Cloud", "Oracle", "PostgreSQL", "JDBC",
-      "Apache Camel", "RESTful APIs", "SOAP Web Services",
-      "JUnit 5", "Mockito", "OpenShift", "AWS Lambda",
-      "JWT", "API Gateway", "SonarQube", "Gradle",
-    ],
-    achievements: [
-      { metric: "HIPAA", desc: "Compliant authentication & secure biomedical data access" },
-      { metric: "Serverless", desc: "AWS Lambda + OpenShift containerised deployments" },
-      { metric: "100%", desc: "Test-driven development with JUnit 5 and Mockito" },
-      { metric: "SOAP+REST", desc: "Secure data exchange between enterprise & research systems" },
-    ],
-    highlights: [
-      "Developed RESTful APIs and Spring Cloud microservices connecting research and business platforms",
-      "Automated workflows with Apache Camel, streamlining data exchange between lab systems",
-      "Managed sensitive biopharma data with Oracle and PostgreSQL via JDBC",
-      "Applied JUnit 5 and Mockito for test-driven development ensuring healthcare compliance",
-      "Deployed on OpenShift and AWS Lambda with serverless and containerised workloads",
-      "Secured APIs with JWT and API Gateway for HIPAA-compliant authentication and TLS/SSL",
-      "Built SOAP and REST Web Services for secure enterprise-to-research data exchange",
-    ],
-    aiWork: [],
-  },
-  {
-    id: 4,
-    company: "Indiabulls Housing Finance",
-    role: "Java Developer",
-    domain: "Financial Services & Mortgage Lending",
-    location: "Mumbai, India",
-    period: "Apr 2018 – Nov 2019",
-    current: false,
-    color: "#f59e0b",
-    logo: "🏠",
-    tech: [
-      "Java", "Angular 15", "Spring Security", "OAuth 2.0",
-      "Apache Kafka", "RabbitMQ", "Redis", "Elasticsearch",
-      "TensorFlow", "Python", "Jenkins", "GitLab CI/CD",
-      "ELK Stack", "Grafana", "Apache Spark", "HDFS", "Swagger / OpenAPI",
-    ],
-    achievements: [
-      { metric: "TensorFlow", desc: "Predictive ML model for loan default risk" },
-      { metric: "Real-time", desc: "Financial transaction pipelines via Kafka/RabbitMQ" },
-      { metric: "Angular 15", desc: "Loan tracking dashboard with real-time updates" },
-      { metric: "Spark", desc: "Large-scale mortgage portfolio analytics with HDFS" },
-    ],
-    highlights: [
-      "Developed Angular dashboards for real-time loan application and customer interaction tracking",
-      "Implemented async data processing with Apache Kafka and RabbitMQ for financial transactions",
-      "Designed and executed TensorFlow + Python predictive models for loan default risk",
-      "Enhanced security with Spring Security and OAuth 2.0 for sensitive customer financial data",
-      "Leveraged Redis and Elasticsearch for caching and search optimisation on customer portals",
-      "Applied Apache Spark and HDFS for large-scale mortgage portfolio data processing",
-    ],
-    aiWork: [
-      "TensorFlow predictive modelling for loan default risk and customer behaviour analysis",
-      "Python-based advanced analytics for mortgage portfolio insights and real-time reporting",
-    ],
-  },
 ];
 
 export const education = {
@@ -262,18 +194,6 @@ export const projects = [
   },
   {
     id: 4,
-    title: "Loan Default Risk Predictor",
-    subtitle: "TensorFlow + Python — Indiabulls Finance",
-    description: "Production TensorFlow model predicting loan default risk and customer behaviour. Trained on real mortgage portfolio data using Python and Apache Spark for large-scale feature engineering.",
-    tech: ["TensorFlow", "Python", "Apache Spark", "HDFS", "Angular", "Apache Kafka"],
-    metric: "Real AI/ML",
-    metricLabel: "In Production",
-    color: "#f59e0b",
-    icon: "🧠",
-    featured: false,
-  },
-  {
-    id: 5,
     title: "LLM Log Summariser",
     subtitle: "GenAI Prototype — OpenAI + RAG",
     description: "Prototype using OpenAI API and RAG concepts to transform complex customs error logs into concise, actionable insights. Reduced MTTR by ~60% in testing environments.",
@@ -282,18 +202,6 @@ export const projects = [
     metricLabel: "Faster RCA",
     color: "#ff006e",
     icon: "🤖",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Biopharma Data Platform",
-    subtitle: "Bristol Myers Squibb — Spring Cloud",
-    description: "HIPAA-compliant Spring Cloud microservices with Apache Camel automation connecting lab systems to enterprise platforms. Secured with JWT/API Gateway and deployed on OpenShift + AWS Lambda.",
-    tech: ["Spring Cloud", "Apache Camel", "OpenShift", "AWS Lambda", "Oracle", "JWT"],
-    metric: "HIPAA",
-    metricLabel: "Compliant",
-    color: "#10b981",
-    icon: "🧬",
     featured: false,
   },
 ];
@@ -324,11 +232,8 @@ CURRENT ROLE: Sr. Software Development Engineer at UPS (Mar 2024 – Present)
 
 PREVIOUS EXPERIENCE:
 1. Mercedes-Benz Financial Services (Mar 2022 – Jul 2024) — Struts→Spring Boot migration, Angular/React, DB2/PostgreSQL, OAuth 2.0/JWT, full end-to-end ownership of 5-10 apps
-2. Bristol Myers Squibb (Apr 2021 – Feb 2022) — HIPAA-compliant Spring Cloud microservices, Apache Camel, OpenShift
-3. Indiabulls Housing Finance (Apr 2018 – Nov 2019) — TensorFlow loan default prediction, Angular, Apache Kafka
 
 AI / ML EXPERIENCE:
-- TensorFlow predictive models for loan default risk (Indiabulls)
 - LLM log summarisation prototype with OpenAI API and RAG (UPS)
 - GitHub Copilot enterprise integration at UPS
 - Built this AI portfolio assistant using OpenAI API + RAG concepts
