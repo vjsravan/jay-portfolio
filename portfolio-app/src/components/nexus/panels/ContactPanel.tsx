@@ -18,8 +18,9 @@ interface FormState {
 const EMPTY_FORM: FormState = { name: '', email: '', phone: '', message: '' };
 
 const SOCIALS = [
-  { icon: '🐙', label: 'GitHub',   href: 'https://github.com/vjsravan',                         color: '#ffffff' },
-  { icon: '✉️', label: 'Email',    href: `mailto:${personalInfo.email}`,        color: '#ff006e' },
+  { icon: '🔗', label: 'LinkedIn', href: 'https://www.linkedin.com/in/jaysravan-fullstack/', color: '#0a66c2' },
+  { icon: '🐙', label: 'GitHub',   href: 'https://github.com/vjsravan',                     color: '#ffffff' },
+  { icon: '✉️', label: 'Email',    href: `mailto:${personalInfo.email}`,                    color: '#ff006e' },
 ];
 
 // Shared input style helper
@@ -199,7 +200,7 @@ const ContactPanel: React.FC = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="grid grid-cols-2 gap-2"
+            className="grid grid-cols-3 gap-2"
           >
             {SOCIALS.map(s => (
               <motion.a
