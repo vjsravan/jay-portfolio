@@ -29,10 +29,10 @@ const EDGES = [
 ];
 
 const HIGHLIGHTS = [
-  { icon: '🧠', title: 'TensorFlow Loan Default Predictor', desc: 'Production TensorFlow model for loan default risk and customer behaviour. Feature-engineered on mortgage data with Apache Spark + HDFS.' },
-  { icon: '⚙️', title: 'MLflow / MLops Pipelines', desc: 'MLflow model tracking and MLops deployment pipelines integrated into enterprise Java apps at UPS and Mercedes-Benz.' },
-  { icon: '🤖', title: 'LLM Log Summarisation', desc: 'OpenAI API + RAG prototype transforming customs error logs into actionable RCA insights. ~60% faster MTTR in tests.' },
-  { icon: '🚀', title: 'GitHub Copilot at Enterprise Scale', desc: 'GitHub Copilot for AI-assisted code refactoring, test generation, and architecture documentation at UPS.' },
+  { icon: '🤖', title: 'LLM Log Summarisation (UPS)', desc: 'OpenAI API + RAG prototype transforming complex customs error logs into actionable root-cause insights. ~60% faster MTTR in testing. Built on top of Java Spring Boot microservices.' },
+  { icon: '⚙️', title: 'MLops & ML Integrations', desc: 'MLops deployment pipelines and ML model tracking integrated into enterprise Java applications at UPS and Mercedes-Benz Financial Services.' },
+  { icon: '🚀', title: 'GitHub Copilot at Enterprise Scale', desc: 'GitHub Copilot for AI-assisted code refactoring, test generation, and architecture documentation across 25+ microservices at UPS.' },
+  { icon: '🧠', title: 'Jay Nexus AI Portfolio Assistant', desc: 'This portfolio itself — built with React, TypeScript, Framer Motion, and an LLM assistant powered by OpenAI API + RAG concepts. A live demonstration of AI engineering skills.' },
 ];
 
 const AILabPanel: React.FC = () => {
