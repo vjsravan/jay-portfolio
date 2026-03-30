@@ -3,10 +3,31 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { experiences } from '../../../data/resume';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 
-// Timings mirror the ECG animation (5 000 ms loop, no repeatDelay)
-// Draw-head hits each company at ~0 / 33 / 67 / 99 % of the 5 s cycle
-const CYCLE_MS  = 5_000;
-const HIT_TIMES = [0, 1_650, 3_350, 4_950];
+// Timings mirror the ECG animation — evenly distributed across the cycle
+const CYCLE_MS = 5_000;
+// Dynamically computed so adding/removing companies never breaks the panel
+const HIT_TIMES = Array.from(
+  { length: experiences.length },
+  (_, i) => Math.round((i / experiences.length) * CYCLE_MS),
+);
+
+// Build the ECG SVG path dynamically for N companies.
+// Each company gets a QRS heartbeat spike centred at its proportional x position.
+function buildEcgPath(n: number): string {
+  const segs: string[] = ['M0,15'];
+  for (let i = 0; i < n; i++) {
+    const cx = Math.round(((i + 0.5) / n) * 1000); // centre x of spike
+    segs.push(
+      `L${cx - 25},15`,
+      `L${cx - 20},11 L${cx - 15},15`,
+      `L${cx - 8},15 L${cx - 4},17 L${cx + 1},1 L${cx + 6},29 L${cx + 11},15`,
+      `L${cx + 17},15 L${cx + 22},18 L${cx + 29},9 L${cx + 35},15`,
+    );
+  }
+  segs.push('L1000,15');
+  return segs.join(' ');
+}
+
 
 const ExperiencePanel: React.FC = () => {
   const [selected, setSelected] = useState(experiences[0].id);
@@ -60,9 +81,10 @@ const ExperiencePanel: React.FC = () => {
       <div className="relative mb-4" style={{ marginBottom: isMobile ? '0.75rem' : '1.5rem' }}>
         {/* ECG — desktop only (SVG is too wide for mobile) */}
         {!isMobile && (() => {
-          const ecgColor = hbState.curr !== null
-            ? experiences[hbState.curr].color
-            : '#bd00ff';
+          const ecgColor =
+            hbState.curr !== null && hbState.curr < experiences.length
+              ? experiences[hbState.curr].color
+              : '#bd00ff';
           return (
             <svg
               width="100%" height="30"
@@ -87,21 +109,7 @@ const ExperiencePanel: React.FC = () => {
               {/* ECG — draws itself left-to-right, instantly resets (real monitor cursor wrap),
                   stroke colour transitions smoothly as each company node is touched */}
               <motion.path
-                d={[
-                  'M0,15 L185,15',
-                  'L190,11 L195,15',
-                  'L202,15 L205,17 L210,1 L215,29 L220,15',
-                  'L226,15 L231,18 L238,9 L244,15',
-                  'L465,15',
-                  'L470,11 L475,15',
-                  'L482,15 L485,17 L490,1 L495,29 L500,15',
-                  'L506,15 L511,18 L518,9 L524,15',
-                  'L705,15',
-                  'L710,11 L715,15',
-                  'L722,15 L725,17 L730,1 L735,29 L740,15',
-                  'L746,15 L751,18 L758,9 L764,15',
-                  'L1000,15',
-                ].join(' ')}
+                d={buildEcgPath(experiences.length)}
                 stroke={ecgColor}
                 strokeWidth="2"
                 strokeLinecap="round"
