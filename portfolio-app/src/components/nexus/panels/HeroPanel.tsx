@@ -376,6 +376,11 @@ const HeroPanel: React.FC = () => {
               style={{ background: 'rgba(255,0,110,0.12)', border: '1px solid rgba(255,0,110,0.55)', color: '#ff006e', letterSpacing: '0.1em' }}>
               ► INITIATE CONTACT
             </button>
+            <a href="https://www.linkedin.com/in/jaysravan-fullstack/" target="_blank" rel="noopener noreferrer"
+              className="font-mono text-xs py-2.5 rounded-lg text-center active:scale-95"
+              style={{ background: 'rgba(10,102,194,0.14)', border: '1px solid rgba(10,102,194,0.55)', color: '#0a66c2', letterSpacing: '0.1em' }}>
+              🔗 LINKEDIN PROFILE
+            </a>
             <a href="https://github.com/vjsravan" target="_blank" rel="noopener noreferrer"
               className="font-mono text-xs py-2.5 rounded-lg text-center active:scale-95"
               style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.35)', color: '#00d4ff', letterSpacing: '0.1em' }}>
@@ -446,17 +451,22 @@ const HeroPanel: React.FC = () => {
 
         {/* CTA buttons */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.25 }}
-          className="flex gap-3">
+          className="flex gap-3 flex-wrap">
           <button
             onClick={() => window.dispatchEvent(new CustomEvent('nexus-navigate', { detail: 'contact' }))}
             className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
             style={{ background: 'rgba(255,0,110,0.12)', border: '1px solid rgba(255,0,110,0.55)', color: '#ff006e', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(255,0,110,0.15)' }}>
             ► INITIATE CONTACT
           </button>
+          <a href="https://www.linkedin.com/in/jaysravan-fullstack/" target="_blank" rel="noopener noreferrer"
+            className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95"
+            style={{ background: 'rgba(10,102,194,0.14)', border: '1px solid rgba(10,102,194,0.55)', color: '#0a66c2', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(10,102,194,0.15)' }}>
+            🔗 LINKEDIN
+          </a>
           <a href="https://github.com/vjsravan" target="_blank" rel="noopener noreferrer"
             className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95"
             style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.35)', color: '#00d4ff', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(0,212,255,0.1)' }}>
-            ◈ GITHUB PROFILE
+            ◈ GITHUB
           </a>
         </motion.div>
 
