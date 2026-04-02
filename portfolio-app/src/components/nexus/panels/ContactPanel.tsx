@@ -4,7 +4,7 @@ import { Mail, MapPin, Copy, Check, ExternalLink, Send, Loader2, AlertCircle } f
 import { personalInfo, certifications } from '../../../data/resume';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 
-const WEB3FORMS_KEY = 'baa4fcc7-882d-4ce3-8867-f5665333f1ee';
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY as string;
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
@@ -130,7 +130,7 @@ const ContactPanel: React.FC = () => {
         margin: '0 auto',
       }}>
 
-        {/* ── LEFT — Contact info ── */}
+        {/* LEFT — Contact info */}
         <div className="flex flex-col gap-4" style={{ width: isMobile ? '100%' : 280, flexShrink: 0 }}>
 
           {/* Status badge */}
@@ -238,7 +238,7 @@ const ContactPanel: React.FC = () => {
 
         </div>
 
-        {/* ── RIGHT — Transmission form ── */}
+        {/* RIGHT — Transmission form */}
         <motion.div
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}

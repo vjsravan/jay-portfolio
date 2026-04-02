@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { skills } from '../../../data/resume';
 import { useIsMobile } from '../../../hooks/useIsMobile';
+import AIAssistantChat from './AIAssistantChat';
 
 // Manually position nodes for the SVG neural graph
 const NODES = [
@@ -32,24 +33,47 @@ const HIGHLIGHTS = [
   { icon: '🤖', title: 'LLM Log Summarisation (UPS)', desc: 'OpenAI API + RAG prototype transforming complex customs error logs into actionable root-cause insights. ~60% faster MTTR in testing. Built on top of Java Spring Boot microservices.' },
   { icon: '⚙️', title: 'MLops & ML Integrations', desc: 'MLops deployment pipelines and ML model tracking integrated into enterprise Java applications at UPS and Mercedes-Benz Financial Services.' },
   { icon: '🚀', title: 'GitHub Copilot at Enterprise Scale', desc: 'GitHub Copilot for AI-assisted code refactoring, test generation, and architecture documentation across 25+ microservices at UPS.' },
-  { icon: '🧠', title: 'Jay Nexus AI Portfolio Assistant', desc: 'This portfolio itself — built with React, TypeScript, Framer Motion, and an LLM assistant powered by OpenAI API + RAG concepts. A live demonstration of AI engineering skills.' },
+  { icon: '🧠', title: 'Jay Nexus AI Portfolio Assistant', desc: 'This portfolio itself — built with React, TypeScript, Framer Motion, and a live AI assistant powered by Google Gemini API + RAG-style context. Ask it anything in the ASK AI tab.' },
 ];
 
 const AILabPanel: React.FC = () => {
   const isMobile = useIsMobile();
+  const [rightTab, setRightTab] = useState<'log' | 'chat'>('log');
   return (
   <div className="w-full h-full flex flex-col overflow-y-auto nx-scroll" style={{ padding: isMobile ? '1rem' : '1.5rem 2rem' }}>
     {/* Header */}
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex items-center gap-3 mb-4"
+      className="flex items-center gap-3 mb-4 flex-shrink-0 flex-wrap"
     >
       <div className="w-1.5 h-6 rounded-full" style={{ background: '#ff006e', boxShadow: '0 0 10px #ff006e' }} />
       <h2 className="font-mono font-bold tracking-widest text-sm" style={{ color: '#ff006e' }}>
         AI LABORATORY
       </h2>
       <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(255,0,110,0.4), transparent)' }} />
+
+      {/* LOG / ASK AI tabs */}
+      <div className="flex gap-1 rounded-lg p-0.5" style={{ background: 'rgba(255,0,110,0.08)', border: '1px solid rgba(255,0,110,0.2)' }}>
+        {(['log', 'chat'] as const).map(tab => (
+          <motion.button
+            key={tab}
+            onClick={() => setRightTab(tab)}
+            data-hover
+            whileTap={{ scale: 0.95 }}
+            className="font-mono text-[9px] px-2.5 py-1 rounded-md tracking-widest transition-all"
+            style={{
+              background: rightTab === tab ? 'rgba(255,0,110,0.25)' : 'transparent',
+              color: rightTab === tab ? '#ff006e' : 'rgba(255,255,255,0.3)',
+              border: rightTab === tab ? '1px solid rgba(255,0,110,0.4)' : '1px solid transparent',
+              boxShadow: rightTab === tab ? '0 0 10px rgba(255,0,110,0.2)' : 'none',
+            }}
+          >
+            {tab === 'log' ? '◈ LOG' : '🤖 ASK AI'}
+          </motion.button>
+        ))}
+      </div>
+
       <motion.span
         animate={{ opacity: [0.5, 1, 0.5] }}
         transition={{ repeat: Infinity, duration: 2 }}
@@ -148,50 +172,70 @@ const AILabPanel: React.FC = () => {
           ))}
         </svg>
       </motion.div>
-      )} {/* end !isMobile SVG graph */}
+      )}
 
-      {/* Experiments log */}
-      <div className="flex-1 flex flex-col gap-3 overflow-y-auto nx-scroll">
-        <div className="font-mono text-[10px] tracking-widest" style={{ color: 'rgba(255,0,110,0.5)' }}>
-          EXPERIMENT LOG
-        </div>
-        {HIGHLIGHTS.map((h, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 + i * 0.1 }}
-            className="p-3 rounded-xl relative overflow-hidden"
-            style={{ background: 'rgba(255,0,110,0.05)', border: '1px solid rgba(255,0,110,0.15)' }}
-            whileHover={{ borderColor: 'rgba(255,0,110,0.4)', boxShadow: '0 0 16px rgba(255,0,110,0.15)' }}
-          >
-            <div className="flex gap-2 items-start">
-              <span className="text-xl flex-shrink-0">{h.icon}</span>
-              <div>
-                <div className="font-bold text-white text-sm">{h.title}</div>
-                <div className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>{h.desc}</div>
+      {/* Right column — LOG or ASK AI */}
+      <div className="flex-1 flex flex-col gap-3 overflow-hidden min-h-0">
+
+        {rightTab === 'log' ? (
+          <div className="flex-1 flex flex-col gap-3 overflow-y-auto nx-scroll">
+            <div className="font-mono text-[10px] tracking-widest" style={{ color: 'rgba(255,0,110,0.5)' }}>
+              EXPERIMENT LOG
+            </div>
+            {HIGHLIGHTS.map((h, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 + i * 0.1 }}
+                className="p-3 rounded-xl relative overflow-hidden"
+                style={{ background: 'rgba(255,0,110,0.05)', border: '1px solid rgba(255,0,110,0.15)' }}
+                whileHover={{ borderColor: 'rgba(255,0,110,0.4)', boxShadow: '0 0 16px rgba(255,0,110,0.15)' }}
+              >
+                <div className="flex gap-2 items-start">
+                  <span className="text-xl flex-shrink-0">{h.icon}</span>
+                  <div>
+                    <div className="font-bold text-white text-sm">{h.title}</div>
+                    <div className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>{h.desc}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+
+            {/* Skills list */}
+            <div className="mt-2">
+              <div className="font-mono text-[10px] tracking-widest mb-2" style={{ color: 'rgba(255,0,110,0.5)' }}>
+                AI TECH STACK
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {skills.ai.map((s: string) => (
+                  <span
+                    key={s}
+                    className="font-mono text-[10px] px-2 py-0.5 rounded"
+                    style={{ background: 'rgba(255,0,110,0.1)', border: '1px solid rgba(255,0,110,0.25)', color: '#ff006e' }}
+                  >
+                    {s}
+                  </span>
+                ))}
               </div>
             </div>
+          </div>
+        ) : (
+          /* ── AI Chat assistant ── */
+          <motion.div
+            key="chat"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+            className="flex-1 flex flex-col overflow-hidden min-h-0 rounded-xl p-3"
+            style={{ background: 'rgba(255,0,110,0.03)', border: '1px solid rgba(255,0,110,0.15)' }}
+          >
+            <div className="font-mono text-[10px] tracking-widest mb-2 flex-shrink-0" style={{ color: 'rgba(255,0,110,0.5)' }}>
+              🤖 JAY'S AI ASSISTANT · Powered by Gemini
+            </div>
+            <AIAssistantChat />
           </motion.div>
-        ))}
-
-        {/* Skills list */}
-        <div className="mt-2">
-          <div className="font-mono text-[10px] tracking-widest mb-2" style={{ color: 'rgba(255,0,110,0.5)' }}>
-            AI TECH STACK
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {skills.ai.map((s: string) => (
-              <span
-                key={s}
-                className="font-mono text-[10px] px-2 py-0.5 rounded"
-                style={{ background: 'rgba(255,0,110,0.1)', border: '1px solid rgba(255,0,110,0.25)', color: '#ff006e' }}
-              >
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </div>
   </div>

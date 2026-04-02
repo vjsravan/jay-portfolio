@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { personalInfo, metrics } from '../../../data/resume';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 
-// ── Count-up hook ──────────────────────────────────────────────
 function useCountUp(target: number, duration = 1300) {
   const [val, setVal] = useState(0);
   useEffect(() => {
@@ -20,16 +19,15 @@ function useCountUp(target: number, duration = 1300) {
   return val;
 }
 
-// ── Starfield — generated once, rendered with CSS animations ──
-// Using CSS custom property --so (star opacity) inside @keyframes
-// so each star retains its own brightness. Zero Framer Motion = zero JS overhead.
 interface Star {
   id: number; x: number; y: number; size: number;
   opacity: number; duration: number; delay: number;
   color: string; glow: boolean;
 }
+
+// Generated once at module load — stable across re-renders
 const STARS: Star[] = Array.from({ length: 160 }, (_, i) => {
-  const r   = Math.random();
+  const r    = Math.random();
   const tier = i < 16 ? 'bright' : i < 50 ? 'medium' : 'dim';
   const colorRoll = Math.random();
   const color =
@@ -51,7 +49,6 @@ const STARS: Star[] = Array.from({ length: 160 }, (_, i) => {
   };
 });
 
-// ── Metric card ───────────────────────────────────────────────
 const METRIC_COLORS: Record<string, string> = {
   cyan: '#00d4ff', purple: '#bd00ff', green: '#00ff88', orange: '#ff6b00',
 };
@@ -81,7 +78,6 @@ const MetricCard: React.FC<{ value: number; suffix: string; label: string; color
   );
 };
 
-// ── Orbit rings (Apache Camel 🐪 added to ring 3) ─────────────
 interface TechBadge { icon: string; label: string; color: string; isText?: boolean; }
 interface OrbitRing  { radius: number; duration: number; ringColor: string; dashed: boolean; symbols: TechBadge[]; }
 
@@ -124,7 +120,6 @@ const ORBIT_RINGS: OrbitRing[] = [
   },
 ];
 
-// ── Orbiting badge — will-change:transform for GPU compositing ─
 const OrbitingBadge: React.FC<{
   badge: TechBadge; radius: number; duration: number; startAngle: number;
 }> = ({ badge, radius, duration, startAngle }) => (
@@ -159,15 +154,13 @@ const OrbitingBadge: React.FC<{
   </motion.div>
 );
 
-// ── Main Hero Panel ───────────────────────────────────────────
 const HeroPanel: React.FC = () => {
-  const [typed, setTyped]       = useState('');
-  const [ready, setReady]       = useState(false);
-  const isMobile                = useIsMobile();
+  const [typed, setTyped] = useState('');
+  const [ready, setReady] = useState(false);
+  const isMobile = useIsMobile();
   const fullTitle = `${personalInfo.title}  ·  ${personalInfo.subtitle}`;
 
   useEffect(() => {
-    // One rAF gives the browser time to flush the initial paint
     const id = requestAnimationFrame(() => setReady(true));
     return () => cancelAnimationFrame(id);
   }, []);
@@ -186,12 +179,8 @@ const HeroPanel: React.FC = () => {
   return (
     <div className="w-full h-full relative overflow-hidden">
 
-      {/* ══ LAYER 0 — Starfield (pure CSS, zero JS overhead) ════ */}
       {ready && (
-        <div
-          className="absolute inset-0"
-          style={{ zIndex: 0, contain: 'layout style paint' }}
-        >
+        <div className="absolute inset-0" style={{ zIndex: 0, contain: 'layout style paint' }}>
           {STARS.map(star => (
             <div
               key={star.id}
@@ -206,19 +195,16 @@ const HeroPanel: React.FC = () => {
                 boxShadow: star.glow
                   ? `0 0 ${star.size * 3}px ${star.color}, 0 0 ${star.size * 6}px ${star.color}55`
                   : 'none',
-                // CSS custom property drives the keyframe opacity
                 ['--so' as string]: star.opacity,
-                animationName:            'nx-star-twinkle',
-                animationDuration:        `${star.duration}s`,
-                animationDelay:           `${star.delay}s`,
-                animationTimingFunction:  'ease-in-out',
-                animationIterationCount:  'infinite',
-                animationFillMode:        'both',
+                animationName:           'nx-star-twinkle',
+                animationDuration:       `${star.duration}s`,
+                animationDelay:          `${star.delay}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
+                animationFillMode:       'both',
               } as React.CSSProperties}
             />
           ))}
-
-          {/* Nebula blobs */}
           <div style={{ position: 'absolute', top: '50%', left: '36%', transform: 'translate(-50%,-50%)', width: 600, height: 500, background: 'radial-gradient(ellipse, rgba(0,212,255,0.05) 0%, transparent 68%)', pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', top: '30%', left: '18%', width: 380, height: 300, background: 'radial-gradient(ellipse, rgba(189,0,255,0.04) 0%, transparent 70%)', pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', top: '70%', left: '60%', width: 320, height: 250, background: 'radial-gradient(ellipse, rgba(255,0,110,0.035) 0%, transparent 70%)', pointerEvents: 'none' }} />
@@ -226,73 +212,68 @@ const HeroPanel: React.FC = () => {
         </div>
       )}
 
-      {/* ══ LAYER 1 — Solar system (desktop only) ═══════ */}
       {ready && !isMobile && (
-      <div
-        style={{
-          position: 'absolute',
-          left: '36%', top: '52%',
-          transform: 'translate(-50%, -50%)',
-          width: 760, height: 760,
-          zIndex: 1, pointerEvents: 'none',
-        }}
-      >
-        {/* Ring circles */}
-        {ORBIT_RINGS.map(ring => (
-          <div key={ring.radius} style={{
+        <div
+          style={{
             position: 'absolute',
-            width: ring.radius * 2, height: ring.radius * 2,
-            top: '50%', left: '50%',
+            left: '36%', top: '52%',
             transform: 'translate(-50%, -50%)',
-            borderRadius: '50%',
-            border: `1px ${ring.dashed ? 'dashed' : 'solid'} ${ring.ringColor}`,
-          }} />
-        ))}
-
-        {/* Orbiting badges */}
-        {ORBIT_RINGS.map(ring =>
-          ring.symbols.map((badge, i) => (
-            <OrbitingBadge
-              key={`${ring.radius}-${badge.label}`}
-              badge={badge}
-              radius={ring.radius}
-              duration={ring.duration}
-              startAngle={(i / ring.symbols.length) * 360}
-            />
-          ))
-        )}
-
-        {/* JSV Arc-reactor core */}
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 6 }}>
-          {[0, 1, 2, 3].map(n => (
-            <motion.div key={n} style={{
-              position: 'absolute', borderRadius: '50%',
+            width: 760, height: 760,
+            zIndex: 1, pointerEvents: 'none',
+          }}
+        >
+          {ORBIT_RINGS.map(ring => (
+            <div key={ring.radius} style={{
+              position: 'absolute',
+              width: ring.radius * 2, height: ring.radius * 2,
               top: '50%', left: '50%',
-              border: '1px solid rgba(0,212,255,0.5)',
-            }}
-              animate={{ width: [70, 70 + n * 36], height: [70, 70 + n * 36], opacity: [0.6, 0], x: '-50%', y: '-50%' }}
-              transition={{ duration: 2.6, repeat: Infinity, delay: n * 0.65, ease: 'easeOut' }}
-            />
+              transform: 'translate(-50%, -50%)',
+              borderRadius: '50%',
+              border: `1px ${ring.dashed ? 'dashed' : 'solid'} ${ring.ringColor}`,
+            }} />
           ))}
-          <div className="nx-flicker" style={{
-            width: 84, height: 84, borderRadius: '50%',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'JetBrains Mono, monospace', fontWeight: 900, fontSize: '1.05rem',
-            color: '#00d4ff', position: 'relative', zIndex: 7,
-            background: 'radial-gradient(circle, rgba(0,212,255,0.32) 0%, rgba(0,0,0,0.72) 100%)',
-            border: '2px solid rgba(0,212,255,0.8)',
-            textShadow: '0 0 18px #00d4ff',
-            boxShadow: '0 0 35px rgba(0,212,255,0.55), 0 0 90px rgba(0,212,255,0.2), inset 0 0 28px rgba(0,212,255,0.14)',
-          }}>
-            JSV
+
+          {ORBIT_RINGS.map(ring =>
+            ring.symbols.map((badge, i) => (
+              <OrbitingBadge
+                key={`${ring.radius}-${badge.label}`}
+                badge={badge}
+                radius={ring.radius}
+                duration={ring.duration}
+                startAngle={(i / ring.symbols.length) * 360}
+              />
+            ))
+          )}
+
+          {/* JSV arc-reactor core */}
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 6 }}>
+            {[0, 1, 2, 3].map(n => (
+              <motion.div key={n} style={{
+                position: 'absolute', borderRadius: '50%',
+                top: '50%', left: '50%',
+                border: '1px solid rgba(0,212,255,0.5)',
+              }}
+                animate={{ width: [70, 70 + n * 36], height: [70, 70 + n * 36], opacity: [0.6, 0], x: '-50%', y: '-50%' }}
+                transition={{ duration: 2.6, repeat: Infinity, delay: n * 0.65, ease: 'easeOut' }}
+              />
+            ))}
+            <div className="nx-flicker" style={{
+              width: 84, height: 84, borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'JetBrains Mono, monospace', fontWeight: 900, fontSize: '1.05rem',
+              color: '#00d4ff', position: 'relative', zIndex: 7,
+              background: 'radial-gradient(circle, rgba(0,212,255,0.32) 0%, rgba(0,0,0,0.72) 100%)',
+              border: '2px solid rgba(0,212,255,0.8)',
+              textShadow: '0 0 18px #00d4ff',
+              boxShadow: '0 0 35px rgba(0,212,255,0.55), 0 0 90px rgba(0,212,255,0.2), inset 0 0 28px rgba(0,212,255,0.14)',
+            }}>
+              JSV
+            </div>
           </div>
         </div>
-      </div>
       )}
 
-      {/* ══ LAYER 2 — Content ═════════ */}
       {isMobile ? (
-        /* ── MOBILE: centered full-width stack ── */
         <div
           style={{
             position: 'absolute', inset: 0,
@@ -304,7 +285,6 @@ const HeroPanel: React.FC = () => {
             background: 'rgba(0,0,0,0.72)',
           }}
         >
-          {/* Mini JSV core */}
           <motion.div initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
             {[0, 1].map(n => (
               <motion.div key={n} style={{
@@ -330,7 +310,6 @@ const HeroPanel: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Name */}
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}
             style={{ textAlign: 'center', lineHeight: 1.05 }}>
             <div className="font-black nx-flicker" style={{ fontSize: '2.1rem', color: '#00d4ff', textShadow: '0 0 20px rgba(0,212,255,0.6)', fontFamily: 'Inter, sans-serif' }}>
@@ -341,7 +320,6 @@ const HeroPanel: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Typewriter */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
             className="font-mono text-[11px] text-center" style={{ color: 'rgba(0,212,255,0.72)', letterSpacing: '0.06em', minHeight: '1.4em' }}>
             {typed}
@@ -349,17 +327,14 @@ const HeroPanel: React.FC = () => {
               style={{ background: '#00d4ff', animation: 'nx-flicker 1s step-end infinite' }} />
           </motion.div>
 
-          {/* Location */}
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}
             className="font-mono text-[10px] text-center" style={{ color: 'rgba(255,255,255,0.26)', letterSpacing: '0.08em' }}>
             ◈ {personalInfo.location} · Remote / Hybrid
           </motion.p>
 
-          {/* Divider */}
           <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.5, duration: 0.5 }}
             style={{ height: 1, width: '80%', background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.5), transparent)' }} />
 
-          {/* Metrics 2×2 grid */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem', width: '100%', maxWidth: 320 }}>
             {metrics.map((m, i) => (
               <MetricCard key={m.label} value={m.value} suffix={m.suffix} label={m.label}
@@ -367,7 +342,6 @@ const HeroPanel: React.FC = () => {
             ))}
           </div>
 
-          {/* CTA buttons */}
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}
             style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%', maxWidth: 320 }}>
             <button
@@ -388,7 +362,6 @@ const HeroPanel: React.FC = () => {
             </a>
           </motion.div>
 
-          {/* Open-to-work */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
             className="flex items-center gap-2 font-mono text-[9px] text-center" style={{ color: '#00ff88' }}>
             <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.8 }}
@@ -398,7 +371,6 @@ const HeroPanel: React.FC = () => {
           </motion.div>
         </div>
       ) : (
-        /* ── DESKTOP: original right-side layout ── */
         <div
           style={{
             position: 'absolute',
@@ -411,77 +383,70 @@ const HeroPanel: React.FC = () => {
             background: 'linear-gradient(to left, rgba(0,0,0,0.92) 45%, rgba(0,0,0,0.68) 72%, transparent 100%)',
           }}
         >
-        {/* Name — chromatic aberration effect */}
-        <motion.div initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-          <div className="relative" style={{ lineHeight: 1.05 }}>
-            <div className="absolute font-black" style={{ fontSize: '3.4rem', color: '#ff006e', opacity: 0.2, transform: 'translateX(-3px)', top: 0, left: 0, whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>JAY SRAVAN</div>
-            <div className="absolute font-black" style={{ fontSize: '3.4rem', color: '#bd00ff', opacity: 0.2, transform: 'translateX(3px)', top: 0, left: 0, whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>JAY SRAVAN</div>
-            <div className="relative font-black nx-flicker" style={{ fontSize: '3.4rem', color: '#00d4ff', textShadow: '0 0 28px rgba(0,212,255,0.65)', whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>JAY SRAVAN</div>
+          <motion.div initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
+            <div className="relative" style={{ lineHeight: 1.05 }}>
+              <div className="absolute font-black" style={{ fontSize: '3.4rem', color: '#ff006e', opacity: 0.2, transform: 'translateX(-3px)', top: 0, left: 0, whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>JAY SRAVAN</div>
+              <div className="absolute font-black" style={{ fontSize: '3.4rem', color: '#bd00ff', opacity: 0.2, transform: 'translateX(3px)', top: 0, left: 0, whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>JAY SRAVAN</div>
+              <div className="relative font-black nx-flicker" style={{ fontSize: '3.4rem', color: '#00d4ff', textShadow: '0 0 28px rgba(0,212,255,0.65)', whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>JAY SRAVAN</div>
+            </div>
+            <div className="font-black" style={{ fontSize: '3.4rem', color: 'rgba(255,255,255,0.94)', textShadow: '0 0 16px rgba(255,255,255,0.15)', lineHeight: 1, whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>
+              VADLAMUDI
+            </div>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}
+            className="font-mono text-sm" style={{ color: 'rgba(0,212,255,0.72)', letterSpacing: '0.08em', minHeight: '1.5em' }}>
+            {typed}
+            <span className="inline-block w-0.5 h-4 ml-0.5 align-middle"
+              style={{ background: '#00d4ff', animation: 'nx-flicker 1s step-end infinite' }} />
+          </motion.div>
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
+            className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.26)', letterSpacing: '0.1em' }}>
+            ◈ {personalInfo.location} · Available Remote / Hybrid
+          </motion.p>
+
+          <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.7, duration: 0.65 }}
+            className="h-px origin-left" style={{ background: 'linear-gradient(90deg, rgba(0,212,255,0.5), transparent)' }} />
+
+          <div className="flex gap-2.5 flex-wrap">
+            {metrics.map((m, i) => (
+              <MetricCard key={m.label} value={m.value} suffix={m.suffix} label={m.label}
+                color={METRIC_COLORS[m.color] ?? '#00d4ff'} delay={0.8 + i * 0.1} />
+            ))}
           </div>
-          <div className="font-black" style={{ fontSize: '3.4rem', color: 'rgba(255,255,255,0.94)', textShadow: '0 0 16px rgba(255,255,255,0.15)', lineHeight: 1, whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>
-            VADLAMUDI
-          </div>
-        </motion.div>
 
-        {/* Typewriter subtitle */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}
-          className="font-mono text-sm" style={{ color: 'rgba(0,212,255,0.72)', letterSpacing: '0.08em', minHeight: '1.5em' }}>
-          {typed}
-          <span className="inline-block w-0.5 h-4 ml-0.5 align-middle"
-            style={{ background: '#00d4ff', animation: 'nx-flicker 1s step-end infinite' }} />
-        </motion.div>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.25 }}
+            className="flex gap-3 flex-wrap">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('nexus-navigate', { detail: 'contact' }))}
+              className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              style={{ background: 'rgba(255,0,110,0.12)', border: '1px solid rgba(255,0,110,0.55)', color: '#ff006e', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(255,0,110,0.15)' }}>
+              ► INITIATE CONTACT
+            </button>
+            <a href="https://www.linkedin.com/in/jaysravan-fullstack/" target="_blank" rel="noopener noreferrer"
+              className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95"
+              style={{ background: 'rgba(10,102,194,0.14)', border: '1px solid rgba(10,102,194,0.55)', color: '#0a66c2', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(10,102,194,0.15)' }}>
+              🔗 LINKEDIN
+            </a>
+            <a href="https://github.com/vjsravan" target="_blank" rel="noopener noreferrer"
+              className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95"
+              style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.35)', color: '#00d4ff', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(0,212,255,0.1)' }}>
+              ◈ GITHUB
+            </a>
+          </motion.div>
 
-        {/* Location */}
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
-          className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.26)', letterSpacing: '0.1em' }}>
-          ◈ {personalInfo.location} · Available Remote / Hybrid
-        </motion.p>
-
-        {/* Divider */}
-        <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.7, duration: 0.65 }}
-          className="h-px origin-left" style={{ background: 'linear-gradient(90deg, rgba(0,212,255,0.5), transparent)' }} />
-
-        {/* Metrics */}
-        <div className="flex gap-2.5 flex-wrap">
-          {metrics.map((m, i) => (
-            <MetricCard key={m.label} value={m.value} suffix={m.suffix} label={m.label}
-              color={METRIC_COLORS[m.color] ?? '#00d4ff'} delay={0.8 + i * 0.1} />
-          ))}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
+            className="flex items-center gap-2 font-mono text-[10px]" style={{ color: '#00ff88' }}>
+            <motion.div
+              animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.8 }}
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: '#00ff88', boxShadow: '0 0 6px #00ff88' }}
+            />
+            OPEN TO OPPORTUNITIES · Java Full Stack · AI Engineering
+          </motion.div>
         </div>
-
-        {/* CTA buttons */}
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.25 }}
-          className="flex gap-3 flex-wrap">
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent('nexus-navigate', { detail: 'contact' }))}
-            className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
-            style={{ background: 'rgba(255,0,110,0.12)', border: '1px solid rgba(255,0,110,0.55)', color: '#ff006e', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(255,0,110,0.15)' }}>
-            ► INITIATE CONTACT
-          </button>
-          <a href="https://www.linkedin.com/in/jaysravan-fullstack/" target="_blank" rel="noopener noreferrer"
-            className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95"
-            style={{ background: 'rgba(10,102,194,0.14)', border: '1px solid rgba(10,102,194,0.55)', color: '#0a66c2', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(10,102,194,0.15)' }}>
-            🔗 LINKEDIN
-          </a>
-          <a href="https://github.com/vjsravan" target="_blank" rel="noopener noreferrer"
-            className="font-mono text-xs px-5 py-2.5 rounded-lg transition-all hover:scale-105 active:scale-95"
-            style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.35)', color: '#00d4ff', letterSpacing: '0.1em', boxShadow: '0 0 14px rgba(0,212,255,0.1)' }}>
-            ◈ GITHUB
-          </a>
-        </motion.div>
-
-        {/* Open-to-work */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
-          className="flex items-center gap-2 font-mono text-[10px]" style={{ color: '#00ff88' }}>
-          <motion.div
-            animate={{ opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.8 }}
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ background: '#00ff88', boxShadow: '0 0 6px #00ff88' }}
-          />
-          OPEN TO OPPORTUNITIES · Java Full Stack · AI Engineering
-        </motion.div>
-      </div>
-      )} {/* end mobile ? ... : desktop */}
+      )}
     </div>
   );
 };

@@ -10,7 +10,7 @@ export default defineConfig({
   base,
   build: {
     outDir: 'dist',
-    minify: true,        // uses rolldown's built-in minifier (Vite 8 default)
+    minify: true,
     sourcemap: false,
     target: 'es2020',
     chunkSizeWarningLimit: 900,

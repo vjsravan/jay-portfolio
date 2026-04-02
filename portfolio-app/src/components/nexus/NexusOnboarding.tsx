@@ -25,7 +25,7 @@ const STEPS: StepDef[] = [
     id: 1, icon: '🌐', section: 'hero', arrowDir: 'down',
     label: 'PROFILE · STEP 1 of 5',
     title: 'The Tech Universe',
-    body: "The solar system visualises Jay's core tech stack — Angular 17, React, Spring WebFlux, Kafka and more orbiting the JSV core. 5+ years delivering high-throughput distributed systems across logistics & automotive finance.",
+    body: "The solar system visualises Jay's core tech stack — Angular 17, React, Spring WebFlux, Kafka and more orbiting the JSV core. 4+ years delivering high-throughput distributed systems across logistics & automotive finance.",
     color: '#00d4ff',
   },
   {
@@ -88,9 +88,7 @@ function buildPositions(): Array<{ x: number; y: number }> {
   ];
 }
 
-// ─────────────────────────────────────────────────────────────
-// NavSpotlight — pulsing ring on the sidebar nav icon
-// ─────────────────────────────────────────────────────────────
+// NavSpotlight — pulsing ring drawn over the sidebar nav icon during the tour
 const NavSpotlight: React.FC<{ pos: { x: number; y: number }; color: string }> = ({ pos, color }) => (
   <motion.div
     initial={{ opacity: 0, scale: 0.3 }}
@@ -124,9 +122,7 @@ const NavSpotlight: React.FC<{ pos: { x: number; y: number }; color: string }> =
   </motion.div>
 );
 
-// ──────────────────────────────────────────���──────────────────
-// AstroGuide — full-body SVG astronaut character
-// ─────────────────────────────────────────────────────────────
+// AstroGuide — animated SVG astronaut character
 const AstroGuide: React.FC<{
   color: string;
   isMoving: boolean;
@@ -304,9 +300,7 @@ const AstroGuide: React.FC<{
   );
 };
 
-// ─────────────────────────────────────────────────────────────
-// Down arrow — only used for step 1 (hero)
-// ─────────────────────────────────────────────────────────────
+// Animated down arrow — only used on step 1 (hero panel)
 const DownArrow: React.FC<{ color: string }> = ({ color }) => (
   <motion.div
     animate={{ y: [0, 10, 0] }}
@@ -332,9 +326,7 @@ const DownArrow: React.FC<{ color: string }> = ({ color }) => (
   </motion.div>
 );
 
-// ─────────────────────────────────────────────────────────────
 // Main component
-// ─────────────────────────────────────────────────────────────
 interface Props {
   onSectionHighlight: (s: BriefSection) => void;
   onNavigate: (s: BriefSection) => void;

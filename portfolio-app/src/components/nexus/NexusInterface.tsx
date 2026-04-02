@@ -63,10 +63,8 @@ const NexusInterface: React.FC = () => {
   return (
     <div className="fixed inset-0 overflow-hidden" style={{ background: '#000000' }}>
 
-      {/* ═══ SCANLINES ═══ */}
       <div className="nx-scanlines absolute inset-0 pointer-events-none z-10" style={{ opacity: 0.6 }} />
 
-      {/* ═══ TOP HEADER BAR ═══ */}
       <div
         className="absolute top-0 right-0 h-11 flex items-center justify-between px-4 z-30"
         style={{
@@ -76,7 +74,6 @@ const NexusInterface: React.FC = () => {
           backdropFilter: 'blur(20px)',
         }}
       >
-        {/* Left: Status info */}
         <div className="flex items-center gap-3">
           <motion.div
             animate={{ opacity: [1, 0.4, 1] }}
@@ -98,7 +95,6 @@ const NexusInterface: React.FC = () => {
           )}
         </div>
 
-        {/* Right: section + clock */}
         <div className="flex items-center gap-3">
           <motion.span
             key={active}
@@ -121,7 +117,6 @@ const NexusInterface: React.FC = () => {
         </div>
       </div>
 
-      {/* ═══ LEFT SIDEBAR — desktop only ═══ */}
       {!isMobile && (
       <div
         className="absolute left-0 top-0 bottom-0 z-30 flex flex-col items-center py-5 gap-1"
@@ -132,7 +127,7 @@ const NexusInterface: React.FC = () => {
           backdropFilter: 'blur(24px)',
         }}
       >
-        {/* NX Logo */}
+        {/* NX logo */}
         <div className="mb-5">
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center font-mono font-black text-sm nx-flicker"
@@ -147,10 +142,8 @@ const NexusInterface: React.FC = () => {
           </div>
         </div>
 
-        {/* Separator */}
         <div className="w-8 h-px mb-3" style={{ background: 'rgba(0,212,255,0.15)' }} />
 
-        {/* Nav items */}
         {NAV.map(({ id, label, Icon, color }) => {
           const isActive = active === id;
           return (
@@ -177,7 +170,6 @@ const NexusInterface: React.FC = () => {
                     : 'none',
                 }}
               >
-                {/* Active left-bar indicator */}
                 {isActive && (
                   <motion.div
                     layoutId="nav-indicator"
@@ -188,7 +180,6 @@ const NexusInterface: React.FC = () => {
                 <Icon size={17} />
               </motion.button>
 
-              {/* Tooltip */}
               <AnimatePresence>
                 {tooltip === id && (
                   <motion.div
@@ -211,7 +202,6 @@ const NexusInterface: React.FC = () => {
           );
         })}
 
-        {/* Bottom status pulse */}
         <div className="flex-1" />
         <div className="flex flex-col items-center gap-1.5">
           <motion.div
@@ -228,9 +218,8 @@ const NexusInterface: React.FC = () => {
           </span>
         </div>
       </div>
-      )} {/* end !isMobile sidebar */}
+      )}
 
-      {/* ═══ MAIN CONTENT AREA ═══ */}
       <div
         className="absolute z-20 overflow-hidden"
         style={{
@@ -253,7 +242,6 @@ const NexusInterface: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      {/* ═══ BOTTOM STATUS BAR — desktop only ═══ */}
       {!isMobile && (
       <div
         className="absolute bottom-0 left-16 right-0 h-7 flex items-center overflow-hidden z-30"
@@ -262,7 +250,6 @@ const NexusInterface: React.FC = () => {
           borderTop: '1px solid rgba(0,212,255,0.1)',
         }}
       >
-        {/* Scrolling ticker */}
         <div className="flex-1 overflow-hidden h-full flex items-center">
           <div
             className="font-mono text-[9px] whitespace-nowrap flex gap-10"
@@ -273,11 +260,10 @@ const NexusInterface: React.FC = () => {
           </div>
         </div>
 
-        {/* Right status chips */}
         <div className="flex items-center gap-3 px-4 flex-shrink-0 border-l" style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
           {[
             { label: 'AWS CERTIFIED', color: '#f59e0b' },
-            { label: '6+ YRS', color: '#00d4ff' },
+            { label: '4+ YRS', color: '#00d4ff' },
             { label: 'TENSORFLOW · MLOPS', color: '#bd00ff' },
             { label: 'OPEN TO WORK', color: '#00ff88' },
           ].map(({ label, color }) => (
@@ -291,9 +277,8 @@ const NexusInterface: React.FC = () => {
           </span>
         </div>
       </div>
-      )} {/* end !isMobile ticker */}
+      )}
 
-      {/* ═══ BOTTOM NAV — mobile only ═══ */}
       {isMobile && (
         <div
           className="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-around px-1"
@@ -326,9 +311,8 @@ const NexusInterface: React.FC = () => {
             );
           })}
         </div>
-      )} {/* end isMobile bottom nav */}
+      )}
 
-      {/* ── Guided onboarding briefing — desktop only ── */}
       {!isMobile && (
         <NexusOnboarding
           onSectionHighlight={(s) => setBriefHighlight(s)}

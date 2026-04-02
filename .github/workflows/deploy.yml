@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ── 1. Build ────────────────────────────────────────────────────────────────
+  # 1. Build
   build:
     runs-on: ubuntu-latest
 
@@ -49,13 +49,16 @@ jobs:
         working-directory: portfolio-app
         env:
           VITE_BASE_PATH: /jay-portfolio/
+          # Injected from GitHub Secrets — never visible in logs or source code
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
+          VITE_WEB3FORMS_KEY: ${{ secrets.VITE_WEB3FORMS_KEY }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: portfolio-app/dist
 
-  # ── 2. Deploy ───────────────────────────────────────────────────────────────
+  #2. Deploy
   deploy:
     needs: build
     runs-on: ubuntu-latest
