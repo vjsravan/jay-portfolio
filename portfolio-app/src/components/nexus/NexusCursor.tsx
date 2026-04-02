@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * Zero-lag cursor.
- * Key fix: ring WRAPPER handles translate3d (positioning), inner
- * ring elements use CSS animation only (rotation). Separating these
- * prevents the animation from clobbering the JS-set transform.
+ * NexusCursor — custom reticle cursor with lerp-smoothed ring and instant centre dot.
+ *
+ * The ring wrapper handles translate3d positioning only; inner arcs rotate via CSS
+ * animation exclusively. Separating the two prevents CSS animation from clobbering
+ * the JS-driven transform.
  */
 const NexusCursor: React.FC = () => {
   const [visible, setVisible] = useState(false);

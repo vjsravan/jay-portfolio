@@ -53,7 +53,7 @@ const ExperiencePanel: React.FC = () => {
 
     runCycle();
     return () => ids.forEach(clearTimeout);
-  }, []);;
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col overflow-y-auto nx-scroll" style={{ padding: isMobile ? '1rem' : '1.5rem 2rem' }}>

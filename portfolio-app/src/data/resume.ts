@@ -6,7 +6,7 @@ export const personalInfo = {
   linkedin: "https://www.linkedin.com/in/jaysravan-fullstack/",
   github: "https://github.com/vjsravan",
   location: "New Jersey, USA",
-  yearsOfExperience: 5,
+  yearsOfExperience: 4,
   summary: `Senior Software Engineer with 5+ years of experience designing and scaling distributed systems
 across logistics and financial domains. Specialized in Java, Spring Boot, Reactive Systems, and
 Microservices Architecture, with strong expertise in event-driven platforms, cloud-native deployments,
@@ -15,7 +15,7 @@ and high-throughput processing. Delivered measurable impact including 30–40% p
 100K+ transactions weekly. Actively targeting AI Engineering roles — passionate about building
 intelligent, data-driven systems.`,
   aiSummary: `Production-grade distributed systems at scale: 25+ microservices at UPS, reactive pipelines with
-Project Reactor, LLM-based portfolio AI assistant, MLflow/MLops integrations, and GitHub Copilot at
+Project Reactor, live AI portfolio assistant powered by Google Gemini API with RAG-style context, MLflow/MLops integrations, and GitHub Copilot at
 enterprise scale. Goal: Java Full Stack → AI/ML Engineering Lead.`,
 };
 
@@ -149,7 +149,7 @@ export const certifications = [
 ];
 
 export const metrics = [
-  { value: 5, suffix: "+", label: "Years Experience", color: "cyan" },
+  { value: 4, suffix: "+", label: "Years Experience", color: "cyan" },
   { value: 25, suffix: "+", label: "Microservices Built", color: "purple" },
   { value: 99, suffix: ".9%", label: "System Uptime", color: "green" },
   { value: 50, suffix: "%", label: "CI/CD Time Reduction", color: "orange" },
@@ -160,8 +160,8 @@ export const projects = [
     id: 1,
     title: "Jay Nexus AI Portfolio Platform",
     subtitle: "React · TypeScript · Framer Motion · Canvas — Personal Project 2026",
-    description: "High-impact portfolio platform with interactive AI-focused experiences: boot sequence, neural graph, skills system, project panels, and guided onboarding. Features requestAnimationFrame-driven animation and an LLM AI assistant.",
-    tech: ["React", "TypeScript", "Framer Motion", "Canvas Animation", "OpenAI API", "RAG Concepts"],
+    description: "High-impact portfolio platform with interactive AI-focused experiences: boot sequence, neural graph, skills system, project panels, and guided onboarding. Features a live AI assistant powered by Google Gemini API with RAG-style context, requestAnimationFrame-driven animation, and responsive design.",
+    tech: ["React", "TypeScript", "Framer Motion", "Canvas Animation", "Gemini API", "RAG Concepts"],
     metric: "Live",
     metricLabel: "Production",
     color: "#00d4ff",
@@ -215,7 +215,7 @@ ABOUT JAY:
 - Email: jay.sravan.dev@gmail.com
 - LinkedIn: https://www.linkedin.com/in/jaysravan-fullstack/
 - GitHub: https://github.com/vjsravan
-- 5+ years of enterprise Java Full Stack and distributed systems experience
+- 4+ years of enterprise Java Full Stack and distributed systems experience
 - Education: Master's in Computer and Information Science, Western Illinois University (2021)
 - AWS Certified Developer – Associate
 - Career goal: Java Full Stack → AI/ML Engineering Lead

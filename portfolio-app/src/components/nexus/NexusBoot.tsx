@@ -6,7 +6,7 @@ const BOOT_LINES = [
   { text: '► Scanning neural signature matrix...', color: 'rgba(0,212,255,0.55)' },
   { text: '► Authenticating clearance level ALPHA...', color: 'rgba(0,212,255,0.55)' },
   { text: '► SUBJECT IDENTIFIED: JAY SRAVAN VADLAMUDI', color: '#00d4ff' },
-  { text: '► Mapping 6+ years of operational data...', color: 'rgba(0,212,255,0.55)' },
+  { text: '► Mapping 4+ years of operational data...', color: 'rgba(0,212,255,0.55)' },
   { text: '► TensorFlow · MLflow · MLops — AI/ML MODULES DETECTED ✓', color: '#bd00ff' },
   { text: '► AWS Certification: ████████████ VERIFIED ✓', color: '#00ff88' },
   { text: '► Target roles: Java Full Stack  ·  AI Engineering', color: '#00ff88' },
@@ -69,10 +69,8 @@ const NexusBoot: React.FC<Props> = ({ onComplete }) => {
       animate={phase === 'flash' ? { opacity: 0 } : {}}
       transition={{ duration: 0.7, delay: 1 }}
     >
-      {/* Scanlines */}
       <div className="nx-scanlines absolute inset-0 pointer-events-none z-10" />
 
-      {/* Corner brackets */}
       {(['tl','tr','bl','br'] as const).map((pos) => (
         <motion.div
           key={pos}
@@ -93,8 +91,8 @@ const NexusBoot: React.FC<Props> = ({ onComplete }) => {
         />
       ))}
 
-      {/* Title */}
-      <motion.div
+        {/* Title */}
+        <motion.div
         initial={{ opacity: 0, y: -24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -116,7 +114,6 @@ const NexusBoot: React.FC<Props> = ({ onComplete }) => {
         >
           VADLAMUDI INTELLIGENCE SYSTEM · v2.0.26
         </p>
-        {/* Decorative line */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -126,7 +123,6 @@ const NexusBoot: React.FC<Props> = ({ onComplete }) => {
         />
       </motion.div>
 
-      {/* Boot log */}
       <div className="w-[540px] font-mono text-[13px] space-y-[6px] mb-8">
         {BOOT_LINES.slice(0, visibleLines).map((line, i) => (
           <motion.div
@@ -150,7 +146,6 @@ const NexusBoot: React.FC<Props> = ({ onComplete }) => {
         ))}
       </div>
 
-      {/* Progress bar */}
       <AnimatePresence>
         {phase !== 'lines' && (
           <motion.div
@@ -183,7 +178,6 @@ const NexusBoot: React.FC<Props> = ({ onComplete }) => {
         )}
       </AnimatePresence>
 
-      {/* NEXUS ONLINE flash */}
       <AnimatePresence>
         {showFlash && (
           <motion.div
