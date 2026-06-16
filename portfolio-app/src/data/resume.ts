@@ -6,7 +6,7 @@ export const personalInfo = {
   linkedin: "https://www.linkedin.com/in/jaysravan-fullstack/",
   github: "https://github.com/vjsravan",
   location: "New Jersey, USA",
-  yearsOfExperience: 4,
+  yearsOfExperience: 5,
   summary: `Senior Software Engineer with 5+ years of experience designing and scaling distributed systems
 across logistics and financial domains. Specialized in Java, Spring Boot, Reactive Systems, and
 Microservices Architecture, with strong expertise in event-driven platforms, cloud-native deployments,
@@ -149,7 +149,7 @@ export const certifications = [
 ];
 
 export const metrics = [
-  { value: 4, suffix: "+", label: "Years Experience", color: "cyan" },
+  { value: 5, suffix: "+", label: "Years Experience", color: "cyan" },
   { value: 25, suffix: "+", label: "Microservices Built", color: "purple" },
   { value: 99, suffix: ".9%", label: "System Uptime", color: "green" },
   { value: 50, suffix: "%", label: "CI/CD Time Reduction", color: "orange" },
