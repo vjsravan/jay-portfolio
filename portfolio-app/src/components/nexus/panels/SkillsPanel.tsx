@@ -9,13 +9,9 @@ const CATEGORIES = [
   { key: 'frontend',  label: 'Frontend',         color: '#bd00ff', items: skills.frontend },
   { key: 'backend',   label: 'Backend',          color: '#ff6b00', items: skills.backend },
   { key: 'cloud',     label: 'Cloud & DevOps',   color: '#00ff88', items: skills.cloud },
-  { key: 'devops',    label: 'DevOps',           color: '#f59e0b', items: skills.devops },
   { key: 'databases', label: 'Databases',        color: '#ffd700', items: skills.databases },
   { key: 'messaging', label: 'Messaging',        color: '#00d4ff', items: skills.messaging },
-  { key: 'observability', label: 'Observability', color: '#8b5cf6', items: skills.observability },
-  { key: 'testing',   label: 'Testing',          color: '#22c55e', items: skills.testing },
   { key: 'security',  label: 'Security',         color: '#ff006e', items: skills.security },
-  { key: 'methods',   label: 'Methods & Tools',  color: '#38bdf8', items: skills.methods },
 ] as const;
 
 const container = {
@@ -112,3 +108,4 @@ const SkillsPanel: React.FC = () => {
 };
 
 export default SkillsPanel;
+
