@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, MapPin, Phone, Copy, Check, ExternalLink, Send, Loader2, AlertCircle } from 'lucide-react';
+import { Mail, MapPin, Copy, Check, ExternalLink, Send, Loader2, AlertCircle } from 'lucide-react';
 import { personalInfo, certifications } from '../../../data/resume';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 
@@ -192,11 +192,6 @@ const ContactPanel: React.FC = () => {
               style={{ color: 'rgba(255,255,255,0.3)' }}>
               <MapPin size={9} />
               {personalInfo.location} · Remote & Hybrid
-            </div>
-            <div className="flex items-center gap-1.5 mt-1 font-mono text-[10px]"
-              style={{ color: 'rgba(255,255,255,0.3)' }}>
-              <Phone size={9} />
-              {personalInfo.phone}
             </div>
           </motion.div>
 
@@ -411,3 +406,4 @@ const ContactPanel: React.FC = () => {
 };
 
 export default ContactPanel;
+
