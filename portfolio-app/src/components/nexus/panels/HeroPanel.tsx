@@ -95,15 +95,15 @@ const ORBIT_RINGS: OrbitRing[] = [
       { icon: '⚛️', label: 'React',      color: '#00d4ff' },
       { icon: '🅰',  label: 'Angular',    color: '#ff006e' },
       { icon: 'TS',  label: 'TypeScript', color: '#4499ff', isText: true },
-      { icon: '💚',  label: 'Vue.js',     color: '#00ff88' },
+      { icon: 'GQL', label: 'GraphQL',    color: '#00ff88', isText: true },
     ],
   },
   {
     radius: 258, duration: 24, ringColor: 'rgba(0,212,255,0.19)', dashed: false,
     symbols: [
-      { icon: '🧠', label: 'TensorFlow', color: '#f59e0b' },
-      { icon: '📊', label: 'MLflow',     color: '#00d4ff' },
+      { icon: 'GCP', label: 'GCP',       color: '#00d4ff', isText: true },
       { icon: '☁️', label: 'AWS',        color: '#f59e0b' },
+      { icon: '☸️', label: 'Kubernetes', color: '#00d4ff' },
       { icon: '🐳', label: 'Docker',     color: '#00d4ff' },
       { icon: '⚡', label: 'Kafka',      color: '#ff6b00' },
     ],
@@ -111,11 +111,11 @@ const ORBIT_RINGS: OrbitRing[] = [
   {
     radius: 344, duration: 35, ringColor: 'rgba(255,0,110,0.16)', dashed: true,
     symbols: [
-      { icon: '🤖', label: 'MLops',      color: '#ff006e' },
+      { icon: 'RED', label: 'Redis',     color: '#ff006e', isText: true },
       { icon: '🔶', label: 'OpenShift',  color: '#bd00ff' },
       { icon: '🐘', label: 'PostgreSQL', color: '#4499ff' },
       { icon: '🐪', label: 'Camel',      color: '#ff8c00' },
-      { icon: '🐍', label: 'Python',     color: '#ffd700' },
+      { icon: 'VT',  label: 'Virtual Threads', color: '#ffd700', isText: true },
     ],
   },
 ];
@@ -174,7 +174,7 @@ const HeroPanel: React.FC = () => {
       if (i >= fullTitle.length) clearInterval(t);
     }, 42);
     return () => clearInterval(t);
-  }, [ready]);
+  }, [ready, fullTitle]);
 
   return (
     <div className="w-full h-full relative overflow-hidden">
@@ -452,4 +452,3 @@ const HeroPanel: React.FC = () => {
 };
 
 export default HeroPanel;
-
