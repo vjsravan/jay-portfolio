@@ -90,7 +90,7 @@ const ExperiencePanel: React.FC = () => {
               width="100%" height="30"
               viewBox="0 0 1000 30"
               preserveAspectRatio="none"
-              style={{ position: 'absolute', top: 5, left: 0, overflow: 'visible', zIndex: 5, pointerEvents: 'none' }}
+              style={{ position: 'absolute', top: -2, left: 0, overflow: 'visible', zIndex: 0, pointerEvents: 'none' }}
             >
               <defs>
                 <filter id="hb-glow" x="-20%" y="-150%" width="140%" height="400%">
@@ -150,13 +150,27 @@ const ExperiencePanel: React.FC = () => {
                 key={ex.id}
                 onClick={() => setSelected(ex.id)}
                 data-hover
-                className="flex flex-col items-center gap-2"
+                className="relative flex flex-col items-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
               >
+                {isBeating && (
+                  <motion.div
+                    key={`beat-${idx}-${hbState.curr}`}
+                    className="absolute left-1/2 top-[-14px] h-2 w-2 rounded-full"
+                    initial={{ scale: 0.75, opacity: 0.95, x: '-50%' }}
+                    animate={{ scale: 1.9, opacity: 0, x: '-50%' }}
+                    transition={{ duration: 0.65, ease: 'easeOut' }}
+                    style={{
+                      background: ex.color,
+                      boxShadow: `0 0 12px ${ex.color}, 0 0 24px ${ex.color}70`,
+                    }}
+                  />
+                )}
+
                 {/* Node */}
                 <motion.div
-                  className="w-10 h-10 rounded-full flex items-center justify-center font-mono text-xl relative"
+                  className="w-10 h-10 rounded-full flex items-center justify-center font-mono text-xl relative z-10"
                   animate={{
                     boxShadow: isActive
                       ? `0 0 0 2px ${ex.color}, 0 0 20px ${ex.color}60`
@@ -180,18 +194,6 @@ const ExperiencePanel: React.FC = () => {
                       layoutId="exp-active"
                       className="absolute inset-0 rounded-full"
                       style={{ background: `${ex.color}15`, border: `1px solid ${ex.color}` }}
-                    />
-                  )}
-
-                  {/* Expanding pulse ring when the ECG draw-head arrives */}
-                  {isBeating && !isActive && (
-                    <motion.div
-                      key={`pulse-${hbState.curr}`}
-                      className="absolute inset-0 rounded-full"
-                      initial={{ scale: 0.9, opacity: 0.9 }}
-                      animate={{ scale: 2.4, opacity: 0 }}
-                      transition={{ duration: 1.1, ease: 'easeOut' }}
-                      style={{ border: `1.5px solid ${ex.color}` }}
                     />
                   )}
 
@@ -376,4 +378,3 @@ const ExperiencePanel: React.FC = () => {
 };
 
 export default ExperiencePanel;
-

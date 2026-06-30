@@ -13,24 +13,50 @@ const NexusBackground: React.FC = () => {
   const mouseRef  = useRef({ x: -1000, y: -1000 });
   const rafRef    = useRef<number>(0);
   const timeRef   = useRef(0);
+  const sizeRef   = useRef({ width: 0, height: 0 });
+  const lastFrameRef = useRef(0);
+  const gridRef   = useRef<{ x: number; y: number }[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
     const ctx    = canvas.getContext('2d')!;
 
     const resize = () => {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      sizeRef.current = { width, height };
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const hexSize = 55;
+      const hexW = hexSize * 2;
+      const hexH = Math.sqrt(3) * hexSize;
+      const grid: { x: number; y: number }[] = [];
+      for (let row = -1; row < height / (hexH * 0.75) + 1; row++) {
+        for (let col = -1; col < width / hexW + 2; col++) {
+          grid.push({
+            x: col * hexW + (row % 2 === 0 ? 0 : hexSize),
+            y: row * hexH * 0.75,
+          });
+        }
+      }
+      gridRef.current = grid;
     };
     resize();
     window.addEventListener('resize', resize);
 
     const onMouse = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
     };
-    window.addEventListener('mousemove', onMouse);
+    window.addEventListener('mousemove', onMouse, { passive: true });
 
-    const COUNT = 65;
+    const COUNT = 48;
     const particles: Particle[] = Array.from({ length: COUNT }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
@@ -43,38 +69,37 @@ const NexusBackground: React.FC = () => {
 
     const drawHexGrid = () => {
       const size  = 55;
-      const w     = size * 2;
-      const h     = Math.sqrt(3) * size;
       const mouse = mouseRef.current;
 
-      for (let row = -1; row < canvas.height / (h * 0.75) + 1; row++) {
-        for (let col = -1; col < canvas.width / w + 2; col++) {
-          const cx   = col * w + (row % 2 === 0 ? 0 : size);
-          const cy   = row * h * 0.75;
-          const dx   = cx - mouse.x;
-          const dy   = cy - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const glow = dist < 200 ? (1 - dist / 200) * 0.07 : 0;
+      for (const cell of gridRef.current) {
+        const dx   = cell.x - mouse.x;
+        const dy   = cell.y - mouse.y;
+        const distSq = dx * dx + dy * dy;
+        const glow = distSq < 40000 ? (1 - Math.sqrt(distSq) / 200) * 0.07 : 0;
 
-          ctx.beginPath();
-          for (let i = 0; i < 6; i++) {
-            const angle = (Math.PI / 3) * i - Math.PI / 6;
-            const px    = cx + size * Math.cos(angle);
-            const py    = cy + size * Math.sin(angle);
-            if (i === 0) ctx.moveTo(px, py);
-            else ctx.lineTo(px, py);
-          }
-          ctx.closePath();
-          ctx.strokeStyle = `rgba(0, 212, 255, ${0.028 + glow})`;
-          ctx.lineWidth   = 0.5;
-          ctx.stroke();
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const angle = (Math.PI / 3) * i - Math.PI / 6;
+          const px    = cell.x + size * Math.cos(angle);
+          const py    = cell.y + size * Math.sin(angle);
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
         }
+        ctx.closePath();
+        ctx.strokeStyle = `rgba(0, 212, 255, ${0.028 + glow})`;
+        ctx.lineWidth   = 0.5;
+        ctx.stroke();
       }
     };
 
-    const animate = () => {
+    const animate = (now = 0) => {
+      rafRef.current = requestAnimationFrame(animate);
+      if (now - lastFrameRef.current < 1000 / 30) return;
+      lastFrameRef.current = now;
+
+      const { width, height } = sizeRef.current;
       timeRef.current += 0.005;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, width, height);
       drawHexGrid();
 
       const mouse = mouseRef.current;
@@ -82,15 +107,16 @@ const NexusBackground: React.FC = () => {
       particles.forEach((p, i) => {
         p.x += p.vx;
         p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
 
         const mdx = p.x - mouse.x;
         const mdy = p.y - mouse.y;
-        const md  = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (md < 110 && md > 0) {
+        const mdSq = mdx * mdx + mdy * mdy;
+        if (mdSq < 12100 && mdSq > 0) {
+          const md = Math.sqrt(mdSq);
           p.vx += (mdx / md) * 0.018;
           p.vy += (mdy / md) * 0.018;
         }
@@ -104,8 +130,9 @@ const NexusBackground: React.FC = () => {
           const p2   = particles[j];
           const dx   = p2.x - p.x;
           const dy   = p2.y - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 135) {
+          const distSq = dx * dx + dy * dy;
+          if (distSq < 18225) {
+            const dist = Math.sqrt(distSq);
             const alpha = (1 - dist / 135) * 0.16;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
@@ -118,8 +145,8 @@ const NexusBackground: React.FC = () => {
           }
         }
 
-        const distM = Math.sqrt((p.x - mouse.x) ** 2 + (p.y - mouse.y) ** 2);
-        const gf    = distM < 120 ? 1 - distM / 120 : 0;
+        const distMSq = (p.x - mouse.x) ** 2 + (p.y - mouse.y) ** 2;
+        const gf      = distMSq < 14400 ? 1 - Math.sqrt(distMSq) / 120 : 0;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius + gf * 2.5, 0, Math.PI * 2);
@@ -137,8 +164,6 @@ const NexusBackground: React.FC = () => {
           ctx.fill();
         }
       });
-
-      rafRef.current = requestAnimationFrame(animate);
     };
 
     animate();
@@ -160,4 +185,3 @@ const NexusBackground: React.FC = () => {
 };
 
 export default NexusBackground;
-
