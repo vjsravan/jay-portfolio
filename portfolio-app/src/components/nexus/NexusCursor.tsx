@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * NexusCursor — custom reticle cursor with lerp-smoothed ring and instant centre dot.
+ * NexusCursor — custom reticle cursor with fast-follow ring and instant centre dot.
  *
  * The ring wrapper handles translate3d positioning only; inner arcs rotate via CSS
  * animation exclusively. Separating the two prevents CSS animation from clobbering
@@ -38,7 +38,7 @@ const NexusCursor: React.FC = () => {
 
   /* ── single RAF loop, never restarts ── */
   useEffect(() => {
-    const LERP = 0.13;
+    const LERP = 0.55;
 
     const onMove = (e: MouseEvent) => {
       target.current.x = e.clientX;
@@ -55,7 +55,7 @@ const NexusCursor: React.FC = () => {
     const onLeave = () => { visRef.current = false; setVisible(false); };
     const onEnter = () => { visRef.current = true;  setVisible(true); };
 
-    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('mouseover', onOver, { passive: true });
     window.addEventListener('mousedown', onDown);
     window.addEventListener('mouseup',   onUp);
@@ -144,7 +144,7 @@ const NexusCursor: React.FC = () => {
 
     return () => {
       cancelAnimationFrame(rafId.current);
-      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('pointermove', onMove);
       window.removeEventListener('mouseover', onOver);
       window.removeEventListener('mousedown', onDown);
       window.removeEventListener('mouseup', onUp);
@@ -244,4 +244,3 @@ const NexusCursor: React.FC = () => {
 };
 
 export default NexusCursor;
-
