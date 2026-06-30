@@ -18,7 +18,7 @@ const STEPS: StepDef[] = [
     id: 0, icon: '⬡', section: null, arrowDir: 'none',
     label: 'NEXUS PROTOCOL · PROFILE BRIEF',
     title: 'Welcome, Visitor.',
-    body: "You're accessing the intelligence system of Jay Sravan Vadlamudi — Sr. Software Development Engineer specialising in Java Full Stack, Distributed Systems & AI Engineering. Let me walk you through this portfolio in 5 quick steps.",
+    body: "You're accessing the intelligence system of Jay Sravan Vadlamudi — Senior Software Engineer focused on Distributed Systems, Cloud-Native Architecture, Full Stack engineering & AI Engineering. Let me walk you through this portfolio in 5 quick steps.",
     color: '#00d4ff',
   },
   {
@@ -342,7 +342,10 @@ const NexusOnboarding: React.FC<Props> = ({ onSectionHighlight, onNavigate }) =>
     typeof window !== 'undefined' ? buildPositions() : STEPS.map(() => ({ x: 0, y: 0 }))
   );
   const stepRef = useRef(0);
-  stepRef.current = step;
+
+  useEffect(() => {
+    stepRef.current = step;
+  }, [step]);
 
   // Show once per visitor — gate via localStorage
   useEffect(() => {
@@ -365,12 +368,14 @@ const NexusOnboarding: React.FC<Props> = ({ onSectionHighlight, onNavigate }) =>
     if (stepRef.current >= STEPS.length - 1) { dismiss(); return; }
     setIsMoving(true);
     setTimeout(() => setIsMoving(false), 650);
+    setProg(0);
     setStep(s => s + 1);
   }, [dismiss]);
 
   const prev = useCallback(() => {
     setIsMoving(true);
     setTimeout(() => setIsMoving(false), 650);
+    setProg(0);
     setStep(s => Math.max(0, s - 1));
   }, []);
 
@@ -384,7 +389,6 @@ const NexusOnboarding: React.FC<Props> = ({ onSectionHighlight, onNavigate }) =>
   // Auto-advance every ~9 s
   useEffect(() => {
     if (!show) return;
-    setProg(0);
     let p = 0;
     const iv = setInterval(() => {
       p += 1; setProg(p);
@@ -552,4 +556,3 @@ const NexusOnboarding: React.FC<Props> = ({ onSectionHighlight, onNavigate }) =>
 };
 
 export default NexusOnboarding;
-
