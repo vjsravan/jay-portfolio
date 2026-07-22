@@ -25,7 +25,7 @@ const STEPS: StepDef[] = [
     id: 1, icon: '🌐', section: 'hero', arrowDir: 'down',
     label: 'PROFILE · STEP 1 of 5',
     title: 'The Tech Universe',
-    body: "The solar system visualises Jay's core tech stack — Angular 17, React, Spring WebFlux, Kafka and more orbiting the JSV core. 4+ years delivering high-throughput distributed systems across logistics & automotive finance.",
+    body: "The solar system visualises Jay's core tech stack — Angular 17, React, Spring WebFlux, Kafka and more orbiting the JSV core. 6+ years delivering high-throughput distributed systems across logistics & automotive finance.",
     color: '#00d4ff',
   },
   {

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { User, Briefcase, Code2, FolderOpen, Brain, Mail } from 'lucide-react';
+import { User, Briefcase, Code2, FolderOpen, Brain, Mail, SquareTerminal } from 'lucide-react';
 
 import HeroPanel from './panels/HeroPanel';
+import VisitorBadge from './VisitorBadge';
+import NexusTerminal from './NexusTerminal';
 import ExperiencePanel from './panels/ExperiencePanel';
 import SkillsPanel from './panels/SkillsPanel';
 import ProjectsPanel from './panels/ProjectsPanel';
@@ -96,6 +98,7 @@ const NexusInterface: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <VisitorBadge compact={isMobile} />
           <motion.span
             key={active}
             initial={{ opacity: 0, y: -6 }}
@@ -109,6 +112,21 @@ const NexusInterface: React.FC = () => {
           >
             {activeNav.label}
           </motion.span>
+          <motion.button
+            onClick={() => window.dispatchEvent(new Event('nexus-terminal'))}
+            data-hover
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.9 }}
+            title="Open terminal (`)"
+            className="w-6 h-6 rounded flex items-center justify-center"
+            style={{
+              background: 'rgba(0,255,136,0.07)',
+              border: '1px solid rgba(0,255,136,0.28)',
+              color: '#00ff88',
+            }}
+          >
+            <SquareTerminal size={13} />
+          </motion.button>
           {!isMobile && (
             <span className="font-mono text-[11px]" style={{ color: 'rgba(0,212,255,0.28)' }}>
               SYS · {clock}
@@ -263,9 +281,10 @@ const NexusInterface: React.FC = () => {
         <div className="flex items-center gap-3 px-4 flex-shrink-0 border-l" style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
           {[
             { label: 'AWS CERTIFIED', color: '#f59e0b' },
-            { label: '4+ YRS', color: '#00d4ff' },
+            { label: '6+ YRS', color: '#00d4ff' },
             { label: 'TENSORFLOW · MLOPS', color: '#bd00ff' },
             { label: 'OPEN TO WORK', color: '#00ff88' },
+            { label: 'PRESS ` FOR TERMINAL', color: '#ff006e' },
           ].map(({ label, color }) => (
             <div key={label} className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 rounded-full" style={{ background: color, boxShadow: `0 0 4px ${color}` }} />
@@ -312,6 +331,8 @@ const NexusInterface: React.FC = () => {
           })}
         </div>
       )}
+
+      <NexusTerminal />
 
       {!isMobile && (
         <NexusOnboarding
