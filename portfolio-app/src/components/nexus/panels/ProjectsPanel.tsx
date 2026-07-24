@@ -82,6 +82,24 @@ const ProjectsPanel: React.FC = () => {
                           FEATURED
                         </span>
                       )}
+                      {proj.demo && (
+                        <a
+                          href={proj.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          data-hover
+                          onClick={e => e.stopPropagation()}
+                          className="font-mono text-[9px] px-1.5 py-0.5 rounded transition-opacity hover:opacity-70"
+                          style={{
+                            background: `${proj.color}28`,
+                            color: proj.color,
+                            border: `1px solid ${proj.color}70`,
+                            boxShadow: `0 0 8px ${proj.color}30`,
+                          }}
+                        >
+                          ▶ DEMO
+                        </a>
+                      )}
                       {proj.repo && (
                         <a
                           href={proj.repo}
