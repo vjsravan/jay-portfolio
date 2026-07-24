@@ -73,14 +73,33 @@ const ProjectsPanel: React.FC = () => {
                   {/* Icon + featured badge */}
                   <div className="flex items-start justify-between">
                     <span className="text-2xl">{proj.icon}</span>
-                    {proj.featured && (
-                      <span
-                        className="font-mono text-[9px] px-1.5 py-0.5 rounded"
-                        style={{ background: `${proj.color}20`, color: proj.color, border: `1px solid ${proj.color}40` }}
-                      >
-                        FEATURED
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1.5">
+                      {proj.featured && (
+                        <span
+                          className="font-mono text-[9px] px-1.5 py-0.5 rounded"
+                          style={{ background: `${proj.color}20`, color: proj.color, border: `1px solid ${proj.color}40` }}
+                        >
+                          FEATURED
+                        </span>
+                      )}
+                      {proj.repo && (
+                        <a
+                          href={proj.repo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          data-hover
+                          onClick={e => e.stopPropagation()}
+                          className="font-mono text-[9px] px-1.5 py-0.5 rounded transition-opacity hover:opacity-70"
+                          style={{
+                            background: `${proj.color}12`,
+                            color: proj.color,
+                            border: `1px solid ${proj.color}35`,
+                          }}
+                        >
+                          ◈ CODE
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                   {/* Title */}
