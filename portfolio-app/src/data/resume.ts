@@ -266,6 +266,20 @@ export const projects = [
   },
   {
     id: 3,
+    title: "flowsim — Message Delivery Simulator",
+    subtitle: "Distributed Systems · Java 21 · 2026",
+    description: "Deterministic simulation testing for message-driven consumers. Injects duplicates, crash-before-ack redelivery and cross-partition reordering, then shrinks any failure to a minimal reproduction — a 5-step counterexample reduced to 2 steps and 1 message. Built from the failure modes that dominate real Kafka, ActiveMQ and IBM MQ integrations.",
+    tech: ["Java 21", "Deterministic Simulation", "Idempotency", "Kafka / MQ Semantics", "Property Testing", "Shrinking"],
+    metric: "2",
+    metricLabel: "Steps · shrunk from 5",
+    color: "#f59e0b",
+    icon: "🔀",
+    featured: true,
+    repo: "https://github.com/vjsravan/flowsim",
+    demo: "https://vjsravan.github.io/flowsim/",
+  },
+  {
+    id: 4,
     title: "contextlens — Context Window Forensics",
     subtitle: "AI Debugging Tooling · Python · 2026",
     description: "Shows what actually went into a model's context window: which source contributed which tokens, what got evicted under budget pressure, and why. Detects prompt-injection surface in untrusted retrieved content, lost-in-the-middle positioning, near-duplicate chunks, and packing failures misdiagnosed as retrieval failures.",
@@ -279,7 +293,7 @@ export const projects = [
     demo: "https://vjsravan.github.io/context-lens/",
   },
   {
-    id: 4,
+    id: 5,
     title: "agentreplay — Agent Time-Travel Debugger",
     subtitle: "AI Debugging Tooling · Python · 2026",
     description: "Deterministic record, replay and fork for LLM agent runs. Re-runs a failed agent offline with zero API calls, locates the exact step where behaviour diverged, and answers counterfactuals — replay the prefix byte for byte, substitute one tool result, let the rest run live.",
@@ -293,7 +307,7 @@ export const projects = [
     demo: "https://vjsravan.github.io/agent-replay/",
   },
   {
-    id: 5,
+    id: 6,
     title: "Jay Nexus AI Portfolio Platform",
     subtitle: "Personal Project · Remote · 2026",
     description: "High-performance portfolio platform built with React 19, TypeScript, and Framer Motion. Custom canvas animation, live Gemini-powered assistant with RAG-style context, hidden command terminal, live visitor telemetry, and sub-100ms interaction latency.",
@@ -306,6 +320,21 @@ export const projects = [
     repo: "https://github.com/vjsravan/jay-portfolio",
   },
 ];
+
+export const writing = {
+  profile: "https://medium.com/@jay.sravan.dev",
+  articles: [
+    {
+      title: "How OAuth Actually Works: And What the Token in Your Browser Is Really Proving",
+      blurb: "What the token in your browser is actually asserting, who is trusting whom, and why the flow has the shape it does — written from production OAuth 2.0 and JWT work across healthcare and automotive finance.",
+      url: "https://medium.com/@jay.sravan.dev/how-oauth-actually-works-and-what-the-token-in-your-browser-is-really-proving-f16434a087f4",
+      readTime: "6 min read",
+      published: "Jul 2026",
+      tags: ["OAuth 2.0", "JWT", "Security", "Web Architecture"],
+      color: "#00d4ff",
+    },
+  ],
+};
 
 export const aiAssistantContext = `
 You are Jay Sravan Vadlamudi's AI portfolio assistant. Answer questions about Jay's career, skills, projects, and background.
@@ -350,11 +379,17 @@ PREVIOUS EXPERIENCE:
 PROJECTS:
 1. LLM Gateway (2026) - github.com/vjsravan/llm-gateway. A reliability and cost-control layer between services and LLM providers, built in Java 21 and Spring Boot 3. Semantic caching keyed on embedding similarity, confidence-based routing that serves routine prompts from a cheap model tier and escalates hard ones, a hand-rolled circuit breaker with a minimum-sample floor and bounded half-open probes, full-jitter exponential retry, and per-tenant token-bucket budgets. 53 tests. Includes a live dashboard and a benchmark harness; in benchmark traffic against simulated providers it showed a 58% semantic cache hit rate and 90% cost reduction versus routing everything to the premium tier.
 2. llmeval (2026) - github.com/vjsravan/llm-eval. Regression testing and merge gating for LLM pipelines, in Python with zero runtime dependencies. Versioned golden suites, graded assertions scored in [0,1] rather than pass/fail, paired bootstrap significance testing, Wilson confidence intervals, and statistical power analysis. Its core design idea is that safety and integrity cases get absolute per-tag floors while aggregate quality is gated statistically - conflating the two is the most common way eval gates fail. 42 tests, with a GitHub Actions workflow that blocks merges on real regressions.
-3. Jay Nexus AI Portfolio Platform (2026): React 19, TypeScript, Framer Motion, custom canvas animation, a live Gemini-powered assistant with RAG-style context, a hidden command terminal, live visitor telemetry, and sub-100ms interaction latency.
+3. flowsim (2026) - github.com/vjsravan/flowsim. Deterministic simulation testing for message-driven consumers, in Java 21 with no runtime dependencies. Injects the delivery faults real brokers produce - duplicates, crash-before-ack redelivery, and cross-partition reordering - then checks idempotence, no-lost-messages and per-key ordering against an exactly-once baseline. Every schedule is generated from a seed, so a failure is reproducible rather than flaky, and counterexamples are shrunk: a five-step failure across four messages reduces to two steps and one message. Built directly from the failure modes Jay worked with in Kafka, ActiveMQ and IBM MQ integrations at UPS. 19 tests.
+4. contextlens (2026) - github.com/vjsravan/context-lens. Context window forensics: which source contributed which tokens, what was evicted under budget pressure and why. Seven detectors, including prompt-injection surface inside untrusted retrieved content. 44 tests.
+5. agentreplay (2026) - github.com/vjsravan/agent-replay. Deterministic record, replay and fork for LLM agent runs. Replays a failed run offline with zero API calls, locates the exact divergence step, and answers counterfactuals. 33 tests.
+6. Jay Nexus AI Portfolio Platform (2026): React 19, TypeScript, Framer Motion, custom canvas animation, a live Gemini-powered assistant with RAG-style context, a hidden command terminal, live visitor telemetry, and sub-100ms interaction latency.
 
 EDUCATION:
 - Master of Science in Computer and Information Sciences, Western Illinois University, Macomb, IL (Jan 2020 - Dec 2021)
 - Bachelor of Technology in Electronics and Communication Engineering, V.R. Siddhartha Engineering College, India (Jun 2015 - Apr 2019)
+
+WRITING:
+Jay writes technical explainers on Medium at medium.com/@jay.sravan.dev. Most recent: "How OAuth Actually Works: And What the Token in Your Browser Is Really Proving" (July 2026, 6 min read) - what the token in your browser is actually asserting and why the flow has the shape it does, drawn from production OAuth 2.0 and JWT work in healthcare and automotive finance.
 
 TECHNICAL STRENGTHS:
 - Languages: Java 8/11/21, JavaScript, TypeScript, Python, SQL, C, C++, C#

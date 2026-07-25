@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { projects } from '../../../data/resume';
+import { projects, writing } from '../../../data/resume';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const ProjectsPanel: React.FC = () => {
@@ -172,6 +172,83 @@ const ProjectsPanel: React.FC = () => {
               </motion.div>
             );
           })}
+      </div>
+
+      {/* ── Writing ── */}
+      <motion.div
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+        className="flex items-center gap-3 mb-3 mt-2"
+      >
+        <div className="w-1.5 h-6 rounded-full" style={{ background: '#00d4ff', boxShadow: '0 0 10px #00d4ff' }} />
+        <h2 className="font-mono font-bold tracking-widest text-sm" style={{ color: '#00d4ff' }}>
+          WRITING
+        </h2>
+        <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(0,212,255,0.4), transparent)' }} />
+        <a
+          href={writing.profile}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-hover
+          className="font-mono text-[10px] px-2 py-0.5 rounded transition-opacity hover:opacity-70"
+          style={{ background: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.3)', color: '#00d4ff' }}
+        >
+          ◈ ALL ON MEDIUM
+        </a>
+      </motion.div>
+
+      <div className={`grid gap-3 pb-4 ${isMobile ? 'grid-cols-1' : 'grid-cols-2'}`}>
+        {writing.articles.map((article, i) => (
+          <motion.a
+            key={article.url}
+            href={article.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-hover
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 + i * 0.07, duration: 0.4 }}
+            whileHover={{ scale: 1.015 }}
+            className="rounded-xl overflow-hidden flex flex-col relative"
+            style={{
+              background: `${article.color}07`,
+              border: `1px solid ${article.color}25`,
+              textDecoration: 'none',
+            }}
+          >
+            <div className="h-1 flex-shrink-0"
+              style={{ background: `linear-gradient(90deg, ${article.color}, ${article.color}40)` }} />
+            <div className="p-4 flex flex-col gap-2 flex-1">
+              <div className="flex items-start justify-between gap-2">
+                <span className="text-xl">✍️</span>
+                <span className="font-mono text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap"
+                  style={{ background: `${article.color}18`, color: article.color, border: `1px solid ${article.color}35` }}>
+                  {article.readTime}
+                </span>
+              </div>
+              <h3 className="font-bold text-white text-sm leading-tight">{article.title}</h3>
+              <p className="text-[11px] leading-relaxed flex-1" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                {article.blurb}
+              </p>
+              <div className="flex flex-wrap gap-1 mt-auto items-center">
+                {article.tags.map(t => (
+                  <span key={t} className="font-mono text-[9px] px-1.5 py-0.5 rounded"
+                    style={{
+                      background: `${article.color}0f`,
+                      border: `1px solid ${article.color}22`,
+                      color: 'rgba(255,255,255,0.5)',
+                    }}>
+                    {t}
+                  </span>
+                ))}
+                <span className="font-mono text-[9px] ml-auto" style={{ color: article.color }}>
+                  {article.published} ↗
+                </span>
+              </div>
+            </div>
+          </motion.a>
+        ))}
       </div>
     </div>
   );
