@@ -222,23 +222,44 @@ const ContactPanel: React.FC = () => {
             ))}
           </motion.div>
 
-          {/* AWS cert */}
-          {certifications.map(cert => (
-            <motion.div
-              key={cert.name}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.22 }}
-              className="flex items-center gap-3 p-3 rounded-xl"
-              style={{ background: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.2)' }}
-            >
-              <span className="text-lg">{cert.icon}</span>
-              <div>
-                <div className="font-bold text-xs" style={{ color: cert.color }}>{cert.name}</div>
-                <div className="font-mono text-[10px]" style={{ color: 'rgba(255,255,255,0.3)' }}>{cert.issuer}</div>
-              </div>
-            </motion.div>
-          ))}
+          {/* Licenses & certifications */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            className="flex flex-col gap-1.5"
+          >
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="font-mono text-[10px] tracking-widest" style={{ color: 'rgba(245,158,11,0.6)' }}>
+                CERTIFICATIONS
+              </span>
+              <div className="h-px flex-1" style={{ background: 'rgba(245,158,11,0.18)' }} />
+              <span className="font-mono text-[9px]" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                {certifications.length}
+              </span>
+            </div>
+
+            {certifications.map((cert, i) => (
+              <motion.div
+                key={cert.name}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.25 + i * 0.05 }}
+                className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg"
+                style={{ background: `${cert.color}0a`, border: `1px solid ${cert.color}28` }}
+              >
+                <span className="text-sm flex-shrink-0">{cert.icon}</span>
+                <div className="min-w-0">
+                  <div className="font-bold text-[11px] leading-tight" style={{ color: cert.color }}>
+                    {cert.name}
+                  </div>
+                  <div className="font-mono text-[9px]" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                    {cert.issuer}{cert.period ? ` · ${cert.period.replace('Issued ', '')}` : ''}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
 
 
         </div>

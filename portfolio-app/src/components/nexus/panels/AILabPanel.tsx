@@ -30,10 +30,13 @@ const EDGES = [
 ];
 
 const HIGHLIGHTS = [
+  { icon: '🛰️', title: 'LLM Gateway — Java 21 + Spring Boot', desc: 'A reliability layer between services and LLM providers: semantic caching, confidence-based model routing, a hand-rolled circuit breaker with bounded half-open probes, full-jitter retry, and per-tenant token budgets. 53 tests. Benchmark traffic showed a 58% cache hit rate and 90% cost reduction vs. all-premium routing.', link: 'https://github.com/vjsravan/llm-gateway' },
+  { icon: '🧪', title: 'llmeval — LLM Regression Gate', desc: 'Treats prompts like code. Golden suites, graded assertions, paired bootstrap significance testing, and a CI gate that blocks merges on real quality drops. Safety cases get absolute floors; aggregate quality is gated statistically. 42 tests, zero runtime dependencies.', link: 'https://github.com/vjsravan/llm-eval' },
+  { icon: '🔬', title: 'contextlens — Context Window Forensics', desc: 'Shows which source contributed which tokens to a context window and what got evicted under budget pressure. Detects prompt-injection surface inside untrusted retrieved content — the same sentence is configuration in a system prompt and an attack in a RAG chunk, and assembly makes them byte-identical. 44 tests.', link: 'https://vjsravan.github.io/context-lens/' },
+  { icon: '⏮️', title: 'agentreplay — Agent Time-Travel Debugger', desc: 'Deterministic record, replay and fork for agent runs. Replays a failed run offline with zero API calls, pinpoints the step where behaviour diverged, and answers counterfactuals: replay the prefix byte for byte, substitute one tool result, run the rest live. 33 tests.', link: 'https://vjsravan.github.io/agent-replay/' },
+  { icon: '🔌', title: 'Model Context Protocol & Claude Platform', desc: 'Anthropic-certified in MCP, Claude Platform, and Claude Code (2026). Applying agentic tooling and MCP-oriented integration patterns to enterprise Java service topologies.' },
   { icon: '🤖', title: 'LLM Log Summarisation (UPS)', desc: 'OpenAI API + RAG prototype transforming complex customs error logs into actionable root-cause insights. ~60% faster MTTR in testing. Built on top of Java Spring Boot microservices.' },
-  { icon: '⚙️', title: 'MLops & ML Integrations', desc: 'MLops deployment pipelines and ML model tracking integrated into enterprise Java applications at UPS and Mercedes-Benz Financial Services.' },
-  { icon: '🚀', title: 'GitHub Copilot at Enterprise Scale', desc: 'GitHub Copilot for AI-assisted code refactoring, test generation, and architecture documentation across 25+ microservices at UPS.' },
-  { icon: '🧠', title: 'Jay Nexus AI Portfolio Assistant', desc: 'This portfolio itself — built with React, TypeScript, Framer Motion, and a live AI assistant powered by Google Gemini API + RAG-style context. Ask it anything in the ASK AI tab.' },
+  { icon: '🧠', title: 'Jay Nexus AI Portfolio Assistant', desc: 'This portfolio itself — React 19, TypeScript, Framer Motion, and a live AI assistant powered by Google Gemini API + RAG-style context. Ask it anything in the ASK AI tab.' },
 ];
 
 const AILabPanel: React.FC = () => {
@@ -195,7 +198,25 @@ const AILabPanel: React.FC = () => {
                 <div className="flex gap-2 items-start">
                   <span className="text-xl flex-shrink-0">{h.icon}</span>
                   <div>
-                    <div className="font-bold text-white text-sm">{h.title}</div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-bold text-white text-sm">{h.title}</span>
+                      {h.link && (
+                        <a
+                          href={h.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          data-hover
+                          className="font-mono text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 transition-opacity hover:opacity-70"
+                          style={{
+                            background: 'rgba(255,0,110,0.12)',
+                            border: '1px solid rgba(255,0,110,0.35)',
+                            color: '#ff006e',
+                          }}
+                        >
+                          ◈ CODE
+                        </a>
+                      )}
+                    </div>
                     <div className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>{h.desc}</div>
                   </div>
                 </div>

@@ -6,7 +6,7 @@ const BOOT_LINES = [
   { text: '► Scanning neural signature matrix...', color: 'rgba(0,212,255,0.55)' },
   { text: '► Authenticating clearance level ALPHA...', color: 'rgba(0,212,255,0.55)' },
   { text: '► SUBJECT IDENTIFIED: JAY SRAVAN VADLAMUDI', color: '#00d4ff' },
-  { text: '► Mapping 4+ years of operational data...', color: 'rgba(0,212,255,0.55)' },
+  { text: '► Mapping 6+ years of operational data...', color: 'rgba(0,212,255,0.55)' },
   { text: '► TensorFlow · MLflow · MLops — AI/ML MODULES DETECTED ✓', color: '#bd00ff' },
   { text: '► AWS Certification: ████████████ VERIFIED ✓', color: '#00ff88' },
   { text: '► Target roles: Java Full Stack  ·  AI Engineering', color: '#00ff88' },

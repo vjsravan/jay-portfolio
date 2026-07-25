@@ -135,10 +135,9 @@ const OrbitingBadge: React.FC<{
     >
       <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full"
         style={{
-          background: `${badge.color}18`,
+          background: `rgba(6,10,16,0.85)`,
           border: `1px solid ${badge.color}55`,
           boxShadow: `0 0 12px ${badge.color}30, 0 0 24px ${badge.color}10`,
-          backdropFilter: 'blur(12px)',
           whiteSpace: 'nowrap',
         }}
       >
@@ -153,6 +152,108 @@ const OrbitingBadge: React.FC<{
     </motion.div>
   </motion.div>
 );
+
+/**
+ * Star field + nebula glows. Memoized so the typewriter effect (which
+ * re-renders HeroPanel every 42 ms) doesn't reconcile 160 star nodes each tick.
+ */
+const StarField = React.memo(() => (
+  <div className="absolute inset-0" style={{ zIndex: 0, contain: 'layout style paint' }}>
+    {STARS.map(star => (
+      <div
+        key={star.id}
+        style={{
+          position: 'absolute',
+          left:   `${star.x}%`,
+          top:    `${star.y}%`,
+          width:   star.size,
+          height:  star.size,
+          borderRadius: '50%',
+          background: star.color,
+          boxShadow: star.glow
+            ? `0 0 ${star.size * 3}px ${star.color}, 0 0 ${star.size * 6}px ${star.color}55`
+            : 'none',
+          ['--so' as string]: star.opacity,
+          animationName:           'nx-star-twinkle',
+          animationDuration:       `${star.duration}s`,
+          animationDelay:          `${star.delay}s`,
+          animationTimingFunction: 'ease-in-out',
+          animationIterationCount: 'infinite',
+          animationFillMode:       'both',
+        } as React.CSSProperties}
+      />
+    ))}
+    <div style={{ position: 'absolute', top: '50%', left: '36%', transform: 'translate(-50%,-50%)', width: 600, height: 500, background: 'radial-gradient(ellipse, rgba(0,212,255,0.05) 0%, transparent 68%)', pointerEvents: 'none' }} />
+    <div style={{ position: 'absolute', top: '30%', left: '18%', width: 380, height: 300, background: 'radial-gradient(ellipse, rgba(189,0,255,0.04) 0%, transparent 70%)', pointerEvents: 'none' }} />
+    <div style={{ position: 'absolute', top: '70%', left: '60%', width: 320, height: 250, background: 'radial-gradient(ellipse, rgba(255,0,110,0.035) 0%, transparent 70%)', pointerEvents: 'none' }} />
+    <div style={{ position: 'absolute', top: '20%', left: '70%', width: 280, height: 220, background: 'radial-gradient(ellipse, rgba(0,212,255,0.03) 0%, transparent 70%)', pointerEvents: 'none' }} />
+  </div>
+));
+
+/** Orbit rings, tech badges, and the JSV arc-reactor core. Memoized like StarField. */
+const OrbitSystem = React.memo(() => (
+  <div
+    style={{
+      position: 'absolute',
+      left: '36%', top: '52%',
+      transform: 'translate(-50%, -50%)',
+      width: 760, height: 760,
+      zIndex: 1, pointerEvents: 'none',
+    }}
+  >
+    {ORBIT_RINGS.map(ring => (
+      <div key={ring.radius} style={{
+        position: 'absolute',
+        width: ring.radius * 2, height: ring.radius * 2,
+        top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        borderRadius: '50%',
+        border: `1px ${ring.dashed ? 'dashed' : 'solid'} ${ring.ringColor}`,
+      }} />
+    ))}
+
+    {ORBIT_RINGS.map(ring =>
+      ring.symbols.map((badge, i) => (
+        <OrbitingBadge
+          key={`${ring.radius}-${badge.label}`}
+          badge={badge}
+          radius={ring.radius}
+          duration={ring.duration}
+          startAngle={(i / ring.symbols.length) * 360}
+        />
+      ))
+    )}
+
+    {/* JSV arc-reactor core */}
+    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 6 }}>
+      {[0, 1, 2, 3].map(n => (
+        <motion.div key={n} style={{
+          position: 'absolute', borderRadius: '50%',
+          top: '50%', left: '50%',
+          width: 70, height: 70,
+          x: '-50%', y: '-50%',
+          border: '1px solid rgba(0,212,255,0.5)',
+          willChange: 'transform, opacity',
+        }}
+          animate={{ scale: [1, (70 + n * 36) / 70], opacity: [0.6, 0] }}
+          transition={{ duration: 2.6, repeat: Infinity, delay: n * 0.65, ease: 'easeOut' }}
+        />
+      ))}
+      <div className="nx-flicker" style={{
+        width: 84, height: 84, borderRadius: '50%',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: 'JetBrains Mono, monospace', fontWeight: 900, fontSize: '1.05rem',
+        color: '#00d4ff', position: 'relative', zIndex: 7,
+        background: 'radial-gradient(circle, rgba(0,212,255,0.32) 0%, rgba(0,0,0,0.72) 100%)',
+        border: '2px solid rgba(0,212,255,0.8)',
+        textShadow: '0 0 18px #00d4ff',
+        boxShadow: '0 0 35px rgba(0,212,255,0.55), 0 0 90px rgba(0,212,255,0.2), inset 0 0 28px rgba(0,212,255,0.14)',
+      }}>
+        JSV
+      </div>
+    </div>
+  </div>
+));
 
 const HeroPanel: React.FC = () => {
   const [typed, setTyped] = useState('');
@@ -179,99 +280,9 @@ const HeroPanel: React.FC = () => {
   return (
     <div className="w-full h-full relative overflow-hidden">
 
-      {ready && (
-        <div className="absolute inset-0" style={{ zIndex: 0, contain: 'layout style paint' }}>
-          {STARS.map(star => (
-            <div
-              key={star.id}
-              style={{
-                position: 'absolute',
-                left:   `${star.x}%`,
-                top:    `${star.y}%`,
-                width:   star.size,
-                height:  star.size,
-                borderRadius: '50%',
-                background: star.color,
-                boxShadow: star.glow
-                  ? `0 0 ${star.size * 3}px ${star.color}, 0 0 ${star.size * 6}px ${star.color}55`
-                  : 'none',
-                ['--so' as string]: star.opacity,
-                animationName:           'nx-star-twinkle',
-                animationDuration:       `${star.duration}s`,
-                animationDelay:          `${star.delay}s`,
-                animationTimingFunction: 'ease-in-out',
-                animationIterationCount: 'infinite',
-                animationFillMode:       'both',
-              } as React.CSSProperties}
-            />
-          ))}
-          <div style={{ position: 'absolute', top: '50%', left: '36%', transform: 'translate(-50%,-50%)', width: 600, height: 500, background: 'radial-gradient(ellipse, rgba(0,212,255,0.05) 0%, transparent 68%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', top: '30%', left: '18%', width: 380, height: 300, background: 'radial-gradient(ellipse, rgba(189,0,255,0.04) 0%, transparent 70%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', top: '70%', left: '60%', width: 320, height: 250, background: 'radial-gradient(ellipse, rgba(255,0,110,0.035) 0%, transparent 70%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', top: '20%', left: '70%', width: 280, height: 220, background: 'radial-gradient(ellipse, rgba(0,212,255,0.03) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        </div>
-      )}
+      {ready && <StarField />}
 
-      {ready && !isMobile && (
-        <div
-          style={{
-            position: 'absolute',
-            left: '36%', top: '52%',
-            transform: 'translate(-50%, -50%)',
-            width: 760, height: 760,
-            zIndex: 1, pointerEvents: 'none',
-          }}
-        >
-          {ORBIT_RINGS.map(ring => (
-            <div key={ring.radius} style={{
-              position: 'absolute',
-              width: ring.radius * 2, height: ring.radius * 2,
-              top: '50%', left: '50%',
-              transform: 'translate(-50%, -50%)',
-              borderRadius: '50%',
-              border: `1px ${ring.dashed ? 'dashed' : 'solid'} ${ring.ringColor}`,
-            }} />
-          ))}
-
-          {ORBIT_RINGS.map(ring =>
-            ring.symbols.map((badge, i) => (
-              <OrbitingBadge
-                key={`${ring.radius}-${badge.label}`}
-                badge={badge}
-                radius={ring.radius}
-                duration={ring.duration}
-                startAngle={(i / ring.symbols.length) * 360}
-              />
-            ))
-          )}
-
-          {/* JSV arc-reactor core */}
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 6 }}>
-            {[0, 1, 2, 3].map(n => (
-              <motion.div key={n} style={{
-                position: 'absolute', borderRadius: '50%',
-                top: '50%', left: '50%',
-                border: '1px solid rgba(0,212,255,0.5)',
-              }}
-                animate={{ width: [70, 70 + n * 36], height: [70, 70 + n * 36], opacity: [0.6, 0], x: '-50%', y: '-50%' }}
-                transition={{ duration: 2.6, repeat: Infinity, delay: n * 0.65, ease: 'easeOut' }}
-              />
-            ))}
-            <div className="nx-flicker" style={{
-              width: 84, height: 84, borderRadius: '50%',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: 'JetBrains Mono, monospace', fontWeight: 900, fontSize: '1.05rem',
-              color: '#00d4ff', position: 'relative', zIndex: 7,
-              background: 'radial-gradient(circle, rgba(0,212,255,0.32) 0%, rgba(0,0,0,0.72) 100%)',
-              border: '2px solid rgba(0,212,255,0.8)',
-              textShadow: '0 0 18px #00d4ff',
-              boxShadow: '0 0 35px rgba(0,212,255,0.55), 0 0 90px rgba(0,212,255,0.2), inset 0 0 28px rgba(0,212,255,0.14)',
-            }}>
-              JSV
-            </div>
-          </div>
-        </div>
-      )}
+      {ready && !isMobile && <OrbitSystem />}
 
       {isMobile ? (
         <div
@@ -290,9 +301,12 @@ const HeroPanel: React.FC = () => {
               <motion.div key={n} style={{
                 position: 'absolute', borderRadius: '50%',
                 top: '50%', left: '50%',
+                width: 50, height: 50,
+                x: '-50%', y: '-50%',
                 border: '1px solid rgba(0,212,255,0.5)',
+                willChange: 'transform, opacity',
               }}
-                animate={{ width: [50, 50 + n * 28], height: [50, 50 + n * 28], opacity: [0.6, 0], x: '-50%', y: '-50%' }}
+                animate={{ scale: [1, (50 + n * 28) / 50], opacity: [0.6, 0] }}
                 transition={{ duration: 2.6, repeat: Infinity, delay: n * 0.65, ease: 'easeOut' }}
               />
             ))}
