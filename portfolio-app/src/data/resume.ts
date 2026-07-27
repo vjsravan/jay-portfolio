@@ -35,11 +35,12 @@ export const skills = {
     "LLM Gateway Engineering", "Semantic Caching", "Model Routing & Escalation",
     "LLM Evaluation & Regression Gating", "Golden Suite Design", "RAG Systems",
     "Model Context Protocol (MCP)", "Prompt Engineering", "OpenAI & Gemini APIs",
+    "Azure AI Foundry SDK", "Databricks",
     "GitHub Copilot", "Claude Code", "AI-Augmented Development",
   ],
   cloud: [
     "GCP", "AWS SQS", "AWS Lambda", "AWS S3", "AWS EC2",
-    "AWS ELB", "AWS CloudWatch", "OpenShift", "Kubernetes",
+    "AWS ELB", "AWS CloudWatch", "Azure Container Apps", "OpenShift", "Kubernetes",
     "Docker", "Helm",
   ],
   devops: [
@@ -196,6 +197,30 @@ export const certifications = [
     badge: "https://images.credly.com/size/340x340/images/b9feab85-1a43-4f6c-99a5-631b88d5461b/image.png",
   },
   {
+    name: "Microsoft Applied Skills: Develop a Generative AI Chat App with the Foundry SDK",
+    issuer: "Microsoft",
+    period: "Issued Jul 2026",
+    icon: "🤖",
+    color: "#0078d4",
+    badge: null,
+  },
+  {
+    name: "Microsoft Applied Skills: Deploy Containers with Azure Container Apps",
+    issuer: "Microsoft",
+    period: "Issued Jul 2026",
+    icon: "📦",
+    color: "#0078d4",
+    badge: null,
+  },
+  {
+    name: "Databricks Fundamentals Accreditation",
+    issuer: "Databricks",
+    period: "Issued Jul 2026",
+    icon: "🧱",
+    color: "#ff3621",
+    badge: null,
+  },
+  {
     name: "Introduction to Model Context Protocol",
     issuer: "Anthropic",
     period: "Issued Jul 2026",
@@ -227,6 +252,22 @@ export const certifications = [
     color: "#00ff88",
     badge: null,
   },
+  {
+    name: "SQL (Advanced)",
+    issuer: "HackerRank",
+    period: "Issued Jul 2026",
+    icon: "🗄️",
+    color: "#2ec866",
+    badge: null,
+  },
+  {
+    name: "REST API (Intermediate)",
+    issuer: "HackerRank",
+    period: "Issued Jul 2026",
+    icon: "🔗",
+    color: "#2ec866",
+    badge: null,
+  },
 ];
 
 export const metrics = [
@@ -243,7 +284,7 @@ export const projects = [
     subtitle: "Interactive · React 19 + TypeScript · 2026",
     description: "An event-driven customs pipeline running entirely in the browser — partitioned topic, consumer group, retry topics, dead-letter queue, with real Kafka semantics. Kill consumers and watch partitions rebalance; switch off the idempotency guard and watch the held count drift from the truth. Deterministic and seeded, so any failure reproduces from its URL.",
     tech: ["React 19", "TypeScript", "Discrete-Event Simulation", "Kafka Semantics", "SVG", "Determinism"],
-    metric: "43",
+    metric: "50",
     metricLabel: "Tests · every fault proves its symptom",
     color: "#38bdf8",
     icon: "💥",
@@ -378,12 +419,17 @@ ABOUT JAY:
 - Portfolio: https://vjsravan.github.io/jay-portfolio/
 - 6+ years of software engineering experience across healthcare, logistics, customs, and automotive finance domains
 
-CERTIFICATIONS:
+CERTIFICATIONS (10):
 - AWS Certified Developer - Associate (Amazon Web Services, issued Sep 2024, expires Sep 2027)
+- Microsoft Applied Skills: Develop a Generative AI Chat App Using the Microsoft Foundry SDK (Microsoft, Jul 2026)
+- Microsoft Applied Skills: Deploy Containers with Azure Container Apps (Microsoft, Jul 2026)
+- Databricks Fundamentals Accreditation (Databricks, Jul 2026)
 - Introduction to Model Context Protocol (Anthropic, Jul 2026)
 - Claude Platform 101 (Anthropic, Jul 2026)
 - Claude Code 101 (Anthropic, Jul 2026)
 - Claude 101 (Anthropic, Jul 2026)
+- SQL (Advanced) (HackerRank, Jul 2026)
+- REST API (Intermediate) (HackerRank, Jul 2026)
 
 PROFESSIONAL SUMMARY:
 Jay architects and delivers scalable, cloud-native distributed systems and event-driven microservices. His work includes high-throughput Java platforms processing 400K+ records daily, latency reductions up to 40%, CI/CD automation that accelerates release cycles by 50%, and production platforms built with Java 21, Spring Boot, GCP, AWS, Kafka, Kubernetes, Redis, GraphQL, and modern frontend frameworks.
@@ -404,7 +450,7 @@ PREVIOUS EXPERIENCE:
 2. United Healthcare (Jan 2018 - Dec 2019) - Full Stack Java Developer for healthcare information systems. Built Angular claims portal features for 50K+ members, Spring Boot REST APIs, GraphQL APIs with OAuth/JWT, Kafka microservices, MySQL/SQL Server optimizations, and AWS deployments with CloudWatch monitoring.
 
 PROJECTS:
-1. Blast Radius (2026) - github.com/vjsravan/blast-radius, live at vjsravan.github.io/blast-radius. An event-driven customs pipeline running entirely in the browser: partitioned topic, consumer group, non-blocking retry topics and a dead-letter queue, with real Kafka semantics rather than a diagram of them. Visitors kill consumers and watch partitions rebalance, switch off the idempotency guard and watch the held-shipment count drift away from ground truth, or break key-based partitioning and watch events apply out of order. Built as a deterministic discrete-event simulation rather than with Web Workers, because real concurrency is not reproducible and a failure you cannot reproduce is one you cannot share - so any run reproduces exactly from its seed in the URL. 43 tests, including that every guided scenario reproduces the symptom it claims and that the healthy default reproduces none of them.
+1. Blast Radius (2026) - github.com/vjsravan/blast-radius, live at vjsravan.github.io/blast-radius. An event-driven customs pipeline running entirely in the browser: partitioned topic, consumer group, non-blocking retry topics and a dead-letter queue, with real Kafka semantics rather than a diagram of them. Visitors kill consumers and watch partitions rebalance, switch off the idempotency guard and watch the held-shipment count drift away from ground truth, or break key-based partitioning and watch events apply out of order. Built as a deterministic discrete-event simulation rather than with Web Workers, because real concurrency is not reproducible and a failure you cannot reproduce is one you cannot share - so any run reproduces exactly from its seed in the URL. Any failure is also shareable as a deep link - ?scenario=ordering&seed=1234 opens directly into that exact run. 50 tests, including that every guided scenario reproduces the symptom it claims and that the healthy default reproduces none of them.
 2. shipment-flow (2026) - github.com/vjsravan/shipment-flow. The production counterpart to Blast Radius: Java 21, Spring Boot 3, Kafka keyed by AWB for per-shipment ordering, PostgreSQL, non-blocking retry topics and a dead-letter table exposed over the same REST API. Idempotency ledger is a durable Postgres table rather than an in-memory set, because redelivery happens after a crash or rebalance when a process-local cache is empty. Full OpenTelemetry tracing propagated through Kafka headers, Micrometer metrics, a provisioned Grafana dashboard and a docker-compose stack. 21 tests, 9 of them integration tests against a real Kafka broker and a real PostgreSQL via Testcontainers.
 3. LLM Gateway (2026) - github.com/vjsravan/llm-gateway. A reliability and cost-control layer between services and LLM providers, built in Java 21 and Spring Boot 3. Semantic caching keyed on embedding similarity, confidence-based routing that serves routine prompts from a cheap model tier and escalates hard ones, a hand-rolled circuit breaker with a minimum-sample floor and bounded half-open probes, full-jitter exponential retry, and per-tenant token-bucket budgets. 53 tests. Includes a live dashboard and a benchmark harness; in benchmark traffic against simulated providers it showed a 58% semantic cache hit rate and 90% cost reduction versus routing everything to the premium tier.
 2. llmeval (2026) - github.com/vjsravan/llm-eval. Regression testing and merge gating for LLM pipelines, in Python with zero runtime dependencies. Versioned golden suites, graded assertions scored in [0,1] rather than pass/fail, paired bootstrap significance testing, Wilson confidence intervals, and statistical power analysis. Its core design idea is that safety and integrity cases get absolute per-tag floors while aggregate quality is gated statistically - conflating the two is the most common way eval gates fail. 42 tests, with a GitHub Actions workflow that blocks merges on real regressions.
