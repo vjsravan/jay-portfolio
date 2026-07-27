@@ -239,6 +239,33 @@ export const metrics = [
 export const projects = [
   {
     id: 1,
+    title: "Blast Radius — break a distributed system live",
+    subtitle: "Interactive · React 19 + TypeScript · 2026",
+    description: "An event-driven customs pipeline running entirely in the browser — partitioned topic, consumer group, retry topics, dead-letter queue, with real Kafka semantics. Kill consumers and watch partitions rebalance; switch off the idempotency guard and watch the held count drift from the truth. Deterministic and seeded, so any failure reproduces from its URL.",
+    tech: ["React 19", "TypeScript", "Discrete-Event Simulation", "Kafka Semantics", "SVG", "Determinism"],
+    metric: "43",
+    metricLabel: "Tests · every fault proves its symptom",
+    color: "#38bdf8",
+    icon: "💥",
+    featured: true,
+    repo: "https://github.com/vjsravan/blast-radius",
+    demo: "https://vjsravan.github.io/blast-radius/",
+  },
+  {
+    id: 2,
+    title: "shipment-flow — event-driven customs processing",
+    subtitle: "Distributed Systems · Java 21 + Spring Boot + Kafka · 2026",
+    description: "Production-shaped pipeline: REST ingest, Postgres, Kafka keyed by AWB for per-shipment ordering, non-blocking retry topics, and a dead-letter table exposed over the same API. Full OpenTelemetry tracing through Kafka headers, Micrometer metrics and a provisioned Grafana dashboard. The real counterpart to Blast Radius.",
+    tech: ["Java 21", "Spring Boot 3", "Apache Kafka", "PostgreSQL", "OpenTelemetry", "Grafana", "Docker", "Testcontainers"],
+    metric: "21",
+    metricLabel: "Tests · real Kafka + Postgres",
+    color: "#06b6d4",
+    icon: "📦",
+    featured: true,
+    repo: "https://github.com/vjsravan/shipment-flow",
+  },
+  {
+    id: 3,
     title: "LLM Gateway",
     subtitle: "AI Infrastructure · Java 21 + Spring Boot · 2026",
     description: "Reliability and cost-control layer between services and LLM providers. Semantic caching, confidence-based model routing, hand-rolled circuit breaker with half-open probe budgets, full-jitter retry, and per-tenant token-bucket budgets. Runs offline with simulated providers; live dashboard and benchmark harness included.",
@@ -251,7 +278,7 @@ export const projects = [
     repo: "https://github.com/vjsravan/llm-gateway",
   },
   {
-    id: 2,
+    id: 4,
     title: "llmeval — LLM Regression Gate",
     subtitle: "AI Evaluation Tooling · Python · 2026",
     description: "Treats prompts like code: versioned golden suites, graded assertions, and a CI gate that blocks a merge on real quality drops. Paired bootstrap significance testing, Wilson intervals, and power analysis. Safety cases get absolute floors while aggregate quality is gated statistically — conflating the two is how eval gates fail.",
@@ -265,7 +292,7 @@ export const projects = [
     demo: "https://vjsravan.github.io/llm-eval/",
   },
   {
-    id: 3,
+    id: 5,
     title: "flowsim — Message Delivery Simulator",
     subtitle: "Distributed Systems · Java 21 · 2026",
     description: "Deterministic simulation testing for message-driven consumers. Injects duplicates, crash-before-ack redelivery and cross-partition reordering, then shrinks any failure to a minimal reproduction — a 5-step counterexample reduced to 2 steps and 1 message. Built from the failure modes that dominate real Kafka, ActiveMQ and IBM MQ integrations.",
@@ -279,7 +306,7 @@ export const projects = [
     demo: "https://vjsravan.github.io/flowsim/",
   },
   {
-    id: 4,
+    id: 6,
     title: "contextlens — Context Window Forensics",
     subtitle: "AI Debugging Tooling · Python · 2026",
     description: "Shows what actually went into a model's context window: which source contributed which tokens, what got evicted under budget pressure, and why. Detects prompt-injection surface in untrusted retrieved content, lost-in-the-middle positioning, near-duplicate chunks, and packing failures misdiagnosed as retrieval failures.",
@@ -293,7 +320,7 @@ export const projects = [
     demo: "https://vjsravan.github.io/context-lens/",
   },
   {
-    id: 5,
+    id: 7,
     title: "agentreplay — Agent Time-Travel Debugger",
     subtitle: "AI Debugging Tooling · Python · 2026",
     description: "Deterministic record, replay and fork for LLM agent runs. Re-runs a failed agent offline with zero API calls, locates the exact step where behaviour diverged, and answers counterfactuals — replay the prefix byte for byte, substitute one tool result, let the rest run live.",
@@ -307,7 +334,7 @@ export const projects = [
     demo: "https://vjsravan.github.io/agent-replay/",
   },
   {
-    id: 6,
+    id: 8,
     title: "Jay Nexus AI Portfolio Platform",
     subtitle: "Personal Project · Remote · 2026",
     description: "High-performance portfolio platform built with React 19, TypeScript, and Framer Motion. Custom canvas animation, live Gemini-powered assistant with RAG-style context, hidden command terminal, live visitor telemetry, and sub-100ms interaction latency.",
@@ -377,7 +404,9 @@ PREVIOUS EXPERIENCE:
 2. United Healthcare (Jan 2018 - Dec 2019) - Full Stack Java Developer for healthcare information systems. Built Angular claims portal features for 50K+ members, Spring Boot REST APIs, GraphQL APIs with OAuth/JWT, Kafka microservices, MySQL/SQL Server optimizations, and AWS deployments with CloudWatch monitoring.
 
 PROJECTS:
-1. LLM Gateway (2026) - github.com/vjsravan/llm-gateway. A reliability and cost-control layer between services and LLM providers, built in Java 21 and Spring Boot 3. Semantic caching keyed on embedding similarity, confidence-based routing that serves routine prompts from a cheap model tier and escalates hard ones, a hand-rolled circuit breaker with a minimum-sample floor and bounded half-open probes, full-jitter exponential retry, and per-tenant token-bucket budgets. 53 tests. Includes a live dashboard and a benchmark harness; in benchmark traffic against simulated providers it showed a 58% semantic cache hit rate and 90% cost reduction versus routing everything to the premium tier.
+1. Blast Radius (2026) - github.com/vjsravan/blast-radius, live at vjsravan.github.io/blast-radius. An event-driven customs pipeline running entirely in the browser: partitioned topic, consumer group, non-blocking retry topics and a dead-letter queue, with real Kafka semantics rather than a diagram of them. Visitors kill consumers and watch partitions rebalance, switch off the idempotency guard and watch the held-shipment count drift away from ground truth, or break key-based partitioning and watch events apply out of order. Built as a deterministic discrete-event simulation rather than with Web Workers, because real concurrency is not reproducible and a failure you cannot reproduce is one you cannot share - so any run reproduces exactly from its seed in the URL. 43 tests, including that every guided scenario reproduces the symptom it claims and that the healthy default reproduces none of them.
+2. shipment-flow (2026) - github.com/vjsravan/shipment-flow. The production counterpart to Blast Radius: Java 21, Spring Boot 3, Kafka keyed by AWB for per-shipment ordering, PostgreSQL, non-blocking retry topics and a dead-letter table exposed over the same REST API. Idempotency ledger is a durable Postgres table rather than an in-memory set, because redelivery happens after a crash or rebalance when a process-local cache is empty. Full OpenTelemetry tracing propagated through Kafka headers, Micrometer metrics, a provisioned Grafana dashboard and a docker-compose stack. 21 tests, 9 of them integration tests against a real Kafka broker and a real PostgreSQL via Testcontainers.
+3. LLM Gateway (2026) - github.com/vjsravan/llm-gateway. A reliability and cost-control layer between services and LLM providers, built in Java 21 and Spring Boot 3. Semantic caching keyed on embedding similarity, confidence-based routing that serves routine prompts from a cheap model tier and escalates hard ones, a hand-rolled circuit breaker with a minimum-sample floor and bounded half-open probes, full-jitter exponential retry, and per-tenant token-bucket budgets. 53 tests. Includes a live dashboard and a benchmark harness; in benchmark traffic against simulated providers it showed a 58% semantic cache hit rate and 90% cost reduction versus routing everything to the premium tier.
 2. llmeval (2026) - github.com/vjsravan/llm-eval. Regression testing and merge gating for LLM pipelines, in Python with zero runtime dependencies. Versioned golden suites, graded assertions scored in [0,1] rather than pass/fail, paired bootstrap significance testing, Wilson confidence intervals, and statistical power analysis. Its core design idea is that safety and integrity cases get absolute per-tag floors while aggregate quality is gated statistically - conflating the two is the most common way eval gates fail. 42 tests, with a GitHub Actions workflow that blocks merges on real regressions.
 3. flowsim (2026) - github.com/vjsravan/flowsim. Deterministic simulation testing for message-driven consumers, in Java 21 with no runtime dependencies. Injects the delivery faults real brokers produce - duplicates, crash-before-ack redelivery, and cross-partition reordering - then checks idempotence, no-lost-messages and per-key ordering against an exactly-once baseline. Every schedule is generated from a seed, so a failure is reproducible rather than flaky, and counterexamples are shrunk: a five-step failure across four messages reduces to two steps and one message. Built directly from the failure modes Jay worked with in Kafka, ActiveMQ and IBM MQ integrations at UPS. 19 tests.
 4. contextlens (2026) - github.com/vjsravan/context-lens. Context window forensics: which source contributed which tokens, what was evicted under budget pressure and why. Seven detectors, including prompt-injection surface inside untrusted retrieved content. 44 tests.
