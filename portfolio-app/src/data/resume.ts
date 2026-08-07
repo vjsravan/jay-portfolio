@@ -1,3 +1,48 @@
+/**
+ * Set to false to drop the early-career role (United Healthcare, 2018-2019)
+ * from the site entirely.
+ *
+ * This is a build-time constant on purpose. Because the whole record is
+ * assembled behind it, Rollup drops the unreferenced object when this is
+ * false — so the role is absent from the shipped bundle, not merely hidden
+ * from the UI. A runtime toggle would leave the data sitting in the
+ * JavaScript for anyone who opens devtools.
+ *
+ * Every "N+ years" on the site is derived from whatever this leaves visible,
+ * so the headline figure can never contradict the timeline beneath it.
+ */
+export const INCLUDE_EARLY_CAREER = true;
+
+/** `end` is the first month NOT worked; null means current. */
+const TENURE = {
+  ups: { start: "2024-03", end: null as string | null },
+  mercedes: { start: "2022-03", end: "2024-03" as string | null },
+  unitedHealthcare: { start: "2018-01", end: "2020-01" as string | null },
+};
+
+function monthsWorked({ start, end }: { start: string; end: string | null }): number {
+  const [sy, sm] = start.split("-").map(Number);
+  const now = new Date();
+  const [ey, em] = end
+    ? end.split("-").map(Number)
+    : [now.getFullYear(), now.getMonth() + 1];
+  return (ey - sy) * 12 + (em - sm);
+}
+
+// Summed per role rather than measured end to end: the 2020-2021 master's
+// degree sits between United Healthcare and Mercedes-Benz, and counting the
+// span would silently bill those two years as work experience.
+const COUNTED_TENURES = INCLUDE_EARLY_CAREER
+  ? [TENURE.ups, TENURE.mercedes, TENURE.unitedHealthcare]
+  : [TENURE.ups, TENURE.mercedes];
+
+export const yearsOfExperience = Math.floor(
+  COUNTED_TENURES.reduce((total, t) => total + monthsWorked(t), 0) / 12,
+);
+
+/** The string every "N+ years" on the site renders from. */
+export const yearsLabel = `${yearsOfExperience}+`;
+
 export const personalInfo = {
   name: "Jay Sravan Vadlamudi",
   title: "Senior Software Engineer",
@@ -8,10 +53,13 @@ export const personalInfo = {
   github: "https://github.com/vjsravan",
   portfolio: "https://vjsravan.github.io/jay-portfolio/",
   location: "Missouri, USA",
-  yearsOfExperience: 6,
-  summary: `Results-driven Senior Software Engineer with 6+ years of experience architecting and delivering
-scalable, cloud-native distributed systems and event-driven microservices across healthcare,
-logistics, customs, and automotive finance domains. Recognized for engineering high-throughput
+  yearsOfExperience,
+  // "healthcare" is only true while the United Healthcare role is included —
+  // dropping the role has to drop the domain with it, or the summary starts
+  // claiming a sector the timeline no longer supports.
+  summary: `Results-driven Senior Software Engineer with ${yearsLabel} years of experience architecting and delivering
+scalable, cloud-native distributed systems and event-driven microservices across
+${INCLUDE_EARLY_CAREER ? "healthcare, logistics, customs, and automotive finance" : "logistics, customs, and automotive finance"} domains. Recognized for engineering high-throughput
 Java platforms that process 400K+ records daily, reducing system latency by up to 40%, and
 spearheading CI/CD automation that accelerates release cycles by 50%.`,
   aiSummary: `Cloud-native distributed systems engineer with production Java 21, Spring Boot, WebFlux,
@@ -58,9 +106,10 @@ export const skills = {
   methods: ["Agile/Scrum", "SDLC", "System Design", "IntelliJ IDEA", "VS Code"],
 };
 
-export const experiences = [
+const CORE_EXPERIENCES = [
   {
     id: 1,
+    ...TENURE.ups,
     company: "United Parcel Service (UPS)",
     role: "Senior Software Development Engineer - Java Full Stack",
     domain: "International Logistics, Customs & Regulatory Processing",
@@ -104,6 +153,7 @@ export const experiences = [
   },
   {
     id: 2,
+    ...TENURE.mercedes,
     company: "Mercedes-Benz Financial Services",
     role: "Software Engineer - Java Full Stack",
     domain: "Automotive Finance & Leasing Platforms",
@@ -137,8 +187,16 @@ export const experiences = [
       "Used automation and AI-assisted engineering practices to improve delivery consistency and testing coverage",
     ],
   },
-  {
+];
+
+/**
+ * Kept as its own binding rather than a third array entry: when
+ * INCLUDE_EARLY_CAREER is false nothing references this, and the bundler
+ * drops it instead of shipping a role the site does not display.
+ */
+const UNITED_HEALTHCARE = {
     id: 3,
+    ...TENURE.unitedHealthcare,
     company: "United Healthcare",
     role: "Full Stack Java Developer",
     domain: "Healthcare Information Systems",
@@ -169,8 +227,11 @@ export const experiences = [
       "Automated build, test, and integration workflows using Maven and Jenkins, reducing manual deployment errors by 30%",
     ],
     aiWork: [],
-  },
-];
+};
+
+export const experiences = INCLUDE_EARLY_CAREER
+  ? [...CORE_EXPERIENCES, UNITED_HEALTHCARE]
+  : CORE_EXPERIENCES;
 
 export const education = [
   {
@@ -271,7 +332,7 @@ export const certifications = [
 ];
 
 export const metrics = [
-  { value: 6, suffix: "+", label: "Years Experience", color: "cyan" },
+  { value: yearsOfExperience, suffix: "+", label: "Years Experience", color: "cyan" },
   { value: 25, suffix: "+", label: "Microservices Built", color: "purple" },
   { value: 400, suffix: "K+", label: "Records Daily", color: "green" },
   { value: 50, suffix: "%", label: "Release Cycle Gain", color: "orange" },
@@ -417,7 +478,7 @@ ABOUT JAY:
 - LinkedIn: https://www.linkedin.com/in/jaysravan-fullstack/
 - GitHub: https://github.com/vjsravan
 - Portfolio: https://vjsravan.github.io/jay-portfolio/
-- 6+ years of software engineering experience across healthcare, logistics, customs, and automotive finance domains
+- ${yearsLabel} years of software engineering experience across ${INCLUDE_EARLY_CAREER ? "healthcare, logistics, customs, and automotive finance" : "logistics, customs, and automotive finance"} domains
 
 CERTIFICATIONS (10):
 - AWS Certified Developer - Associate (Amazon Web Services, issued Sep 2024, expires Sep 2027)
@@ -447,7 +508,7 @@ CURRENT ROLE: United Parcel Service (UPS), Senior Software Development Engineer 
 
 PREVIOUS EXPERIENCE:
 1. Mercedes-Benz Financial Services (Mar 2022 - Mar 2024) - Java Full Stack engineer for automotive finance and leasing platforms. Modernized Struts monoliths into Spring Boot microservices, built Kafka and AWS SQS/Lambda event pipelines, optimized DB2/PostgreSQL performance, implemented OAuth/JWT/RBAC, and delivered Angular full-stack features across 5+ applications.
-2. United Healthcare (Jan 2018 - Dec 2019) - Full Stack Java Developer for healthcare information systems. Built Angular claims portal features for 50K+ members, Spring Boot REST APIs, GraphQL APIs with OAuth/JWT, Kafka microservices, MySQL/SQL Server optimizations, and AWS deployments with CloudWatch monitoring.
+${INCLUDE_EARLY_CAREER ? "2. United Healthcare (Jan 2018 - Dec 2019) - Full Stack Java Developer for healthcare information systems. Built Angular claims portal features for 50K+ members, Spring Boot REST APIs, GraphQL APIs with OAuth/JWT, Kafka microservices, MySQL/SQL Server optimizations, and AWS deployments with CloudWatch monitoring." : ""}
 
 PROJECTS:
 1. Blast Radius (2026) - github.com/vjsravan/blast-radius, live at vjsravan.github.io/blast-radius. An event-driven customs pipeline running entirely in the browser: partitioned topic, consumer group, non-blocking retry topics and a dead-letter queue, with real Kafka semantics rather than a diagram of them. Visitors kill consumers and watch partitions rebalance, switch off the idempotency guard and watch the held-shipment count drift away from ground truth, or break key-based partitioning and watch events apply out of order. Built as a deterministic discrete-event simulation rather than with Web Workers, because real concurrency is not reproducible and a failure you cannot reproduce is one you cannot share - so any run reproduces exactly from its seed in the URL. Any failure is also shareable as a deep link - ?scenario=ordering&seed=1234 opens directly into that exact run. 50 tests, including that every guided scenario reproduces the symptom it claims and that the healthy default reproduces none of them.

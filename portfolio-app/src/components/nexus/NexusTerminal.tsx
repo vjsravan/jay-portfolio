@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { personalInfo, skills, experiences, projects } from '../../data/resume';
+import { personalInfo, skills, experiences, projects, yearsLabel } from '../../data/resume';
 import { getCachedVisitorCount, fetchVisitorCount } from '../../lib/visitors';
 
 /**
@@ -131,7 +131,7 @@ const NexusTerminal: React.FC = () => {
           { text: `  ${personalInfo.name}`, color: C.cyan },
           { text: `  ${personalInfo.title} · ${personalInfo.location}`, color: C.white },
           { text: `  ${personalInfo.subtitle}`, color: C.dim },
-          { text: '  6+ yrs · 25+ microservices · 400K+ records/day · AWS Certified', color: C.green },
+          { text: `  ${yearsLabel} yrs · 25+ microservices · 400K+ records/day · AWS Certified`, color: C.green },
         ]);
         break;
 

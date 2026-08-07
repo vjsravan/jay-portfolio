@@ -12,6 +12,7 @@ import AILabPanel from './panels/AILabPanel';
 import ContactPanel from './panels/ContactPanel';
 import NexusOnboarding, { type BriefSection } from './NexusOnboarding';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { yearsLabel } from '../../data/resume';
 
 const NAV = [
   { id: 'hero',       label: 'PROFILE',    Icon: User,       color: '#00d4ff' },
@@ -281,7 +282,7 @@ const NexusInterface: React.FC = () => {
         <div className="flex items-center gap-3 px-4 flex-shrink-0 border-l" style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
           {[
             { label: 'AWS CERTIFIED', color: '#f59e0b' },
-            { label: '6+ YRS', color: '#00d4ff' },
+            { label: `${yearsLabel} YRS`, color: '#00d4ff' },
             { label: 'TENSORFLOW · MLOPS', color: '#bd00ff' },
             { label: 'OPEN TO WORK', color: '#00ff88' },
             { label: 'PRESS ` FOR TERMINAL', color: '#ff006e' },
