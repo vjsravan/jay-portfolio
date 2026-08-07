@@ -1,17 +1,20 @@
 /**
- * Set to false to drop the early-career role (United Healthcare, 2018-2019)
- * from the site entirely.
+ * Whether to include the early-career role (United Healthcare, 2018-2019).
  *
- * This is a build-time constant on purpose. Because the whole record is
- * assembled behind it, Rollup drops the unreferenced object when this is
- * false — so the role is absent from the shipped bundle, not merely hidden
- * from the UI. A runtime toggle would leave the data sitting in the
- * JavaScript for anyone who opens devtools.
+ * Set from the deploy workflow, so it can be flipped from the GitHub Actions
+ * tab without touching source. Locally it defaults to on.
  *
- * Every "N+ years" on the site is derived from whatever this leaves visible,
- * so the headline figure can never contradict the timeline beneath it.
+ * Resolved at BUILD time, not runtime, and that is the point: Vite inlines
+ * the literal, the ternary below folds, and Rollup drops the unreferenced
+ * role object — so turning this off removes the record from the shipped
+ * bundle rather than hiding it from the UI. A runtime switch would leave the
+ * data in the JavaScript for anyone who opened devtools.
+ *
+ * Only the exact string "false" disables it. Anything else — unset, a typo,
+ * a missing variable — leaves the role in, because the failure that quietly
+ * deletes part of someone's work history is the worse one.
  */
-export const INCLUDE_EARLY_CAREER = true;
+export const INCLUDE_EARLY_CAREER = import.meta.env.VITE_INCLUDE_EARLY_CAREER !== "false";
 
 /** `end` is the first month NOT worked; null means current. */
 const TENURE = {

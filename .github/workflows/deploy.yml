@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      include_early_career:
+        description: 'Include the United Healthcare role (2018-2019)?'
+        type: choice
+        default: 'true'
+        options: ['true', 'false']
 
 permissions:
   contents: read
@@ -49,6 +55,11 @@ jobs:
         working-directory: portfolio-app
         env:
           VITE_BASE_PATH: /jay-portfolio/
+          # Manual run wins; otherwise the repo variable; otherwise on.
+          # A push-triggered deploy must not silently drop a role because a
+          # previous manual run turned it off, so the variable is what makes
+          # the choice stick across ordinary commits.
+          VITE_INCLUDE_EARLY_CAREER: ${{ inputs.include_early_career || vars.INCLUDE_EARLY_CAREER || 'true' }}
           # Injected from GitHub Secrets — never visible in logs or source code
           VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
           VITE_WEB3FORMS_KEY: ${{ secrets.VITE_WEB3FORMS_KEY }}
