@@ -1,0 +1,386 @@
+{
+  "repos": [
+    {
+      "name": "llm-gateway",
+      "description": "",
+      "url": "https://github.com/vjsravan/llm-gateway",
+      "homepage": null,
+      "language": "Java",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-08-19T22:48:16Z",
+      "createdAt": "2026-07-24T21:41:33Z"
+    },
+    {
+      "name": "context-lens",
+      "description": "",
+      "url": "https://github.com/vjsravan/context-lens",
+      "homepage": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-08-14T03:29:19Z",
+      "createdAt": "2026-07-24T22:31:53Z"
+    },
+    {
+      "name": "agent-replay",
+      "description": "",
+      "url": "https://github.com/vjsravan/agent-replay",
+      "homepage": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-08-14T03:28:44Z",
+      "createdAt": "2026-07-24T22:34:46Z"
+    },
+    {
+      "name": "blast-radius",
+      "description": "",
+      "url": "https://github.com/vjsravan/blast-radius",
+      "homepage": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-08-14T03:27:40Z",
+      "createdAt": "2026-07-26T21:46:01Z"
+    },
+    {
+      "name": "llm-eval",
+      "description": "",
+      "url": "https://github.com/vjsravan/llm-eval",
+      "homepage": null,
+      "language": "Python",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-08-13T22:12:27Z",
+      "createdAt": "2026-07-24T21:50:39Z"
+    },
+    {
+      "name": "jay-portfolio",
+      "description": "",
+      "url": "https://github.com/vjsravan/jay-portfolio",
+      "homepage": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-08-07T15:24:17Z",
+      "createdAt": "2026-07-26T03:27:23Z"
+    },
+    {
+      "name": "shipment-flow",
+      "description": "",
+      "url": "https://github.com/vjsravan/shipment-flow",
+      "homepage": null,
+      "language": "Java",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-07-26T06:00:26Z",
+      "createdAt": "2026-07-26T05:19:02Z"
+    },
+    {
+      "name": "flowsim",
+      "description": "",
+      "url": "https://github.com/vjsravan/flowsim",
+      "homepage": null,
+      "language": "Java",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-07-25T01:34:12Z",
+      "createdAt": "2026-07-25T01:34:01Z"
+    },
+    {
+      "name": "Postmortem-Autopilot",
+      "description": "",
+      "url": "https://github.com/vjsravan/Postmortem-Autopilot",
+      "homepage": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-05-31T17:08:46Z",
+      "createdAt": "2026-05-31T16:37:27Z"
+    },
+    {
+      "name": "monster-cards",
+      "description": "",
+      "url": "https://github.com/vjsravan/monster-cards",
+      "homepage": "https://vjsravan.github.io/monster-cards/",
+      "language": "JavaScript",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2026-02-13T21:28:32Z",
+      "createdAt": "2020-06-15T19:28:07Z"
+    },
+    {
+      "name": "robofriends",
+      "description": "",
+      "url": "https://github.com/vjsravan/robofriends",
+      "homepage": null,
+      "language": "JavaScript",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2024-04-23T02:21:33Z",
+      "createdAt": "2020-05-19T20:30:11Z"
+    },
+    {
+      "name": "git-demo",
+      "description": ".bk; hj   m  ",
+      "url": "https://github.com/vjsravan/git-demo",
+      "homepage": null,
+      "language": "HTML",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2022-05-01T18:23:17Z",
+      "createdAt": "2022-05-01T18:15:23Z"
+    },
+    {
+      "name": "Quote-Generator",
+      "description": "",
+      "url": "https://github.com/vjsravan/Quote-Generator",
+      "homepage": "https://vjsravan.github.io/Quote-Generator/",
+      "language": "JavaScript",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2022-01-23T02:16:50Z",
+      "createdAt": "2022-01-23T02:12:19Z"
+    },
+    {
+      "name": "Drag-and-Drop",
+      "description": "",
+      "url": "https://github.com/vjsravan/Drag-and-Drop",
+      "homepage": "https://vjsravan.github.io/Drag-and-Drop/",
+      "language": "HTML",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2021-05-18T12:30:46Z",
+      "createdAt": "2021-05-13T21:44:20Z"
+    },
+    {
+      "name": "jay-clothing",
+      "description": "",
+      "url": "https://github.com/vjsravan/jay-clothing",
+      "homepage": null,
+      "language": "JavaScript",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2020-10-02T22:52:14Z",
+      "createdAt": "2020-09-11T13:21:15Z"
+    },
+    {
+      "name": "monsters-rolodex",
+      "description": "",
+      "url": "https://github.com/vjsravan/monsters-rolodex",
+      "homepage": "https://vjsravan.github.io/monsters-rolodex/",
+      "language": "HTML",
+      "stars": 0,
+      "topics": [],
+      "pushedAt": "2020-09-11T04:11:02Z",
+      "createdAt": "2020-09-11T03:49:57Z"
+    }
+  ],
+  "activity": [
+    {
+      "repo": "llm-gateway",
+      "sha": "50a1970",
+      "message": "Scope the cache to a tenant, and let the breaker see retried failures",
+      "date": "2026-08-13T22:41:21Z",
+      "url": "https://github.com/vjsravan/llm-gateway/commit/50a19707588cf430b953efd94c9a118270e6b6ce"
+    },
+    {
+      "repo": "llm-eval",
+      "sha": "ea45be9",
+      "message": "Fix six correctness bugs in grading, concurrency, and the gate",
+      "date": "2026-08-13T22:07:45Z",
+      "url": "https://github.com/vjsravan/llm-eval/commit/ea45be959b4df3bfffb688255fb546205b906079"
+    },
+    {
+      "repo": "jay-portfolio",
+      "sha": "7c5f328",
+      "message": "Let the early-career toggle be set from the Actions tab",
+      "date": "2026-08-07T15:19:10Z",
+      "url": "https://github.com/vjsravan/jay-portfolio/commit/7c5f3282ccc576eb8b3dd31b279d5c91a650f9f5"
+    },
+    {
+      "repo": "jay-portfolio",
+      "sha": "d387891",
+      "message": "Derive tenure from the roles instead of hardcoding it",
+      "date": "2026-08-07T14:47:29Z",
+      "url": "https://github.com/vjsravan/jay-portfolio/commit/d387891ac181175f468d3152e52fd73df33895b5"
+    },
+    {
+      "repo": "jay-portfolio",
+      "sha": "f78062a",
+      "message": "Add Databricks, Azure AI Foundry and HackerRank credentials",
+      "date": "2026-07-27T06:14:47Z",
+      "url": "https://github.com/vjsravan/jay-portfolio/commit/f78062af67f3bfcb1ad8c146454e788cb94d485a"
+    },
+    {
+      "repo": "blast-radius",
+      "sha": "f2cc089",
+      "message": "Shareable deep links to an exact failure",
+      "date": "2026-07-27T02:36:14Z",
+      "url": "https://github.com/vjsravan/blast-radius/commit/f2cc089be38602a8f25db587a7a2458b4981d704"
+    },
+    {
+      "repo": "jay-portfolio",
+      "sha": "ec273c5",
+      "message": "Feature Blast Radius and shipment-flow at the top of the projects panel",
+      "date": "2026-07-27T02:30:12Z",
+      "url": "https://github.com/vjsravan/jay-portfolio/commit/ec273c506705f5cdea23e24ecc72e56416f4afcd"
+    },
+    {
+      "repo": "blast-radius",
+      "sha": "3053972",
+      "message": "Add guided scenarios that verify their own predictions",
+      "date": "2026-07-27T01:12:21Z",
+      "url": "https://github.com/vjsravan/blast-radius/commit/3053972661b2d4596f340dd0fa920a6974b5e888"
+    },
+    {
+      "repo": "blast-radius",
+      "sha": "24eef63",
+      "message": "Blast Radius: an event-driven pipeline you can break in the browser",
+      "date": "2026-07-26T06:26:14Z",
+      "url": "https://github.com/vjsravan/blast-radius/commit/24eef6373d726d35cec1046aa2157541b2b01fab"
+    },
+    {
+      "repo": "shipment-flow",
+      "sha": "16724dc",
+      "message": "Make the integration tier runnable on modern Docker engines",
+      "date": "2026-07-26T05:59:38Z",
+      "url": "https://github.com/vjsravan/shipment-flow/commit/16724dc8ec6a1d4a2ce66b6ff231f7388c8b9ec0"
+    },
+    {
+      "repo": "shipment-flow",
+      "sha": "85ac236",
+      "message": "Fix double deserialization breaking every record, and the DLT republish loop",
+      "date": "2026-07-26T05:28:49Z",
+      "url": "https://github.com/vjsravan/shipment-flow/commit/85ac23647c864c8d5d3c40071eb2a002a940020b"
+    },
+    {
+      "repo": "shipment-flow",
+      "sha": "d210965",
+      "message": "shipment-flow: event-driven customs processing with retry, DLQ and tracing",
+      "date": "2026-07-26T05:12:57Z",
+      "url": "https://github.com/vjsravan/shipment-flow/commit/d210965c00b761e87b212aa290f21793009167d9"
+    },
+    {
+      "repo": "jay-portfolio",
+      "sha": "fd9b0f0",
+      "message": "Rewrite README for current feature set; drop CONTRIBUTING",
+      "date": "2026-07-26T03:34:04Z",
+      "url": "https://github.com/vjsravan/jay-portfolio/commit/fd9b0f0a7ba7631bd32cd65242add6518407abd6"
+    },
+    {
+      "repo": "flowsim",
+      "sha": "6d777f9",
+      "message": "flowsim: deterministic simulation testing for message-driven consumers",
+      "date": "2026-07-25T01:32:38Z",
+      "url": "https://github.com/vjsravan/flowsim/commit/6d777f94d933893887f1816908df6a28f156cbd2"
+    }
+  ],
+  "posts": [
+    {
+      "title": "How PII Moves Through Event Streams Without the Compliance Team Stopping You",
+      "url": "https://medium.com/@jay.sravan.dev/how-pii-moves-through-event-streams-without-the-compliance-team-stopping-you-0407e98ebdfd",
+      "published": "2026-08-24T11:50:29.000Z",
+      "tags": [
+        "programming",
+        "kafka",
+        "data-privacy",
+        "gdpr",
+        "software-engineering"
+      ],
+      "excerpt": "Part 3 of Season 3 of “How It Actually Works” — the season taking the concepts from seasons one and two into regulated systems where money, health data, and legal obligations change what “correct” means. Season one’s Kafka piece made a…",
+      "readMinutes": 6
+    },
+    {
+      "title": "How Audit Logs Actually Work: Why “Just Log It” Fails When the Log Is Evidence",
+      "url": "https://medium.com/@jay.sravan.dev/how-audit-logs-actually-work-why-just-log-it-fails-when-the-log-is-evidence-2a4c1ce586e6",
+      "published": "2026-08-18T22:25:25.000Z",
+      "tags": [
+        "distributed-systems",
+        "security",
+        "healthcare",
+        "programming",
+        "compliance"
+      ],
+      "excerpt": "Part 2 of Season 3 of “How It Actually Works” — the season taking the concepts from seasons one and two into regulated systems where money, health data, and legal obligations change what “correct” means. Every engineer knows what a log is.…",
+      "readMinutes": 8
+    },
+    {
+      "title": "How Idempotency Works in Payment Systems: When a Duplicate Is a Second Withdrawal",
+      "url": "https://medium.com/@jay.sravan.dev/how-idempotency-works-in-payment-systems-when-a-duplicate-is-a-second-withdrawal-f3e58d3b8fea",
+      "published": "2026-08-11T14:26:48.000Z",
+      "tags": [
+        "fintech",
+        "payments",
+        "programming",
+        "software-engineering",
+        "distributed-systems"
+      ],
+      "excerpt": "Part 1 of Season 3 of “How It Actually Works” — this season takes the systems from seasons one and two into the places they get hard: money, health data, and legal obligations. Season 2 covered idempotency, rate limiting, indexes, logical…",
+      "readMinutes": 6
+    },
+    {
+      "title": "How Consensus Actually Works: Raft, Explained Without the Paper",
+      "url": "https://medium.com/@jay.sravan.dev/how-consensus-actually-works-raft-explained-without-the-paper-4d11ac1687f4",
+      "published": "2026-08-03T13:27:05.000Z",
+      "tags": [
+        "programming",
+        "kubernetes",
+        "software-engineering",
+        "design-systems",
+        "distributed-systems"
+      ],
+      "excerpt": "Part 5 of Season 2 of “How It Actually Works” — a series breaking down the systems every backend engineer depends on but few can explain end to end. Everything in season two has been circling one problem. Idempotency needed an atomic…",
+      "readMinutes": 7
+    },
+    {
+      "title": "How Logical Clocks Actually Work: Why “Just Use Timestamps” Fails in Distributed Systems",
+      "url": "https://medium.com/@jay.sravan.dev/how-logical-clocks-actually-work-why-just-use-timestamps-fails-in-distributed-systems-3e23e2013863",
+      "published": "2026-07-31T15:05:00.000Z",
+      "tags": [
+        "distributed-systems",
+        "design-systems",
+        "backend",
+        "programming",
+        "software-engineering"
+      ],
+      "excerpt": "Part 4 of Season 2 of “How It Actually Works” — a series breaking down the systems every backend engineer depends on but few can explain end to end. Almost every engineer has done this: two events happen on two different servers, you need…",
+      "readMinutes": 6
+    },
+    {
+      "title": "How a Database Index Actually Works: The Trade You’re Making Every Time You Add One",
+      "url": "https://medium.com/@jay.sravan.dev/how-a-database-index-actually-works-the-trade-youre-making-every-time-you-add-one-33ecc5102c86",
+      "published": "2026-07-30T14:43:06.000Z",
+      "tags": [
+        "backend",
+        "postgresql",
+        "design-systems",
+        "database",
+        "programming"
+      ],
+      "excerpt": "Part 3 of Season 2 of “How It Actually Works” — a series breaking down the systems every backend engineer depends on but few can explain end to end. In season one’s SQL vs NoSQL piece, we looked at the B-tree from the storage engine’s side…",
+      "readMinutes": 7
+    }
+  ],
+  "syncedAt": "2026-09-27T06:13:51.589Z",
+  "sources": {
+    "github": {
+      "ok": true,
+      "at": "2026-09-27T06:13:51.589Z"
+    },
+    "medium": {
+      "ok": true,
+      "at": "2026-09-27T06:13:51.589Z"
+    },
+    "avatar": {
+      "ok": true,
+      "at": "2026-09-27T06:13:51.589Z"
+    },
+    "improvements": {
+      "ok": true,
+      "at": "2026-09-27T06:13:51.589Z"
+    }
+  },
+  "improvements": []
+}

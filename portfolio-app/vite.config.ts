@@ -13,6 +13,18 @@ export default defineConfig({
     minify: true,
     sourcemap: false,
     target: 'es2020',
-    chunkSizeWarningLimit: 900,
+    // three.js is ~900 KB minified. It sits in its own chunk that only
+    // the lazily loaded 3D scenes pull in, so it never blocks first paint.
+    chunkSizeWarningLimit: 1200,
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          // On by default, and it drags React into the three chunk, which
+          // makes the entry import that chunk eagerly and defeats the split.
+          includeDependenciesRecursively: false,
+          groups: [{ name: 'three', test: /node_modules[\\/](three|@react-three)/ }],
+        },
+      },
+    },
   },
 });

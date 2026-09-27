@@ -3,13 +3,11 @@ name: Deploy Portfolio to GitHub Pages
 on:
   push:
     branches: [main]
+  # Daily rebuild so repos, commits and Medium posts stay current without a
+  # commit. See portfolio-app/scripts/sync-live.mjs.
+  schedule:
+    - cron: '17 11 * * *'
   workflow_dispatch:
-    inputs:
-      include_early_career:
-        description: 'Include the United Healthcare role (2018-2019)?'
-        type: choice
-        default: 'true'
-        options: ['true', 'false']
 
 permissions:
   contents: read
@@ -46,6 +44,13 @@ jobs:
         run: npm install --registry https://registry.npmjs.org/
         working-directory: portfolio-app
 
+      # Never fails the build: a source that errors keeps its committed snapshot.
+      - name: Sync live content (GitHub, Medium, avatar)
+        run: npm run sync
+        working-directory: portfolio-app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Type check
         run: npx tsc -b
         working-directory: portfolio-app
@@ -55,11 +60,6 @@ jobs:
         working-directory: portfolio-app
         env:
           VITE_BASE_PATH: /jay-portfolio/
-          # Manual run wins; otherwise the repo variable; otherwise on.
-          # A push-triggered deploy must not silently drop a role because a
-          # previous manual run turned it off, so the variable is what makes
-          # the choice stick across ordinary commits.
-          VITE_INCLUDE_EARLY_CAREER: ${{ inputs.include_early_career || vars.INCLUDE_EARLY_CAREER || 'true' }}
           # Injected from GitHub Secrets — never visible in logs or source code
           VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
           VITE_WEB3FORMS_KEY: ${{ secrets.VITE_WEB3FORMS_KEY }}
