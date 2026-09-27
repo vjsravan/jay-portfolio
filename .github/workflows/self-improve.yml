@@ -1,0 +1,117 @@
+name: Self-improve (weekly Claude PR)
+
+# Once a week a Claude Code agent audits the built site and the freshly synced
+# content, makes up to three improvements, and opens a pull request. Nothing
+# reaches the live site until that PR is merged.
+#
+# Needs:
+#   - secret ANTHROPIC_API_KEY
+#   - Settings → Actions → General → "Allow GitHub Actions to create and
+#     approve pull requests" switched on
+
+on:
+  schedule:
+    - cron: '0 13 * * 1' # Mondays
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: self-improve
+  cancel-in-progress: false
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: portfolio-app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --registry https://registry.npmjs.org/
+
+      - name: Sync live content
+        run: npm run sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        run: npm run build
+
+      # Scores and failing audits go into a short summary file: the agent
+      # reads a page of Markdown instead of a 400 KB JSON report.
+      - name: Lighthouse audit
+        continue-on-error: true
+        run: |
+          npx vite preview --port 4173 --strictPort &
+          npx --yes wait-on@8 http://localhost:4173 --timeout 30000
+          npx --yes lighthouse@12 http://localhost:4173/ \
+            --output=json --output-path="$RUNNER_TEMP/lighthouse.json" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --chrome-flags="--headless=new --no-sandbox" --quiet
+          node -e '
+            const r = require(process.env.RUNNER_TEMP + "/lighthouse.json");
+            const out = ["# Lighthouse", ""];
+            for (const c of Object.values(r.categories))
+              out.push(`- ${c.title}: ${Math.round(c.score * 100)}`);
+            out.push("", "## Failing audits", "");
+            for (const a of Object.values(r.audits))
+              if (a.score !== null && a.score < 0.9 && a.scoreDisplayMode !== "informative")
+                out.push(`- ${a.id} (${Math.round(a.score * 100)}): ${a.title}${a.displayValue ? " — " + a.displayValue : ""}`);
+            require("fs").writeFileSync(process.env.RUNNER_TEMP + "/lighthouse.md", out.join("\n"));
+          '
+
+      - name: Note if Lighthouse did not run
+        run: test -f "$RUNNER_TEMP/lighthouse.md" || echo "Lighthouse did not run this week." > "$RUNNER_TEMP/lighthouse.md"
+
+      - name: Clear last run's summary
+        run: rm -f ../.github/self-improve/LAST_RUN.md
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # The workflow's own token: no Claude GitHub App install needed.
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Follow the instructions in .github/self-improve/PROMPT.md exactly.
+            The Lighthouse summary is at ${{ runner.temp }}/lighthouse.md.
+          claude_args: |
+            --max-turns 60
+            --allowedTools "Read,Edit,Write,Glob,Grep,WebFetch(domain:github.com),WebFetch(domain:raw.githubusercontent.com),Bash(npm --prefix portfolio-app run lint),Bash(npm --prefix portfolio-app run build),Bash(git diff:*),Bash(git status)"
+
+      - name: Check for a proposal
+        id: proposal
+        run: |
+          f=../.github/self-improve/LAST_RUN.md
+          if [ -s "$f" ]; then
+            echo "title=Self-improve: $(head -n1 "$f" | sed 's/^#* *//')" >> "$GITHUB_OUTPUT"
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No changes proposed this week."
+          fi
+
+      # The agent was told to run these; this makes sure a broken build can
+      # never become a PR.
+      - name: Verify
+        if: steps.proposal.outputs.found == 'true'
+        run: npm run lint && npm run build
+
+      - uses: peter-evans/create-pull-request@v7
+        if: steps.proposal.outputs.found == 'true'
+        with:
+          branch: self-improve/weekly
+          delete-branch: true
+          title: ${{ steps.proposal.outputs.title }}
+          body-path: .github/self-improve/LAST_RUN.md
+          commit-message: ${{ steps.proposal.outputs.title }}
+          labels: self-improve

@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ NEXUS PROTOCOL
+# jsv. — a portfolio that maintains itself
 
 **Jay Sravan Vadlamudi — Senior Software Engineer**
 
@@ -8,11 +8,13 @@
 <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" />
 <img src="https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white" />
 <img src="https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
-<img src="https://img.shields.io/badge/Framer_Motion-12-FF0055?style=flat-square&logo=framer&logoColor=white" />
+<img src="https://img.shields.io/badge/three.js-r186-000000?style=flat-square&logo=threedotjs&logoColor=white" />
 <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" />
 
-A single-page portfolio with a sci-fi terminal aesthetic — boot sequence, animated
-canvas background, six navigable panels, a live AI assistant, and a hidden command line.
+A portfolio you walk through. Scrolling moves a camera through one quiet 3D space,
+from a portal behind the portrait to a gallery of projects, the career path and the
+architecture stack. Repos, commits and Medium posts sync in daily, and a Claude agent
+opens a pull request with improvements every week.
 
 **[🚀 Live site](https://vjsravan.github.io/jay-portfolio/)** ·
 **[💼 LinkedIn](https://www.linkedin.com/in/jaysravan-fullstack/)** ·
@@ -27,19 +29,41 @@ canvas background, six navigable panels, a live AI assistant, and a hidden comma
 
 | | |
 |---|---|
-| **Boot sequence** | Staged terminal boot with progress bar before the interface loads |
-| **Six panels** | Profile · Experience · Skills · Projects · AI Lab · Contact |
-| **Hidden terminal** | Press <kbd>`</kbd> for a real command line — `help`, `whoami`, `skills`, `open <section>`, `matrix`, `sudo hire-jay` |
-| **AI assistant** | Google Gemini with RAG-style résumé context, in the AI Lab panel |
-| **Live visitor counter** | Server-side count via [Abacus](https://abacus.jasoncameron.dev), incremented once per session |
-| **Animated background** | Canvas particle field with hex grid and cursor interaction, throttled to 30 fps |
-| **Orbital tech map** | Four rotating rings of technologies around an arc-reactor core |
-| **Custom cursor** | Reticle cursor with hover and click states (pointer devices only) |
-| **Contact form** | Web3Forms — delivers straight to email, no backend |
-| **Responsive** | Separate mobile layout with bottom tab navigation |
+| **The walk** | One fixed WebGL scene behind the page, a dark room with a survey-grid floor. Each section has a camera shot, anchored to a box in the page layout (`data-anchor`), so the 3D lands exactly where the design puts it on any screen |
+| **Portal hero** | The black-and-white portrait and the name, alone, in front of a ring of warm light; nothing else in the world shows until you scroll |
+| **The star** | Scrolling collapses the ring into a star that travels ahead and powers each section: a lamp over the focused project, the pulse through the pipeline, the light through each gate, the gyroscope's core. It ends by landing in the signal orb at *Contact* and igniting it |
+| **Project gallery** | A small polished sculpture per project, each a picture of what it does (Blast Radius's shockwaves, LLM Gateway's routed requests, llmeval's bell curve and gate, contextlens's glass lens…). Browse with arrows, ticks, arrow keys, swipe, or a click; the page never holds you there |
+| **Career path** | A gate for each role, oldest first, walked through as the roles scroll, ending at a beam marked *Now* |
+| **Stack gyroscope** | One polished ring per architecture layer, nested from cloud to AI, each tumbling on its own axis with a bead per tool; the layer being read swings round to face you, lights up and carries a signal |
+| **Daily self-sync** | A scheduled build pulls repos, recent commits, Medium posts and the avatar into `live.json`, then redeploys |
+| **Weekly self-improvement** | A Claude Code agent reads a Lighthouse audit and the fresh data, makes up to three sourced improvements, and opens a PR |
+| **AI assistant** | Gemini, grounded in the résumé *plus* the latest synced posts and commits |
+| **Live visitor counter** | Server-side count via [Abacus](https://abacus.jasoncameron.dev), once per session |
 
-Everything renders client-side. No backend, no database, and no tracking beyond the
-visitor count.
+three.js loads lazily after first paint, into a single canvas. Reduced-motion users get
+the camera without easing or sway. Browsers without WebGL get the page on a plain dark
+background. The rail on the right names the part of the walk you're in.
+
+---
+
+## How it maintains itself
+
+```
+daily   deploy.yml ── npm run sync ──► live.json + avatar.jpg ──► build ──► Pages
+weekly  self-improve.yml ── sync ─ build ─ Lighthouse ──► Claude Code ──► pull request
+```
+
+**Sync** ([`scripts/sync-live.mjs`](portfolio-app/scripts/sync-live.mjs)) fetches each
+source independently and never fails the build. A source that errors keeps its last
+good snapshot, and the Live section says so. `resume.ts` stays the source of truth for
+anything that is a claim. The sync only adds facts GitHub and Medium can vouch for.
+
+**Self-improvement** is scoped by [`.github/self-improve/PROMPT.md`](.github/self-improve/PROMPT.md):
+surface new repos, fix Lighthouse failures, keep the assistant's context current. It
+may never invent or change a claim, and every new fact must trace to synced data or
+a README. The workflow re-runs lint and build before opening the PR, and nothing
+reaches the live site until you merge it. The site lists these PRs in its own
+self-improvement log.
 
 ---
 
@@ -61,26 +85,37 @@ The Projects panel links to engineering work built alongside this site:
 
 ```
 portfolio-app/
-├── src/
-│   ├── App.tsx                     boot → interface handoff
-│   ├── data/resume.ts              single source of truth for all content
-│   ├── lib/visitors.ts             visitor counter client
-│   ├── hooks/useIsMobile.ts
-│   └── components/nexus/
-│       ├── NexusBoot.tsx           startup sequence
-│       ├── NexusBackground.tsx     canvas particles + hex grid
-│       ├── NexusCursor.tsx         custom reticle cursor
-│       ├── NexusInterface.tsx      shell: nav, HUD, ticker
-│       ├── NexusOnboarding.tsx     guided first-visit tour
-│       ├── NexusTerminal.tsx       hidden command line
-│       ├── VisitorBadge.tsx        live view counter
-│       └── panels/                 the six content panels
-└── .github/workflows/deploy.yml    build + deploy to Pages
+├── scripts/sync-live.mjs          GitHub + Medium + avatar → live.json
+├── public/portrait.webp           black-and-white cut-out portrait (hero)
+├── public/avatar.jpg              synced GitHub profile photo
+└── src/
+    ├── App.tsx                    single scrolling page
+    ├── data/
+    │   ├── resume.ts              curated content: the source of truth for claims
+    │   ├── stack.ts               skills arranged as architecture layers
+    │   ├── live.ts                typed view over the synced snapshot
+    │   └── generated/live.json    written by the sync; committed as a fallback
+    ├── world/
+    │   ├── World.tsx              the fixed canvas, scroll-driven camera rig, 3D labels
+    │   ├── layout.ts              where everything stands, and the camera shot per section
+    │   ├── objects.tsx            floor, portal, pipeline, career path, signal orb
+    │   ├── Gallery.tsx            plinths and the focused-project behaviour
+    │   ├── symbols.tsx            one sculpture per project
+    │   ├── Spark.tsx              the star: its path through the walk, trail and light
+    │   ├── StackTower.tsx         the stack gyroscope
+    │   └── store.ts               state shared between the page and the render loop
+    ├── components/site/           Nav, Hero, Projects, LiveFeed, Experience, Writing,
+    │                              Stack, Contact, SectionRail, AskAI
+    ├── hooks/useInView.ts
+    └── lib/                       visitor counter, cross-component actions
+.github/
+├── workflows/deploy.yml           daily + on-push build and deploy
+├── workflows/self-improve.yml     weekly Claude PR
+└── self-improve/PROMPT.md         the agent's brief and hard rules
 ```
 
-**All content lives in [`src/data/resume.ts`](portfolio-app/src/data/resume.ts).**
-Experience, skills, projects, certifications, writing, and the AI assistant's context
-are defined there — edit that one file and every panel updates.
+**Curated content lives in [`src/data/resume.ts`](portfolio-app/src/data/resume.ts).**
+Everything that changes on its own lives in `live.json`.
 
 ---
 
@@ -117,6 +152,7 @@ npm run dev
 | command | does |
 |---|---|
 | `npm run dev` | dev server with HMR |
+| `npm run sync` | refresh `live.json` and the avatar from GitHub and Medium |
 | `npm run build` | type-check, then production build → `dist/` |
 | `npm run preview` | serve the production build locally |
 | `npm run lint` | ESLint |
@@ -125,38 +161,25 @@ npm run dev
 
 ## Deployment
 
-Pushing to `main` triggers [`deploy.yml`](.github/workflows/deploy.yml), which
-type-checks, builds with Vite, and publishes to GitHub Pages.
+Pushing to `main` and a daily schedule both trigger
+[`deploy.yml`](.github/workflows/deploy.yml): sync, type-check, build, publish to
+GitHub Pages.
 
 One-time setup on a fresh clone or fork:
 
-1. **Settings → Secrets and variables → Actions** — add `VITE_GEMINI_API_KEY` and
-   `VITE_WEB3FORMS_KEY`. They are injected at build time and never appear in logs or
-   in the committed source.
-2. **Settings → Pages** — set **Source** to **GitHub Actions**.
-3. Push to `main`.
+1. **Settings → Secrets and variables → Actions**: add `VITE_GEMINI_API_KEY` and
+   `VITE_WEB3FORMS_KEY`.
+2. **Settings → Pages**: set **Source** to **GitHub Actions**.
+3. For the weekly agent: add the `ANTHROPIC_API_KEY` secret, and turn on
+   **Settings → Actions → General → Allow GitHub Actions to create and approve pull
+   requests**. Run it once by hand from the Actions tab to check it.
 
 The build sets `VITE_BASE_PATH=/jay-portfolio/` so asset URLs resolve under the
 repository subpath. Change it if you deploy elsewhere.
 
----
-
-## Implementation notes
-
-**Visitor counter.** Counts once per browser session via `sessionStorage`, so refreshes
-don't inflate it. If the counter API is unreachable the badge hides itself rather than
-rendering a broken value.
-
-**Performance.** The hero panel is the heaviest screen — 160 animated stars, four orbit
-rings, fifteen badges. Three things keep it smooth: the orbiting badges avoid
-`backdrop-filter` (fifteen live blur regions in motion is expensive, and invisible
-against black anyway), the arc-reactor pulse animates `scale` rather than
-`width`/`height` to stay off the layout path, and the star field and orbit system are
-memoised so the typewriter effect doesn't re-render them on every tick.
-
-**Accessibility.** The custom cursor hides the system cursor on pointer devices and is
-disabled entirely on touch. The boot sequence is unskippable on first load — a
-deliberate trade-off in favour of the effect.
+> **Note.** `VITE_*` values are compiled into the public JavaScript bundle. The
+> Gemini key is therefore readable by anyone who opens devtools. Restrict it to this
+> site's referrer in Google AI Studio, or move the call behind a proxy.
 
 ---
 
