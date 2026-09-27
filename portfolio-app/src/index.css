@@ -1,103 +1,131 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Monochrome with one warm accent, to sit with the black-and-white portrait. */
+  --bg: #07070a;
+  --surface: rgba(255, 255, 255, 0.025);
+  --surface-hi: rgba(255, 255, 255, 0.055);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-hi: rgba(255, 255, 255, 0.16);
+  --text: #ededf0;
+  --muted: #8b8b95;
+  --faint: #80808b; /* ≥4.9:1 on the page and on cards */
+  --accent: #ffb454;
+  --accent-soft: #ffd9a8;
+  --green: #7ee2a8;
+}
+
 @layer base {
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
   body {
-    background-color: #020617;
-    color: #f1f5f9;
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    background-image: radial-gradient(ellipse at top, #0f172a 0%, #020617 100%);
     overflow-x: hidden;
-    padding-bottom: env(safe-area-inset-bottom);
   }
+  input, textarea { font-size: max(16px, 1em); }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  ::selection { background: rgba(255, 180, 84, 0.3); color: #fff; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #1c2030; border-radius: 9999px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+}
 
-  /* Prevent iOS zoom on focused inputs */
-  input, textarea, select { font-size: max(16px, 1em) !important; }
-
-  button, a {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+@layer components {
+  .font-display { font-family: 'Inter Tight', 'Inter', sans-serif; letter-spacing: -0.035em; }
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.2em];
+    color: var(--accent);
   }
-
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #0f172a; }
-  ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 9999px; }
-  ::selection { background: rgba(6, 182, 212, 0.3); color: white; }
+  /* Near-opaque so text stays readable with the world moving behind it;
+     a blur would re-render every frame over the animated canvas. */
+  .card {
+    background: rgba(12, 12, 16, 0.8);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+  .chip {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 font-mono text-[11px];
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+  .gradient-text {
+    background: linear-gradient(100deg, #fff 25%, var(--accent-soft) 65%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition;
+  }
+  .btn-primary { background: var(--text); color: var(--bg); }
+  .btn-primary:hover { background: #fff; box-shadow: 0 0 36px rgba(255, 180, 84, 0.35); }
+  .btn-ghost { border: 1px solid var(--line-hi); color: var(--text); }
+  .btn-ghost:hover { background: var(--surface-hi); }
+  .scroll-thin::-webkit-scrollbar { width: 4px; }
+  .scroll-thin::-webkit-scrollbar-thumb { background: #262b3d; }
 }
 
-:root {
-  --nx-cyan:    #00d4ff;
-  --nx-violet:  #bd00ff;
-  --nx-magenta: #ff006e;
-  --nx-green:   #00ff88;
-  --nx-orange:  #ff6b00;
-  --nx-gold:    #ffd700;
+/* The cut-out portrait: fades into the page at the bottom and at the frame's sides. */
+.portrait {
+  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 97%), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, #000 68%, transparent 97%), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-composite: intersect;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6)) contrast(1.04);
 }
 
-body.nexus-mode,
-body.nexus-mode * { cursor: none !important; }
-
-@keyframes nx-flicker {
-  0%, 95%, 100% { opacity: 1; }
-  96% { opacity: 0.7; }
-  97% { opacity: 1; }
-  98% { opacity: 0.5; }
-  99% { opacity: 0.9; }
+/* Faint grid behind the page, fading out toward the edges. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
 }
 
-@keyframes nx-scanlines-move {
-  from { background-position: 0 0; }
-  to   { background-position: 0 8px; }
+/* Without WebGL the 3D stages would be empty boxes. */
+.no-webgl .stage-3d { display: none !important; }
+.no-webgl canvas { display: none !important; } /* three sets display inline */
+
+/* …and the two signature lights are drawn in CSS instead: the ring behind
+   the portrait and the signal orb at the end. */
+.no-webgl [data-anchor="portal"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 226, 184, 0.9);
+  box-shadow: 0 0 24px 4px rgba(255, 180, 84, 0.55), inset 0 0 36px rgba(255, 180, 84, 0.3);
+}
+.no-webgl [data-anchor="portal"]::after {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 180, 84, 0.22), transparent 75%);
+}
+.no-webgl [data-anchor="signal"] { display: grid; place-items: center; }
+.no-webgl [data-anchor="signal"]::before {
+  content: '';
+  width: min(60%, 240px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, #fff3e0 0%, #ffd29a 30%, #ff9f43 70%, #c96a1c 100%);
+  box-shadow: 0 0 80px 20px rgba(255, 170, 70, 0.35);
 }
 
-@keyframes nx-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.live-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .live-dot { animation: none; }
 }
-
-@keyframes nx-reticle-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* Uses --so custom property so each star keeps its own base opacity */
-@keyframes nx-star-twinkle {
-  0%, 100% { opacity: var(--so, 0.4); transform: scale(1); }
-  50%       { opacity: 0.03;          transform: scale(0.45); }
-}
-
-@keyframes nx-pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px var(--nx-cyan),  0 0 24px rgba(0,212,255,0.3); }
-  50%       { box-shadow: 0 0 20px var(--nx-cyan), 0 0 60px rgba(0,212,255,0.5); }
-}
-
-@keyframes nx-pulse-glow-magenta {
-  0%, 100% { box-shadow: 0 0 8px var(--nx-magenta),  0 0 24px rgba(255,0,110,0.3); }
-  50%       { box-shadow: 0 0 20px var(--nx-magenta), 0 0 60px rgba(255,0,110,0.5); }
-}
-
-.nx-scanlines {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(0,212,255,0.018) 3px,
-    rgba(0,212,255,0.018) 4px
-  );
-  animation: nx-scanlines-move 0.5s linear infinite;
-}
-
-.nx-flicker            { animation: nx-flicker 6s ease-in-out infinite; }
-.nx-pulse-glow         { animation: nx-pulse-glow 2.5s ease-in-out infinite; }
-.nx-pulse-glow-magenta { animation: nx-pulse-glow-magenta 2.5s ease-in-out infinite; }
-
-.nx-scroll::-webkit-scrollbar       { width: 4px; }
-.nx-scroll::-webkit-scrollbar-track { background: transparent; }
-.nx-scroll::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 9999px; }
-.nx-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.6); }

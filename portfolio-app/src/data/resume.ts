@@ -1,50 +1,28 @@
-/**
- * Whether to include the early-career role (United Healthcare, 2018-2019).
- *
- * Set from the deploy workflow, so it can be flipped from the GitHub Actions
- * tab without touching source. Locally it defaults to on.
- *
- * Resolved at BUILD time, not runtime, and that is the point: Vite inlines
- * the literal, the ternary below folds, and Rollup drops the unreferenced
- * role object — so turning this off removes the record from the shipped
- * bundle rather than hiding it from the UI. A runtime switch would leave the
- * data in the JavaScript for anyone who opened devtools.
- *
- * Only the exact string "false" disables it. Anything else — unset, a typo,
- * a missing variable — leaves the role in, because the failure that quietly
- * deletes part of someone's work history is the worse one.
- */
-export const INCLUDE_EARLY_CAREER = import.meta.env.VITE_INCLUDE_EARLY_CAREER !== "false";
-
 /** `end` is the first month NOT worked; null means current. */
 const TENURE = {
   ups: { start: "2024-03", end: null as string | null },
   mercedes: { start: "2022-03", end: "2024-03" as string | null },
-  unitedHealthcare: { start: "2018-01", end: "2020-01" as string | null },
 };
 
-function monthsWorked({ start, end }: { start: string; end: string | null }): number {
+const MS_PER_YEAR = 365.25 * 24 * 3600 * 1000;
+
+function yearsWorked({ start, end }: { start: string; end: string | null }): number {
   const [sy, sm] = start.split("-").map(Number);
-  const now = new Date();
-  const [ey, em] = end
-    ? end.split("-").map(Number)
-    : [now.getFullYear(), now.getMonth() + 1];
-  return (ey - sy) * 12 + (em - sm);
+  const to = end ? new Date(Number(end.slice(0, 4)), Number(end.slice(5, 7)) - 1, 1) : new Date();
+  return (to.getTime() - new Date(sy, sm - 1, 1).getTime()) / MS_PER_YEAR;
 }
 
-// Summed per role rather than measured end to end: the 2020-2021 master's
-// degree sits between United Healthcare and Mercedes-Benz, and counting the
-// span would silently bill those two years as work experience.
-const COUNTED_TENURES = INCLUDE_EARLY_CAREER
-  ? [TENURE.ups, TENURE.mercedes, TENURE.unitedHealthcare]
-  : [TENURE.ups, TENURE.mercedes];
+const exactYears = yearsWorked(TENURE.ups) + yearsWorked(TENURE.mercedes);
 
-export const yearsOfExperience = Math.floor(
-  COUNTED_TENURES.reduce((total, t) => total + monthsWorked(t), 0) / 12,
-);
+/**
+ * Whole years, rounded up only once the partial year is past the halfway
+ * mark: 4.5 years reads "4", 4.57 reads "5". Computed at build time, and the
+ * daily scheduled rebuild keeps it moving.
+ */
+export const yearsOfExperience = exactYears % 1 > 0.5 ? Math.ceil(exactYears) : Math.floor(exactYears);
 
-/** The string every "N+ years" on the site renders from. */
-export const yearsLabel = `${yearsOfExperience}+`;
+/** The string every "N years" on the site renders from. */
+export const yearsLabel = `${yearsOfExperience}`;
 
 export const personalInfo = {
   name: "Jay Sravan Vadlamudi",
@@ -57,12 +35,9 @@ export const personalInfo = {
   portfolio: "https://vjsravan.github.io/jay-portfolio/",
   location: "Missouri, USA",
   yearsOfExperience,
-  // "healthcare" is only true while the United Healthcare role is included —
-  // dropping the role has to drop the domain with it, or the summary starts
-  // claiming a sector the timeline no longer supports.
   summary: `Results-driven Senior Software Engineer with ${yearsLabel} years of experience architecting and delivering
 scalable, cloud-native distributed systems and event-driven microservices across
-${INCLUDE_EARLY_CAREER ? "healthcare, logistics, customs, and automotive finance" : "logistics, customs, and automotive finance"} domains. Recognized for engineering high-throughput
+logistics, customs, and automotive finance domains. Recognized for engineering high-throughput
 Java platforms that process 400K+ records daily, reducing system latency by up to 40%, and
 spearheading CI/CD automation that accelerates release cycles by 50%.`,
   aiSummary: `Cloud-native distributed systems engineer with production Java 21, Spring Boot, WebFlux,
@@ -105,11 +80,11 @@ export const skills = {
   ],
   observability: ["Grafana", "ELK Stack", "AWS CloudWatch", "Distributed Tracing", "SRE Practices"],
   testing: ["JUnit", "Mockito", "Playwright", "Selenium", "Postman"],
-  security: ["OAuth 2.0", "JWT", "RBAC", "HIPAA Compliance"],
+  security: ["OAuth 2.0", "JWT", "RBAC"],
   methods: ["Agile/Scrum", "SDLC", "System Design", "IntelliJ IDEA", "VS Code"],
 };
 
-const CORE_EXPERIENCES = [
+export const experiences = [
   {
     id: 1,
     ...TENURE.ups,
@@ -191,50 +166,6 @@ const CORE_EXPERIENCES = [
     ],
   },
 ];
-
-/**
- * Kept as its own binding rather than a third array entry: when
- * INCLUDE_EARLY_CAREER is false nothing references this, and the bundler
- * drops it instead of shipping a role the site does not display.
- */
-const UNITED_HEALTHCARE = {
-    id: 3,
-    ...TENURE.unitedHealthcare,
-    company: "United Healthcare",
-    role: "Full Stack Java Developer",
-    domain: "Healthcare Information Systems",
-    location: "Los Angeles, CA",
-    period: "Jan 2018 - Dec 2019",
-    current: false,
-    color: "#00ff88",
-    logo: "🏥",
-    tech: [
-      "Java 8", "Spring Boot", "Angular", "TypeScript", "Bootstrap",
-      "REST APIs", "GraphQL", "Swagger", "JWT", "OAuth 2.0",
-      "Apache Kafka", "MySQL", "SQL Server", "AWS S3", "AWS EC2",
-      "AWS ELB", "AWS VPC", "CloudWatch", "Maven", "Jenkins",
-    ],
-    achievements: [
-      { metric: "50K+", desc: "Healthcare plan members served by a modernized claims portal" },
-      { metric: "35%", desc: "Lower average page load time through Angular modernization" },
-      { metric: "40%", desc: "Reduced processing lag for critical claims workflows" },
-      { metric: "99.5%", desc: "Uptime SLA for AWS-hosted healthcare workloads" },
-    ],
-    highlights: [
-      "Engineered a modern Angular claims portal using TypeScript, Bootstrap, and Angular CLI, reducing average page load time by 35% for 50K+ healthcare plan members",
-      "Architected RESTful APIs using Spring Boot, Java 8 lambdas and streams, and Swagger documentation, accelerating downstream integration by 30%",
-      "Built GraphQL APIs with JWT and OAuth 2.0 for fine-grained access control, supporting HIPAA-compliant healthcare data exchange",
-      "Delivered event-driven microservices using Spring Boot and Apache Kafka, enabling asynchronous data exchange between 10+ healthcare systems",
-      "Optimized SQL queries, triggers, and stored procedures across MySQL and SQL Server, improving claims processing retrieval performance by 25%",
-      "Deployed and managed applications on AWS S3, EC2, ELB, and VPC with CloudWatch monitoring, achieving a 99.5% uptime SLA",
-      "Automated build, test, and integration workflows using Maven and Jenkins, reducing manual deployment errors by 30%",
-    ],
-    aiWork: [],
-};
-
-export const experiences = INCLUDE_EARLY_CAREER
-  ? [...CORE_EXPERIENCES, UNITED_HEALTHCARE]
-  : CORE_EXPERIENCES;
 
 export const education = [
   {
@@ -335,7 +266,7 @@ export const certifications = [
 ];
 
 export const metrics = [
-  { value: yearsOfExperience, suffix: "+", label: "Years Experience", color: "cyan" },
+  { value: yearsOfExperience, suffix: "", label: "Years Experience", color: "cyan" },
   { value: 25, suffix: "+", label: "Microservices Built", color: "purple" },
   { value: 400, suffix: "K+", label: "Records Daily", color: "green" },
   { value: 50, suffix: "%", label: "Release Cycle Gain", color: "orange" },
@@ -440,13 +371,13 @@ export const projects = [
   },
   {
     id: 8,
-    title: "Jay Nexus AI Portfolio Platform",
-    subtitle: "Personal Project · Remote · 2026",
-    description: "High-performance portfolio platform built with React 19, TypeScript, and Framer Motion. Custom canvas animation, live Gemini-powered assistant with RAG-style context, hidden command terminal, live visitor telemetry, and sub-100ms interaction latency.",
-    tech: ["React 19", "TypeScript", "Framer Motion", "Canvas Animation", "Gemini API", "GitHub Actions"],
-    metric: "<100ms",
-    metricLabel: "Interaction Latency",
-    color: "#bd00ff",
+    title: "This portfolio — a site that maintains itself",
+    subtitle: "Personal Project · React 19 + three.js · 2026",
+    description: "A portfolio you walk through: scrolling moves a camera through one 3D space, where the portal ring collapses into a star that lights each section: a gallery of project sculptures, the pipeline, a gate for each role, a gyroscope of the stack, and the signal orb it finally ignites. The content syncs itself: a daily GitHub Action pulls repos, commits and Medium posts and redeploys, and a weekly Claude agent audits the site and opens a pull request with improvements.",
+    tech: ["React 19", "TypeScript", "three.js", "React Three Fiber", "GLSL", "GitHub Actions", "Claude Code", "Gemini API"],
+    metric: "Daily",
+    metricLabel: "Self-sync · weekly AI improvement PR",
+    color: "#ffb454",
     icon: "🤖",
     featured: false,
     repo: "https://github.com/vjsravan/jay-portfolio",
@@ -458,7 +389,7 @@ export const writing = {
   articles: [
     {
       title: "How OAuth Actually Works: And What the Token in Your Browser Is Really Proving",
-      blurb: "What the token in your browser is actually asserting, who is trusting whom, and why the flow has the shape it does — written from production OAuth 2.0 and JWT work across healthcare and automotive finance.",
+      blurb: "What the token in your browser is actually asserting, who is trusting whom, and why the flow has the shape it does — written from production OAuth 2.0 and JWT work.",
       url: "https://medium.com/@jay.sravan.dev/how-oauth-actually-works-and-what-the-token-in-your-browser-is-really-proving-f16434a087f4",
       readTime: "6 min read",
       published: "Jul 2026",
@@ -481,7 +412,7 @@ ABOUT JAY:
 - LinkedIn: https://www.linkedin.com/in/jaysravan-fullstack/
 - GitHub: https://github.com/vjsravan
 - Portfolio: https://vjsravan.github.io/jay-portfolio/
-- ${yearsLabel} years of software engineering experience across ${INCLUDE_EARLY_CAREER ? "healthcare, logistics, customs, and automotive finance" : "logistics, customs, and automotive finance"} domains
+- ${yearsLabel} years of software engineering experience across logistics, customs, and automotive finance domains
 
 CERTIFICATIONS (10):
 - AWS Certified Developer - Associate (Amazon Web Services, issued Sep 2024, expires Sep 2027)
@@ -511,7 +442,6 @@ CURRENT ROLE: United Parcel Service (UPS), Senior Software Development Engineer 
 
 PREVIOUS EXPERIENCE:
 1. Mercedes-Benz Financial Services (Mar 2022 - Mar 2024) - Java Full Stack engineer for automotive finance and leasing platforms. Modernized Struts monoliths into Spring Boot microservices, built Kafka and AWS SQS/Lambda event pipelines, optimized DB2/PostgreSQL performance, implemented OAuth/JWT/RBAC, and delivered Angular full-stack features across 5+ applications.
-${INCLUDE_EARLY_CAREER ? "2. United Healthcare (Jan 2018 - Dec 2019) - Full Stack Java Developer for healthcare information systems. Built Angular claims portal features for 50K+ members, Spring Boot REST APIs, GraphQL APIs with OAuth/JWT, Kafka microservices, MySQL/SQL Server optimizations, and AWS deployments with CloudWatch monitoring." : ""}
 
 PROJECTS:
 1. Blast Radius (2026) - github.com/vjsravan/blast-radius, live at vjsravan.github.io/blast-radius. An event-driven customs pipeline running entirely in the browser: partitioned topic, consumer group, non-blocking retry topics and a dead-letter queue, with real Kafka semantics rather than a diagram of them. Visitors kill consumers and watch partitions rebalance, switch off the idempotency guard and watch the held-shipment count drift away from ground truth, or break key-based partitioning and watch events apply out of order. Built as a deterministic discrete-event simulation rather than with Web Workers, because real concurrency is not reproducible and a failure you cannot reproduce is one you cannot share - so any run reproduces exactly from its seed in the URL. Any failure is also shareable as a deep link - ?scenario=ordering&seed=1234 opens directly into that exact run. 50 tests, including that every guided scenario reproduces the symptom it claims and that the healthy default reproduces none of them.
@@ -521,14 +451,14 @@ PROJECTS:
 3. flowsim (2026) - github.com/vjsravan/flowsim. Deterministic simulation testing for message-driven consumers, in Java 21 with no runtime dependencies. Injects the delivery faults real brokers produce - duplicates, crash-before-ack redelivery, and cross-partition reordering - then checks idempotence, no-lost-messages and per-key ordering against an exactly-once baseline. Every schedule is generated from a seed, so a failure is reproducible rather than flaky, and counterexamples are shrunk: a five-step failure across four messages reduces to two steps and one message. Built directly from the failure modes Jay worked with in Kafka, ActiveMQ and IBM MQ integrations at UPS. 19 tests.
 4. contextlens (2026) - github.com/vjsravan/context-lens. Context window forensics: which source contributed which tokens, what was evicted under budget pressure and why. Seven detectors, including prompt-injection surface inside untrusted retrieved content. 44 tests.
 5. agentreplay (2026) - github.com/vjsravan/agent-replay. Deterministic record, replay and fork for LLM agent runs. Replays a failed run offline with zero API calls, locates the exact divergence step, and answers counterfactuals. 33 tests.
-6. Jay Nexus AI Portfolio Platform (2026): React 19, TypeScript, Framer Motion, custom canvas animation, a live Gemini-powered assistant with RAG-style context, a hidden command terminal, live visitor telemetry, and sub-100ms interaction latency.
+6. This portfolio (2026) - github.com/vjsravan/jay-portfolio. React 19 and three.js: visitors walk through one 3D space as they scroll, where the portal ring behind Jay's portrait collapses into a star that lights each section in turn: a gallery of project sculptures, the pipeline, the career gates, a gyroscope of the stack, and the signal orb at the end. It maintains itself: a daily GitHub Action syncs repos, commits and Medium posts and redeploys, and a weekly Claude Code agent audits Lighthouse scores and the fresh data, then opens a pull request with improvements for Jay to review.
 
 EDUCATION:
 - Master of Science in Computer and Information Sciences, Western Illinois University, Macomb, IL (Jan 2020 - Dec 2021)
 - Bachelor of Technology in Electronics and Communication Engineering, V.R. Siddhartha Engineering College, India (Jun 2015 - Apr 2019)
 
 WRITING:
-Jay writes technical explainers on Medium at medium.com/@jay.sravan.dev. Most recent: "How OAuth Actually Works: And What the Token in Your Browser Is Really Proving" (July 2026, 6 min read) - what the token in your browser is actually asserting and why the flow has the shape it does, drawn from production OAuth 2.0 and JWT work in healthcare and automotive finance.
+Jay writes technical explainers on Medium at medium.com/@jay.sravan.dev. Most recent: "How OAuth Actually Works: And What the Token in Your Browser Is Really Proving" (July 2026, 6 min read) - what the token in your browser is actually asserting and why the flow has the shape it does, drawn from production OAuth 2.0 and JWT work.
 
 TECHNICAL STRENGTHS:
 - Languages: Java 8/11/21, JavaScript, TypeScript, Python, SQL, C, C++, C#
@@ -539,7 +469,7 @@ TECHNICAL STRENGTHS:
 - Cloud/Infra: GCP, AWS SQS/Lambda/S3/EC2/ELB/CloudWatch, OpenShift, Kubernetes, Docker, Helm
 - DevOps: Azure DevOps, Jenkins, Argo CD, GitHub Actions, Git, Maven, JFrog, CI/CD
 - Observability: Grafana, ELK Stack, AWS CloudWatch, distributed tracing, SRE practices
-- Security: OAuth 2.0, JWT, RBAC, HIPAA compliance
+- Security: OAuth 2.0, JWT, RBAC
 - Testing: JUnit, Mockito, Playwright, Selenium, Postman
 
 Answer in a friendly, professional manner. Keep responses concise and grounded in the resume. If asked about salary or confidential information, politely decline.
